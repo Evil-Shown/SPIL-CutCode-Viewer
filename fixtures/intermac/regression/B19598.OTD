@@ -1,0 +1,340 @@
+[Header]
+OTDCutVersion=2.20
+Dimension=mm
+Date=2024/01/29 20:04:46
+
+[Signature]
+Creator=Perfect Cut 6.4.9 (20230802)
+
+[Pattern]
+GlassID=06CLFL
+GlassDescription=6.00mm Clear Float
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=3660
+Height=2440
+TrimLeft=30
+TrimBottom=0
+X=613
+  Y=30
+  Y=1104 Info=1
+  Y=1104 Info=2
+X=1884.4
+  Y=30
+  Y=1020
+    Z=942.2 Shape=3 Info=3
+    Z=942.2 Shape=4 Info=4
+  Y=1104
+    Z=613 Info=5
+    Z=613 Info=6
+    Z=613 Info=7
+X=1020
+  Y=30
+  Y=942.2 Shape=8 Info=8
+  Y=942.2 Shape=9 Info=9
+
+[Cuttings]
+x=30 y=1 X=30 Y=2439
+x=31 y=2238 X=642 Y=2238
+x=643 y=2439 X=643 Y=1
+x=1585.2 y=31 X=1585.2 Y=1049
+x=1256 y=1051 X=1256 Y=2153
+x=1869 y=2153 X=1869 Y=1051
+x=2482 y=1051 X=2482 Y=2153
+x=2527.4 y=2439 X=2527.4 Y=1
+x=3546.4 y=972.2 X=2528.4 Y=972.2
+x=2526.4 y=1050 X=644 Y=1050
+x=642 y=1134 X=31 Y=1134
+x=644 y=2154 X=2526.4 Y=2154
+x=2528.4 y=1914.4 X=3546.4 Y=1914.4
+x=3547.4 y=2439 X=3547.4 Y=1
+x=3546.4 y=30 X=31 Y=30
+
+[Info]
+Id=1
+OrderNo=38155 - 2
+PosNo=9
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1104
+SheetHeight=613
+SheetCode=9
+
+[Info]
+Id=2
+OrderNo=38155 - 2
+PosNo=10
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1104
+SheetHeight=613
+SheetCode=10
+
+[Info]
+Id=3
+OrderNo=38155 - 1
+PosNo=1
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=1
+
+[Info]
+Id=4
+OrderNo=38155 - 1
+PosNo=2
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=2
+
+[Info]
+Id=5
+OrderNo=38155 - 2
+PosNo=11
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1104
+SheetHeight=613
+SheetCode=11
+
+[Info]
+Id=6
+OrderNo=38155 - 2
+PosNo=12
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1104
+SheetHeight=613
+SheetCode=12
+
+[Info]
+Id=7
+OrderNo=38155 - 2
+PosNo=13
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1104
+SheetHeight=613
+SheetCode=13
+
+[Info]
+Id=8
+OrderNo=38155 - 1
+PosNo=3
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=942.2
+SheetHeight=1020
+SheetCode=3
+
+[Info]
+Id=9
+OrderNo=38155 - 1
+PosNo=4
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=942.2
+SheetHeight=1020
+SheetCode=4
+
+[Shape]
+Id=3
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=4
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=8
+Name=L01
+Description=L01     
+x=1 y=921.998 X=1019 Y=718.398 C=1
+
+[Shape]
+Id=9
+Name=L01
+Description=L01     
+x=1 y=921.998 X=1019 Y=718.398 C=1
+
+[Pattern]
+GlassID=06CLFL
+GlassDescription=6.00mm Clear Float
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=3660
+Height=2440
+TrimLeft=30
+TrimBottom=0
+X=1884.4
+  Y=30
+  Y=1020
+    Z=942.2 Shape=1 Info=1
+    Z=942.2 Shape=2 Info=2
+  Y=1020
+    Z=942.2 Shape=3 Info=3
+    Z=942.2 Shape=4 Info=4
+X=890
+  Y=30
+  Y=890 Shape=5 Info=5
+  Y=890 Shape=6 Info=6
+
+[Cuttings]
+x=30 y=1 X=30 Y=2439
+x=31 y=2070 X=1913.4 Y=2070
+x=1914.4 y=2439 X=1914.4 Y=1
+x=2803.4 y=920 X=1915.4 Y=920
+x=1913.4 y=1050 X=31 Y=1050
+x=972.2 y=31 X=972.2 Y=2069
+x=1915.4 y=1810 X=2803.4 Y=1810
+x=2804.4 y=2439 X=2804.4 Y=1
+x=2803.4 y=30 X=31 Y=30
+
+[Info]
+Id=1
+OrderNo=38155 - 1
+PosNo=5
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=5
+
+[Info]
+Id=2
+OrderNo=38155 - 1
+PosNo=6
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=6
+
+[Info]
+Id=3
+OrderNo=38155 - 1
+PosNo=7
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=7
+
+[Info]
+Id=4
+OrderNo=38155 - 1
+PosNo=8
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=1020
+SheetHeight=942.2
+SheetCode=8
+
+[Info]
+Id=5
+OrderNo=38155 - 3
+PosNo=14
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=890
+SheetHeight=890
+SheetCode=14
+
+[Info]
+Id=6
+OrderNo=38155 - 3
+PosNo=15
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=890
+SheetHeight=890
+SheetCode=15
+
+[Shape]
+Id=1
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=2
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=3
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=4
+Name=L01
+Description=L01     
+x=20.202 y=1 X=223.802 Y=1019 C=1
+
+[Shape]
+Id=5
+Name=GR01D
+Description=GR01D   
+x=870 y=445 X=20 Y=445 L=425 C=1
+x=20 y=445 X=870 Y=445 L=425 C=1
+
+[Shape]
+Id=6
+Name=GR01D
+Description=GR01D   
+x=870 y=445 X=20 Y=445 L=425 C=1
+x=20 y=445 X=870 Y=445 L=425 C=1
+
+[Pattern]
+GlassID=06CLFL
+GlassDescription=6.00mm Clear Float
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=3660
+Height=2440
+TrimLeft=30
+TrimBottom=0
+X=890
+  Y=30
+  Y=890 Shape=1 Info=1
+  Y=890 Shape=2 Info=2
+
+[Cuttings]
+x=30 y=1 X=30 Y=2439
+x=31 y=1810 X=919 Y=1810
+x=919 y=920 X=31 Y=920
+x=920 y=2439 X=920 Y=1
+x=919 y=30 X=31 Y=30
+
+[Info]
+Id=1
+OrderNo=38155 - 3
+PosNo=16
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=890
+SheetHeight=890
+SheetCode=16
+
+[Info]
+Id=2
+OrderNo=38155 - 3
+PosNo=17
+Customer=CUSTOM VIEW WINDOWS
+SheetWidth=890
+SheetHeight=890
+SheetCode=17
+
+[Shape]
+Id=1
+Name=GR01D
+Description=GR01D   
+x=870 y=445 X=20 Y=445 L=425 C=1
+x=20 y=445 X=870 Y=445 L=425 C=1
+
+[Shape]
+Id=2
+Name=GR01D
+Description=GR01D   
+x=870 y=445 X=20 Y=445 L=425 C=1
+x=20 y=445 X=870 Y=445 L=425 C=1

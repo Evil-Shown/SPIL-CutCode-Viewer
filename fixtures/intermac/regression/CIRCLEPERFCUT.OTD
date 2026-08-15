@@ -1,0 +1,44 @@
+[Header]
+OTDCutVersion=2.20
+Dimension=mm
+Date=2024/01/11 15:04:18
+
+[Signature]
+Creator=Perfect Cut 6.4.9 (20230802)
+
+[Pattern]
+GlassID=CF06
+GlassDescription=6.00mm Clear Float
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=3660
+Height=2440
+TrimLeft=30
+TrimBottom=0
+X=529
+  Y=30
+  Y=529 Shape=1 Info=1
+  Y=529 Shape=1 Info=1
+
+[Cuttings]
+x=30 y=1 X=30 Y=2439
+x=559 y=2439 X=559 Y=1
+x=558 y=30 X=31 Y=30
+x=31 y=559 X=558 Y=559
+x=558 y=1088 X=31 Y=1088
+
+[Info]
+Id=1
+PosNo=1
+SheetWidth=529
+SheetHeight=529
+SheetCode=1
+
+[Shape]
+Id=1
+Name=L29
+Description=L29     
+x=479 y=264.5 X=50 Y=264.5 L=214.5 C=1
+x=50 y=264.5 X=479 Y=264.5 L=214.5 C=1

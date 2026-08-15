@@ -1,0 +1,82 @@
+[OPT_Header]
+OPTCutVersion=5.0
+Dimension=mm
+Date=2023/06/21, 15:53:05
+
+[OPT_Signature]
+Creator=Perfect Cut 6.0
+
+[OPT_Pattern]
+GlassID=05CLFL
+GlassThickness=5.000
+GlassCoated=0
+GlassType=0
+Pieces=1
+Width=3660
+Height=2134
+TrimLeft=20
+TrimBottom=0
+X=1720
+  Y=20
+  Y=1200
+    Z=860 Info=2
+    Z=860 Info=2
+  Y=860
+    Z=1200 Info=502
+X=1800
+  Y=20
+  Y=1000
+    Z=900 Info=501
+    Z=900 Info=501
+  Y=1000
+    Z=900 Info=501
+    Z=900 Info=501
+
+[Cuttings]
+x=20 y=1 X=20 Y=2133
+x=21 y=2080 X=1739 Y=2080
+x=1740 y=2133 X=1740 Y=1
+x=2640 y=21 X=2640 Y=2019
+x=3539 y=1020 X=1741 Y=1020
+x=1739 y=1220 X=21 Y=1220
+x=880 y=21 X=880 Y=1219
+x=1220 y=1221 X=1220 Y=2079
+x=1741 y=2020 X=3539 Y=2020
+x=3540 y=2133 X=3540 Y=1
+x=3539 y=20 X=21 Y=20
+
+[Info]
+Id=501
+OrderNo=1
+PosNo=1
+UMPz=mm
+IDPz=2080118712
+RealDimXPz=1000
+RealDimYPz=900
+QuantityPz=4
+SheetWidth=900
+SheetHeight=1000
+
+[Info]
+Id=2
+OrderNo=2
+PosNo=2
+UMPz=mm
+IDPz=2080118712
+RealDimXPz=860
+RealDimYPz=1200
+QuantityPz=3
+SheetWidth=860
+SheetHeight=1200
+
+[Info]
+Id=502
+OrderNo=2
+PosNo=3
+UMPz=mm
+IDPz=2080118712
+RealDimXPz=860
+RealDimYPz=1200
+QuantityPz=3
+SheetWidth=1200
+SheetHeight=860

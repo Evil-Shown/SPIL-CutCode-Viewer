@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "build": "npm run build -w @spil/cutcode-core && npm run build -w @spil/cutcode-cli && npm run build -w @spil/cutcode-desktop",
+    "typecheck": "npm run typecheck -w @spil/cutcode-core && tsc --noEmit -p apps/desktop && tsc --noEmit -p packages/cli",
     "test": "npm run test -w @spil/cutcode-core",
     "dev": "npm run dev -w @spil/cutcode-desktop",
     "batch": "npm run start -w @spil/cutcode-cli --",
