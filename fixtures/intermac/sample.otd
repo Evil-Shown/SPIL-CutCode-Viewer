@@ -1,0 +1,1487 @@
+[Header]
+OTDCutVersion=2.8
+Dimension=mm
+Date=16-06-2026
+
+[Signature]
+Creator=SPIL Opti
+
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=320.5
+    Z=808.5 Info=60
+    Z=808.5 Info=61
+    Z=767.5
+      W=294.5 Info=14
+  Y=485.5
+    Z=1998.5 Info=63
+    Z=397.5
+      W=297.5 Info=2
+  Y=1024.0
+    Z=941.5
+      W=332.5 Info=23
+      W=333.5 Info=24
+      W=333.5 Info=25
+    Z=808.5
+      W=318.5 Info=55
+      W=318.5 Info=57
+      W=319.5 Info=58
+    Z=663.5
+      W=475.5 Info=10
+      W=475.5 Info=11
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=320.5 X=2440 Y=320.5 Levcut=2 Rot=0 Qcut=320.5 Lcut=2440 Tcut=14 Rcut=1509.5 Wcut=0
+x=808.5 y=0 X=808.5 Y=320.5 Levcut=3 Rot=90 Qcut=808.5 Lcut=320.5 Tcut=14 Rcut=1631.5 Wcut=0 IndPiece=1 Cut=1
+x=1617 y=0 X=1617 Y=320.5 Levcut=3 Rot=90 Qcut=808.5 Lcut=320.5 Tcut=14 Rcut=823 Wcut=0 IndPiece=6 Cut=1
+x=2384.5 y=0 X=2384.5 Y=320.5 Levcut=3 Rot=90 Qcut=767.5 Lcut=320.5 Tcut=14 Rcut=55.5 Wcut=0
+x=1617 y=294.5 X=2384.5 Y=294.5 Levcut=4 Rot=0 Qcut=294.5 Lcut=767.5 Tcut=14 Rcut=1535.5 Wcut=0 IndPiece=10 Cut=1
+x=1617 y=320.5 X=2384.5 Y=320.5 Levcut=4 Rot=0 Qcut=26 Lcut=767.5 Tcut=14 Rcut=1509.5 Wcut=1
+x=2440 y=0 X=2440 Y=320.5 Levcut=3 Rot=90 Qcut=55.5 Lcut=320.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=806 X=2440 Y=806 Levcut=2 Rot=0 Qcut=485.5 Lcut=2440 Tcut=14 Rcut=1024 Wcut=0
+x=1998.5 y=320.5 X=1998.5 Y=806 Levcut=3 Rot=90 Qcut=1998.5 Lcut=485.5 Tcut=14 Rcut=441.5 Wcut=0 IndPiece=2 Cut=1
+x=2396 y=320.5 X=2396 Y=806 Levcut=3 Rot=90 Qcut=397.5 Lcut=485.5 Tcut=14 Rcut=44 Wcut=0
+x=1998.5 y=618 X=2396 Y=618 Levcut=4 Rot=0 Qcut=297.5 Lcut=397.5 Tcut=14 Rcut=1212 Wcut=0 IndPiece=11 Cut=1
+x=1998.5 y=806 X=2396 Y=806 Levcut=4 Rot=0 Qcut=188 Lcut=397.5 Tcut=14 Rcut=1024 Wcut=1
+x=2440 y=320.5 X=2440 Y=806 Levcut=3 Rot=90 Qcut=44 Lcut=485.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=1024 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+x=941.5 y=806 X=941.5 Y=1830 Levcut=3 Rot=90 Qcut=941.5 Lcut=1024 Tcut=14 Rcut=1498.5 Wcut=0
+x=0 y=1138.5 X=941.5 Y=1138.5 Levcut=4 Rot=0 Qcut=332.5 Lcut=941.5 Tcut=14 Rcut=691.5 Wcut=0 IndPiece=3 Cut=1
+x=0 y=1472 X=941.5 Y=1472 Levcut=4 Rot=0 Qcut=333.5 Lcut=941.5 Tcut=14 Rcut=358 Wcut=0 IndPiece=5 Cut=1
+x=0 y=1805.5 X=941.5 Y=1805.5 Levcut=4 Rot=0 Qcut=333.5 Lcut=941.5 Tcut=14 Rcut=24.5 Wcut=0 IndPiece=8 Cut=1
+x=0 y=1830 X=941.5 Y=1830 Levcut=4 Rot=0 Qcut=24.5 Lcut=941.5 Tcut=14 Rcut=0 Wcut=0
+x=1750 y=806 X=1750 Y=1830 Levcut=3 Rot=90 Qcut=808.5 Lcut=1024 Tcut=14 Rcut=690 Wcut=0
+x=941.5 y=1124.5 X=1750 Y=1124.5 Levcut=4 Rot=0 Qcut=318.5 Lcut=808.5 Tcut=14 Rcut=705.5 Wcut=0 IndPiece=4 Cut=1
+x=941.5 y=1443 X=1750 Y=1443 Levcut=4 Rot=0 Qcut=318.5 Lcut=808.5 Tcut=14 Rcut=387 Wcut=0 IndPiece=7 Cut=1
+x=941.5 y=1762.5 X=1750 Y=1762.5 Levcut=4 Rot=0 Qcut=319.5 Lcut=808.5 Tcut=14 Rcut=67.5 Wcut=0 IndPiece=12 Cut=1
+x=941.5 y=1830 X=1750 Y=1830 Levcut=4 Rot=0 Qcut=67.5 Lcut=808.5 Tcut=14 Rcut=0 Wcut=0
+x=2413.5 y=806 X=2413.5 Y=1830 Levcut=3 Rot=90 Qcut=663.5 Lcut=1024 Tcut=14 Rcut=26.5 Wcut=0
+x=1750 y=1281.5 X=2413.5 Y=1281.5 Levcut=4 Rot=0 Qcut=475.5 Lcut=663.5 Tcut=14 Rcut=548.5 Wcut=0 IndPiece=9 Cut=1
+x=1750 y=1757 X=2413.5 Y=1757 Levcut=4 Rot=0 Qcut=475.5 Lcut=663.5 Tcut=14 Rcut=73 Wcut=0 IndPiece=13 Cut=1
+x=1750 y=1830 X=2413.5 Y=1830 Levcut=4 Rot=0 Qcut=73 Lcut=663.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=806 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=26.5 Lcut=1024 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=808.5 Height=320.5 Info=60 IndPiece=1
+XO=0 YO=320.5 Width=1998.5 Height=485.5 Info=63 IndPiece=2
+XO=0 YO=806 Width=941.5 Height=332.5 Info=23 IndPiece=3
+XO=0 YO=1138.5 Width=941.5 Height=333.5 Info=24 IndPiece=5
+XO=0 YO=1472 Width=941.5 Height=333.5 Info=25 IndPiece=8
+XO=808.5 YO=0 Width=808.5 Height=320.5 Info=61 IndPiece=6
+XO=941.5 YO=806 Width=808.5 Height=318.5 Info=55 IndPiece=4
+XO=941.5 YO=1124.5 Width=808.5 Height=318.5 Info=57 IndPiece=7
+XO=941.5 YO=1443 Width=808.5 Height=319.5 Info=58 IndPiece=12
+XO=1617 YO=0 Width=767.5 Height=294.5 Info=14 IndPiece=10
+XO=1750 YO=806 Width=663.5 Height=475.5 Info=10 IndPiece=9
+XO=1750 YO=1281.5 Width=663.5 Height=475.5 Info=11 IndPiece=13
+XO=1998.5 YO=320.5 Width=397.5 Height=297.5 Info=2 IndPiece=11
+
+[Info]
+Id=60
+OrderNo=60
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=320.5
+SheetHeight=808.5
+SheetCode=33
+
+[Info]
+Id=61
+OrderNo=61
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=320.5
+SheetHeight=808.5
+SheetCode=33
+
+[Info]
+Id=14
+OrderNo=14
+PosNo=
+Customer=13098082
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=294.5
+SheetHeight=767.5
+SheetCode=8
+
+[Info]
+Id=63
+OrderNo=63
+PosNo=
+Customer=13096806
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=485.5
+SheetHeight=1998.5
+SheetCode=35
+
+[Info]
+Id=2
+OrderNo=2
+PosNo=
+Customer=13085629
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=297.5
+SheetHeight=397.5
+SheetCode=2
+
+[Info]
+Id=23
+OrderNo=23
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=941.5
+SheetCode=13
+
+[Info]
+Id=24
+OrderNo=24
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=333.5
+SheetHeight=941.5
+SheetCode=14
+
+[Info]
+Id=25
+OrderNo=25
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=333.5
+SheetHeight=941.5
+SheetCode=14
+
+[Info]
+Id=55
+OrderNo=55
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=318.5
+SheetHeight=808.5
+SheetCode=31
+
+[Info]
+Id=57
+OrderNo=57
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=318.5
+SheetHeight=808.5
+SheetCode=31
+
+[Info]
+Id=58
+OrderNo=58
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=319.5
+SheetHeight=808.5
+SheetCode=32
+
+[Info]
+Id=10
+OrderNo=10
+PosNo=
+Customer=13086572
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=475.5
+SheetHeight=663.5
+SheetCode=6
+
+[Info]
+Id=11
+OrderNo=11
+PosNo=
+Customer=13086572
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=475.5
+SheetHeight=663.5
+SheetCode=6
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=407.5
+    Z=1759.5 Info=44
+    Z=517.5
+      W=379.5 Info=6
+  Y=338.5
+    Z=1761.5 Info=42
+    Z=647.5
+      W=294.5 Info=3
+  Y=332.5
+    Z=941.5 Info=22
+    Z=1140.5
+      W=306.5 Info=51
+  Y=390.5
+    Z=1578.5 Info=35
+    Z=466.5
+      W=366.5 Info=30
+    Z=366.5
+      W=317.5 Info=1
+  Y=361.0
+    Z=647.5
+      W=294.5 Info=5
+    Z=1761.5
+      W=338.5 Info=43
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=407.5 X=2440 Y=407.5 Levcut=2 Rot=0 Qcut=407.5 Lcut=2440 Tcut=14 Rcut=1422.5 Wcut=0
+x=1759.5 y=0 X=1759.5 Y=407.5 Levcut=3 Rot=90 Qcut=1759.5 Lcut=407.5 Tcut=14 Rcut=680.5 Wcut=0 IndPiece=1 Cut=1
+x=2277 y=0 X=2277 Y=407.5 Levcut=3 Rot=90 Qcut=517.5 Lcut=407.5 Tcut=14 Rcut=163 Wcut=0
+x=1759.5 y=379.5 X=2277 Y=379.5 Levcut=4 Rot=0 Qcut=379.5 Lcut=517.5 Tcut=14 Rcut=1450.5 Wcut=0 IndPiece=8 Cut=1
+x=1759.5 y=407.5 X=2277 Y=407.5 Levcut=4 Rot=0 Qcut=28 Lcut=517.5 Tcut=14 Rcut=1422.5 Wcut=1
+x=2440 y=0 X=2440 Y=407.5 Levcut=3 Rot=90 Qcut=163 Lcut=407.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=746 X=2440 Y=746 Levcut=2 Rot=0 Qcut=338.5 Lcut=2440 Tcut=14 Rcut=1084 Wcut=0
+x=1761.5 y=407.5 X=1761.5 Y=746 Levcut=3 Rot=90 Qcut=1761.5 Lcut=338.5 Tcut=14 Rcut=678.5 Wcut=0 IndPiece=2 Cut=1
+x=2409 y=407.5 X=2409 Y=746 Levcut=3 Rot=90 Qcut=647.5 Lcut=338.5 Tcut=14 Rcut=31 Wcut=0
+x=1761.5 y=702 X=2409 Y=702 Levcut=4 Rot=0 Qcut=294.5 Lcut=647.5 Tcut=14 Rcut=1128 Wcut=0 IndPiece=10 Cut=1
+x=1761.5 y=746 X=2409 Y=746 Levcut=4 Rot=0 Qcut=44 Lcut=647.5 Tcut=14 Rcut=1084 Wcut=1
+x=2440 y=407.5 X=2440 Y=746 Levcut=3 Rot=90 Qcut=31 Lcut=338.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1078.5 X=2440 Y=1078.5 Levcut=2 Rot=0 Qcut=332.5 Lcut=2440 Tcut=14 Rcut=751.5 Wcut=0
+x=941.5 y=746 X=941.5 Y=1078.5 Levcut=3 Rot=90 Qcut=941.5 Lcut=332.5 Tcut=14 Rcut=1498.5 Wcut=0 IndPiece=3 Cut=1
+x=2082 y=746 X=2082 Y=1078.5 Levcut=3 Rot=90 Qcut=1140.5 Lcut=332.5 Tcut=14 Rcut=358 Wcut=0
+x=941.5 y=1052.5 X=2082 Y=1052.5 Levcut=4 Rot=0 Qcut=306.5 Lcut=1140.5 Tcut=14 Rcut=777.5 Wcut=0 IndPiece=7 Cut=1
+x=941.5 y=1078.5 X=2082 Y=1078.5 Levcut=4 Rot=0 Qcut=26 Lcut=1140.5 Tcut=14 Rcut=751.5 Wcut=1
+x=2440 y=746 X=2440 Y=1078.5 Levcut=3 Rot=90 Qcut=358 Lcut=332.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1469 X=2440 Y=1469 Levcut=2 Rot=0 Qcut=390.5 Lcut=2440 Tcut=14 Rcut=361 Wcut=0
+x=1578.5 y=1078.5 X=1578.5 Y=1469 Levcut=3 Rot=90 Qcut=1578.5 Lcut=390.5 Tcut=14 Rcut=861.5 Wcut=0 IndPiece=4 Cut=1
+x=2045 y=1078.5 X=2045 Y=1469 Levcut=3 Rot=90 Qcut=466.5 Lcut=390.5 Tcut=14 Rcut=395 Wcut=0
+x=1578.5 y=1445 X=2045 Y=1445 Levcut=4 Rot=0 Qcut=366.5 Lcut=466.5 Tcut=14 Rcut=385 Wcut=0 IndPiece=9 Cut=1
+x=1578.5 y=1469 X=2045 Y=1469 Levcut=4 Rot=0 Qcut=24 Lcut=466.5 Tcut=14 Rcut=361 Wcut=1
+x=2411.5 y=1078.5 X=2411.5 Y=1469 Levcut=3 Rot=90 Qcut=366.5 Lcut=390.5 Tcut=14 Rcut=28.5 Wcut=0
+x=2045 y=1396 X=2411.5 Y=1396 Levcut=4 Rot=0 Qcut=317.5 Lcut=366.5 Tcut=14 Rcut=434 Wcut=0 IndPiece=11 Cut=1
+x=2045 y=1469 X=2411.5 Y=1469 Levcut=4 Rot=0 Qcut=73 Lcut=366.5 Tcut=14 Rcut=361 Wcut=1
+x=2440 y=1078.5 X=2440 Y=1469 Levcut=3 Rot=90 Qcut=28.5 Lcut=390.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=361 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+x=647.5 y=1469 X=647.5 Y=1830 Levcut=3 Rot=90 Qcut=647.5 Lcut=361 Tcut=14 Rcut=1792.5 Wcut=0
+x=0 y=1763.5 X=647.5 Y=1763.5 Levcut=4 Rot=0 Qcut=294.5 Lcut=647.5 Tcut=14 Rcut=66.5 Wcut=0 IndPiece=5 Cut=1
+x=0 y=1830 X=647.5 Y=1830 Levcut=4 Rot=0 Qcut=66.5 Lcut=647.5 Tcut=14 Rcut=0 Wcut=0
+x=2409 y=1469 X=2409 Y=1830 Levcut=3 Rot=90 Qcut=1761.5 Lcut=361 Tcut=14 Rcut=31 Wcut=0
+x=647.5 y=1807.5 X=2409 Y=1807.5 Levcut=4 Rot=0 Qcut=338.5 Lcut=1761.5 Tcut=14 Rcut=22.5 Wcut=0 IndPiece=6 Cut=1
+x=647.5 y=1830 X=2409 Y=1830 Levcut=4 Rot=0 Qcut=22.5 Lcut=1761.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=1469 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=31 Lcut=361 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1759.5 Height=407.5 Info=44 IndPiece=1
+XO=0 YO=407.5 Width=1761.5 Height=338.5 Info=42 IndPiece=2
+XO=0 YO=746 Width=941.5 Height=332.5 Info=22 IndPiece=3
+XO=0 YO=1078.5 Width=1578.5 Height=390.5 Info=35 IndPiece=4
+XO=0 YO=1469 Width=647.5 Height=294.5 Info=5 IndPiece=5
+XO=647.5 YO=1469 Width=1761.5 Height=338.5 Info=43 IndPiece=6
+XO=941.5 YO=746 Width=1140.5 Height=306.5 Info=51 IndPiece=7
+XO=1578.5 YO=1078.5 Width=466.5 Height=366.5 Info=30 IndPiece=9
+XO=1759.5 YO=0 Width=517.5 Height=379.5 Info=6 IndPiece=8
+XO=1761.5 YO=407.5 Width=647.5 Height=294.5 Info=3 IndPiece=10
+XO=2045 YO=1078.5 Width=366.5 Height=317.5 Info=1 IndPiece=11
+
+[Info]
+Id=44
+OrderNo=44
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=407.5
+SheetHeight=1759.5
+SheetCode=24
+
+[Info]
+Id=6
+OrderNo=6
+PosNo=
+Customer=13084727
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=379.5
+SheetHeight=517.5
+SheetCode=4
+
+[Info]
+Id=42
+OrderNo=42
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=338.5
+SheetHeight=1761.5
+SheetCode=23
+
+[Info]
+Id=3
+OrderNo=3
+PosNo=
+Customer=13084541
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=294.5
+SheetHeight=647.5
+SheetCode=3
+
+[Info]
+Id=22
+OrderNo=22
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=941.5
+SheetCode=13
+
+[Info]
+Id=51
+OrderNo=51
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=306.5
+SheetHeight=1140.5
+SheetCode=29
+
+[Info]
+Id=35
+OrderNo=35
+PosNo=
+Customer=13087089
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=390.5
+SheetHeight=1578.5
+SheetCode=19
+
+[Info]
+Id=30
+OrderNo=30
+PosNo=
+Customer=13085643
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=366.5
+SheetHeight=466.5
+SheetCode=16
+
+[Info]
+Id=1
+OrderNo=1
+PosNo=
+Customer=13014599
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=317.5
+SheetHeight=366.5
+SheetCode=1
+
+[Info]
+Id=5
+OrderNo=5
+PosNo=
+Customer=13084541
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=294.5
+SheetHeight=647.5
+SheetCode=3
+
+[Info]
+Id=43
+OrderNo=43
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=338.5
+SheetHeight=1761.5
+SheetCode=23
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=412.5
+    Z=1158.5 Info=7
+    Z=1158.5 Info=8
+  Y=407.5
+    Z=763.5 Info=45
+    Z=1642.5
+      W=374.5 Info=67
+  Y=474.5
+    Z=1901.5 Info=46
+    Z=508.5
+      W=404.5 Info=73
+  Y=535.5
+    Z=906.5
+      W=393.5 Info=33
+    Z=996.5
+      W=486.5 Info=68
+    Z=508.5
+      W=404.5 Info=72
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=412.5 X=2440 Y=412.5 Levcut=2 Rot=0 Qcut=412.5 Lcut=2440 Tcut=14 Rcut=1417.5 Wcut=0
+x=1158.5 y=0 X=1158.5 Y=412.5 Levcut=3 Rot=90 Qcut=1158.5 Lcut=412.5 Tcut=14 Rcut=1281.5 Wcut=0 IndPiece=1 Cut=1
+x=2317 y=0 X=2317 Y=412.5 Levcut=3 Rot=90 Qcut=1158.5 Lcut=412.5 Tcut=14 Rcut=123 Wcut=0 IndPiece=7 Cut=1
+x=2440 y=0 X=2440 Y=412.5 Levcut=3 Rot=90 Qcut=123 Lcut=412.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=820 X=2440 Y=820 Levcut=2 Rot=0 Qcut=407.5 Lcut=2440 Tcut=14 Rcut=1010 Wcut=0
+x=763.5 y=412.5 X=763.5 Y=820 Levcut=3 Rot=90 Qcut=763.5 Lcut=407.5 Tcut=14 Rcut=1676.5 Wcut=0 IndPiece=2 Cut=1
+x=2406 y=412.5 X=2406 Y=820 Levcut=3 Rot=90 Qcut=1642.5 Lcut=407.5 Tcut=14 Rcut=34 Wcut=0
+x=763.5 y=787 X=2406 Y=787 Levcut=4 Rot=0 Qcut=374.5 Lcut=1642.5 Tcut=14 Rcut=1043 Wcut=0 IndPiece=6 Cut=1
+x=763.5 y=820 X=2406 Y=820 Levcut=4 Rot=0 Qcut=33 Lcut=1642.5 Tcut=14 Rcut=1010 Wcut=1
+x=2440 y=412.5 X=2440 Y=820 Levcut=3 Rot=90 Qcut=34 Lcut=407.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1294.5 X=2440 Y=1294.5 Levcut=2 Rot=0 Qcut=474.5 Lcut=2440 Tcut=14 Rcut=535.5 Wcut=0
+x=1901.5 y=820 X=1901.5 Y=1294.5 Levcut=3 Rot=90 Qcut=1901.5 Lcut=474.5 Tcut=14 Rcut=538.5 Wcut=0 IndPiece=3 Cut=1
+x=2410 y=820 X=2410 Y=1294.5 Levcut=3 Rot=90 Qcut=508.5 Lcut=474.5 Tcut=14 Rcut=30 Wcut=0
+x=1901.5 y=1224.5 X=2410 Y=1224.5 Levcut=4 Rot=0 Qcut=404.5 Lcut=508.5 Tcut=14 Rcut=605.5 Wcut=0 IndPiece=8 Cut=1
+x=1901.5 y=1294.5 X=2410 Y=1294.5 Levcut=4 Rot=0 Qcut=70 Lcut=508.5 Tcut=14 Rcut=535.5 Wcut=1
+x=2440 y=820 X=2440 Y=1294.5 Levcut=3 Rot=90 Qcut=30 Lcut=474.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=535.5 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=1294.5 X=906.5 Y=1830 Levcut=3 Rot=90 Qcut=906.5 Lcut=535.5 Tcut=14 Rcut=1533.5 Wcut=0
+x=0 y=1688 X=906.5 Y=1688 Levcut=4 Rot=0 Qcut=393.5 Lcut=906.5 Tcut=14 Rcut=142 Wcut=0 IndPiece=4 Cut=1
+x=0 y=1830 X=906.5 Y=1830 Levcut=4 Rot=0 Qcut=142 Lcut=906.5 Tcut=14 Rcut=0 Wcut=0
+x=1903 y=1294.5 X=1903 Y=1830 Levcut=3 Rot=90 Qcut=996.5 Lcut=535.5 Tcut=14 Rcut=537 Wcut=0
+x=906.5 y=1781 X=1903 Y=1781 Levcut=4 Rot=0 Qcut=486.5 Lcut=996.5 Tcut=14 Rcut=49 Wcut=0 IndPiece=5 Cut=1
+x=906.5 y=1830 X=1903 Y=1830 Levcut=4 Rot=0 Qcut=49 Lcut=996.5 Tcut=14 Rcut=0 Wcut=0
+x=2411.5 y=1294.5 X=2411.5 Y=1830 Levcut=3 Rot=90 Qcut=508.5 Lcut=535.5 Tcut=14 Rcut=28.5 Wcut=0
+x=1903 y=1699 X=2411.5 Y=1699 Levcut=4 Rot=0 Qcut=404.5 Lcut=508.5 Tcut=14 Rcut=131 Wcut=0 IndPiece=9 Cut=1
+x=1903 y=1830 X=2411.5 Y=1830 Levcut=4 Rot=0 Qcut=131 Lcut=508.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=1294.5 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=28.5 Lcut=535.5 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1158.5 Height=412.5 Info=7 IndPiece=1
+XO=0 YO=412.5 Width=763.5 Height=407.5 Info=45 IndPiece=2
+XO=0 YO=820 Width=1901.5 Height=474.5 Info=46 IndPiece=3
+XO=0 YO=1294.5 Width=906.5 Height=393.5 Info=33 IndPiece=4
+XO=763.5 YO=412.5 Width=1642.5 Height=374.5 Info=67 IndPiece=6
+XO=906.5 YO=1294.5 Width=996.5 Height=486.5 Info=68 IndPiece=5
+XO=1158.5 YO=0 Width=1158.5 Height=412.5 Info=8 IndPiece=7
+XO=1901.5 YO=820 Width=508.5 Height=404.5 Info=73 IndPiece=8
+XO=1903 YO=1294.5 Width=508.5 Height=404.5 Info=72 IndPiece=9
+
+[Info]
+Id=7
+OrderNo=7
+PosNo=
+Customer=13059163
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=412.5
+SheetHeight=1158.5
+SheetCode=5
+
+[Info]
+Id=8
+OrderNo=8
+PosNo=
+Customer=13059163
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=412.5
+SheetHeight=1158.5
+SheetCode=5
+
+[Info]
+Id=45
+OrderNo=45
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=407.5
+SheetHeight=763.5
+SheetCode=25
+
+[Info]
+Id=67
+OrderNo=67
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=374.5
+SheetHeight=1642.5
+SheetCode=37
+
+[Info]
+Id=46
+OrderNo=46
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=474.5
+SheetHeight=1901.5
+SheetCode=26
+
+[Info]
+Id=73
+OrderNo=73
+PosNo=
+Customer=13103834
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=404.5
+SheetHeight=508.5
+SheetCode=40
+
+[Info]
+Id=33
+OrderNo=33
+PosNo=
+Customer=13088466
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=393.5
+SheetHeight=906.5
+SheetCode=18
+
+[Info]
+Id=68
+OrderNo=68
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=486.5
+SheetHeight=996.5
+SheetCode=38
+
+[Info]
+Id=72
+OrderNo=72
+PosNo=
+Customer=13103834
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=404.5
+SheetHeight=508.5
+SheetCode=40
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=412.5
+    Z=1158.5 Info=9
+    Z=1136.5
+      W=374.5 Info=53
+  Y=389.5
+    Z=1373.5 Info=16
+    Z=941.5
+      W=332.5 Info=26
+  Y=390.5
+    Z=1578.5 Info=36
+    Z=808.5
+      W=319.5 Info=59
+  Y=270.5
+    Z=1136.5 Info=49
+    Z=1136.5 Info=54
+  Y=367.0
+    Z=808.5
+      W=318.5 Info=56
+    Z=1581.5
+      W=332.5 Info=37
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=412.5 X=2440 Y=412.5 Levcut=2 Rot=0 Qcut=412.5 Lcut=2440 Tcut=14 Rcut=1417.5 Wcut=0
+x=1158.5 y=0 X=1158.5 Y=412.5 Levcut=3 Rot=90 Qcut=1158.5 Lcut=412.5 Tcut=14 Rcut=1281.5 Wcut=0 IndPiece=1 Cut=1
+x=2295 y=0 X=2295 Y=412.5 Levcut=3 Rot=90 Qcut=1136.5 Lcut=412.5 Tcut=14 Rcut=145 Wcut=0
+x=1158.5 y=374.5 X=2295 Y=374.5 Levcut=4 Rot=0 Qcut=374.5 Lcut=1136.5 Tcut=14 Rcut=1455.5 Wcut=0 IndPiece=7 Cut=1
+x=1158.5 y=412.5 X=2295 Y=412.5 Levcut=4 Rot=0 Qcut=38 Lcut=1136.5 Tcut=14 Rcut=1417.5 Wcut=1
+x=2440 y=0 X=2440 Y=412.5 Levcut=3 Rot=90 Qcut=145 Lcut=412.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=802 X=2440 Y=802 Levcut=2 Rot=0 Qcut=389.5 Lcut=2440 Tcut=14 Rcut=1028 Wcut=0
+x=1373.5 y=412.5 X=1373.5 Y=802 Levcut=3 Rot=90 Qcut=1373.5 Lcut=389.5 Tcut=14 Rcut=1066.5 Wcut=0 IndPiece=2 Cut=1
+x=2315 y=412.5 X=2315 Y=802 Levcut=3 Rot=90 Qcut=941.5 Lcut=389.5 Tcut=14 Rcut=125 Wcut=0
+x=1373.5 y=745 X=2315 Y=745 Levcut=4 Rot=0 Qcut=332.5 Lcut=941.5 Tcut=14 Rcut=1085 Wcut=0 IndPiece=9 Cut=1
+x=1373.5 y=802 X=2315 Y=802 Levcut=4 Rot=0 Qcut=57 Lcut=941.5 Tcut=14 Rcut=1028 Wcut=1
+x=2440 y=412.5 X=2440 Y=802 Levcut=3 Rot=90 Qcut=125 Lcut=389.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1192.5 X=2440 Y=1192.5 Levcut=2 Rot=0 Qcut=390.5 Lcut=2440 Tcut=14 Rcut=637.5 Wcut=0
+x=1578.5 y=802 X=1578.5 Y=1192.5 Levcut=3 Rot=90 Qcut=1578.5 Lcut=390.5 Tcut=14 Rcut=861.5 Wcut=0 IndPiece=3 Cut=1
+x=2387 y=802 X=2387 Y=1192.5 Levcut=3 Rot=90 Qcut=808.5 Lcut=390.5 Tcut=14 Rcut=53 Wcut=0
+x=1578.5 y=1121.5 X=2387 Y=1121.5 Levcut=4 Rot=0 Qcut=319.5 Lcut=808.5 Tcut=14 Rcut=708.5 Wcut=0 IndPiece=10 Cut=1
+x=1578.5 y=1192.5 X=2387 Y=1192.5 Levcut=4 Rot=0 Qcut=71 Lcut=808.5 Tcut=14 Rcut=637.5 Wcut=1
+x=2440 y=802 X=2440 Y=1192.5 Levcut=3 Rot=90 Qcut=53 Lcut=390.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1463 X=2440 Y=1463 Levcut=2 Rot=0 Qcut=270.5 Lcut=2440 Tcut=14 Rcut=367 Wcut=0
+x=1136.5 y=1192.5 X=1136.5 Y=1463 Levcut=3 Rot=90 Qcut=1136.5 Lcut=270.5 Tcut=14 Rcut=1303.5 Wcut=0 IndPiece=4 Cut=1
+x=2273 y=1192.5 X=2273 Y=1463 Levcut=3 Rot=90 Qcut=1136.5 Lcut=270.5 Tcut=14 Rcut=167 Wcut=0 IndPiece=8 Cut=1
+x=2440 y=1192.5 X=2440 Y=1463 Levcut=3 Rot=90 Qcut=167 Lcut=270.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=367 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+x=808.5 y=1463 X=808.5 Y=1830 Levcut=3 Rot=90 Qcut=808.5 Lcut=367 Tcut=14 Rcut=1631.5 Wcut=0
+x=0 y=1781.5 X=808.5 Y=1781.5 Levcut=4 Rot=0 Qcut=318.5 Lcut=808.5 Tcut=14 Rcut=48.5 Wcut=0 IndPiece=5 Cut=1
+x=0 y=1830 X=808.5 Y=1830 Levcut=4 Rot=0 Qcut=48.5 Lcut=808.5 Tcut=14 Rcut=0 Wcut=0
+x=2390 y=1463 X=2390 Y=1830 Levcut=3 Rot=90 Qcut=1581.5 Lcut=367 Tcut=14 Rcut=50 Wcut=0
+x=808.5 y=1795.5 X=2390 Y=1795.5 Levcut=4 Rot=0 Qcut=332.5 Lcut=1581.5 Tcut=14 Rcut=34.5 Wcut=0 IndPiece=6 Cut=1
+x=808.5 y=1830 X=2390 Y=1830 Levcut=4 Rot=0 Qcut=34.5 Lcut=1581.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=1463 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=50 Lcut=367 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1158.5 Height=412.5 Info=9 IndPiece=1
+XO=0 YO=412.5 Width=1373.5 Height=389.5 Info=16 IndPiece=2
+XO=0 YO=802 Width=1578.5 Height=390.5 Info=36 IndPiece=3
+XO=0 YO=1192.5 Width=1136.5 Height=270.5 Info=49 IndPiece=4
+XO=0 YO=1463 Width=808.5 Height=318.5 Info=56 IndPiece=5
+XO=808.5 YO=1463 Width=1581.5 Height=332.5 Info=37 IndPiece=6
+XO=1136.5 YO=1192.5 Width=1136.5 Height=270.5 Info=54 IndPiece=8
+XO=1158.5 YO=0 Width=1136.5 Height=374.5 Info=53 IndPiece=7
+XO=1373.5 YO=412.5 Width=941.5 Height=332.5 Info=26 IndPiece=9
+XO=1578.5 YO=802 Width=808.5 Height=319.5 Info=59 IndPiece=10
+
+[Info]
+Id=9
+OrderNo=9
+PosNo=
+Customer=13059163
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=412.5
+SheetHeight=1158.5
+SheetCode=5
+
+[Info]
+Id=53
+OrderNo=53
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=374.5
+SheetHeight=1136.5
+SheetCode=30
+
+[Info]
+Id=16
+OrderNo=16
+PosNo=
+Customer=13065444
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=389.5
+SheetHeight=1373.5
+SheetCode=9
+
+[Info]
+Id=26
+OrderNo=26
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=941.5
+SheetCode=13
+
+[Info]
+Id=36
+OrderNo=36
+PosNo=
+Customer=13087089
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=390.5
+SheetHeight=1578.5
+SheetCode=19
+
+[Info]
+Id=59
+OrderNo=59
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=319.5
+SheetHeight=808.5
+SheetCode=32
+
+[Info]
+Id=49
+OrderNo=49
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=270.5
+SheetHeight=1136.5
+SheetCode=28
+
+[Info]
+Id=54
+OrderNo=54
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=270.5
+SheetHeight=1136.5
+SheetCode=28
+
+[Info]
+Id=56
+OrderNo=56
+PosNo=
+Customer=13093453
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=318.5
+SheetHeight=808.5
+SheetCode=31
+
+[Info]
+Id=37
+OrderNo=37
+PosNo=
+Customer=13087089
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=1581.5
+SheetCode=20
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=906.5
+  Y=392.5 Info=32
+  Y=392.5 Info=31
+  Y=294.5
+    Z=767.5 Info=15
+  Y=393.5 Info=34
+  Y=357.0
+    Z=647.5
+      W=294.5 Info=4
+X=1533.5
+  Y=389.5
+    Z=1373.5 Info=17
+  Y=459.5
+    Z=667.5 Info=13
+    Z=667.5 Info=12
+  Y=577.5
+    Z=1371.5 Info=21
+  Y=403.5
+    Z=941.5
+      W=332.5 Info=27
+    Z=532.5
+      W=330.5 Info=20
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=0 X=906.5 Y=1830 Levcut=1 Rot=90 Qcut=906.5 Lcut=1830 Tcut=14 Rcut=1533.5 Wcut=0
+x=0 y=392.5 X=906.5 Y=392.5 Levcut=2 Rot=0 Qcut=392.5 Lcut=906.5 Tcut=14 Rcut=1437.5 Wcut=0 IndPiece=1 Cut=1
+x=0 y=785 X=906.5 Y=785 Levcut=2 Rot=0 Qcut=392.5 Lcut=906.5 Tcut=14 Rcut=1045 Wcut=0 IndPiece=2 Cut=1
+x=0 y=1079.5 X=906.5 Y=1079.5 Levcut=2 Rot=0 Qcut=294.5 Lcut=906.5 Tcut=14 Rcut=750.5 Wcut=0
+x=767.5 y=785 X=767.5 Y=1079.5 Levcut=3 Rot=90 Qcut=767.5 Lcut=294.5 Tcut=14 Rcut=1672.5 Wcut=0 IndPiece=3 Cut=1
+x=906.5 y=785 X=906.5 Y=1079.5 Levcut=3 Rot=90 Qcut=139 Lcut=294.5 Tcut=14 Rcut=1533.5 Wcut=1
+x=0 y=1473 X=906.5 Y=1473 Levcut=2 Rot=0 Qcut=393.5 Lcut=906.5 Tcut=14 Rcut=357 Wcut=0 IndPiece=5 Cut=1
+x=0 y=1830 X=906.5 Y=1830 Levcut=2 Rot=0 Qcut=357 Lcut=906.5 Tcut=14 Rcut=0 Wcut=0
+x=647.5 y=1473 X=647.5 Y=1830 Levcut=3 Rot=90 Qcut=647.5 Lcut=357 Tcut=14 Rcut=1792.5 Wcut=0
+x=0 y=1767.5 X=647.5 Y=1767.5 Levcut=4 Rot=0 Qcut=294.5 Lcut=647.5 Tcut=14 Rcut=62.5 Wcut=0 IndPiece=10 Cut=1
+x=0 y=1830 X=647.5 Y=1830 Levcut=4 Rot=0 Qcut=62.5 Lcut=647.5 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=1473 X=906.5 Y=1830 Levcut=3 Rot=90 Qcut=259 Lcut=357 Tcut=14 Rcut=1533.5 Wcut=1
+x=906.5 y=389.5 X=2440 Y=389.5 Levcut=2 Rot=0 Qcut=389.5 Lcut=1533.5 Tcut=14 Rcut=1440.5 Wcut=0
+x=2280 y=0 X=2280 Y=389.5 Levcut=3 Rot=90 Qcut=1373.5 Lcut=389.5 Tcut=14 Rcut=160 Wcut=0 IndPiece=4 Cut=1
+x=2440 y=0 X=2440 Y=389.5 Levcut=3 Rot=90 Qcut=160 Lcut=389.5 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=849 X=2440 Y=849 Levcut=2 Rot=0 Qcut=459.5 Lcut=1533.5 Tcut=14 Rcut=981 Wcut=0
+x=1574 y=389.5 X=1574 Y=849 Levcut=3 Rot=90 Qcut=667.5 Lcut=459.5 Tcut=14 Rcut=866 Wcut=0 IndPiece=6 Cut=1
+x=2241.5 y=389.5 X=2241.5 Y=849 Levcut=3 Rot=90 Qcut=667.5 Lcut=459.5 Tcut=14 Rcut=198.5 Wcut=0 IndPiece=8 Cut=1
+x=2440 y=389.5 X=2440 Y=849 Levcut=3 Rot=90 Qcut=198.5 Lcut=459.5 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=1426.5 X=2440 Y=1426.5 Levcut=2 Rot=0 Qcut=577.5 Lcut=1533.5 Tcut=14 Rcut=403.5 Wcut=0
+x=2278 y=849 X=2278 Y=1426.5 Levcut=3 Rot=90 Qcut=1371.5 Lcut=577.5 Tcut=14 Rcut=162 Wcut=0 IndPiece=7 Cut=1
+x=2440 y=849 X=2440 Y=1426.5 Levcut=3 Rot=90 Qcut=162 Lcut=577.5 Tcut=14 Rcut=0 Wcut=0
+x=906.5 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=403.5 Lcut=1533.5 Tcut=14 Rcut=0 Wcut=0
+x=1848 y=1426.5 X=1848 Y=1830 Levcut=3 Rot=90 Qcut=941.5 Lcut=403.5 Tcut=14 Rcut=592 Wcut=0
+x=906.5 y=1759 X=1848 Y=1759 Levcut=4 Rot=0 Qcut=332.5 Lcut=941.5 Tcut=14 Rcut=71 Wcut=0 IndPiece=9 Cut=1
+x=906.5 y=1830 X=1848 Y=1830 Levcut=4 Rot=0 Qcut=71 Lcut=941.5 Tcut=14 Rcut=0 Wcut=0
+x=2380.5 y=1426.5 X=2380.5 Y=1830 Levcut=3 Rot=90 Qcut=532.5 Lcut=403.5 Tcut=14 Rcut=59.5 Wcut=0
+x=1848 y=1757 X=2380.5 Y=1757 Levcut=4 Rot=0 Qcut=330.5 Lcut=532.5 Tcut=14 Rcut=73 Wcut=0 IndPiece=11 Cut=1
+x=1848 y=1830 X=2380.5 Y=1830 Levcut=4 Rot=0 Qcut=73 Lcut=532.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=1426.5 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=59.5 Lcut=403.5 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=906.5 Height=392.5 Info=32 IndPiece=1
+XO=0 YO=392.5 Width=906.5 Height=392.5 Info=31 IndPiece=2
+XO=0 YO=785 Width=767.5 Height=294.5 Info=15 IndPiece=3
+XO=0 YO=1079.5 Width=906.5 Height=393.5 Info=34 IndPiece=5
+XO=0 YO=1473 Width=647.5 Height=294.5 Info=4 IndPiece=10
+XO=906.5 YO=0 Width=1373.5 Height=389.5 Info=17 IndPiece=4
+XO=906.5 YO=389.5 Width=667.5 Height=459.5 Info=13 IndPiece=6
+XO=906.5 YO=849 Width=1371.5 Height=577.5 Info=21 IndPiece=7
+XO=906.5 YO=1426.5 Width=941.5 Height=332.5 Info=27 IndPiece=9
+XO=1574 YO=389.5 Width=667.5 Height=459.5 Info=12 IndPiece=8
+XO=1848 YO=1426.5 Width=532.5 Height=330.5 Info=20 IndPiece=11
+
+[Info]
+Id=32
+OrderNo=32
+PosNo=
+Customer=13088466
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=392.5
+SheetHeight=906.5
+SheetCode=17
+
+[Info]
+Id=31
+OrderNo=31
+PosNo=
+Customer=13088466
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=392.5
+SheetHeight=906.5
+SheetCode=17
+
+[Info]
+Id=15
+OrderNo=15
+PosNo=
+Customer=13098082
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=294.5
+SheetHeight=767.5
+SheetCode=8
+
+[Info]
+Id=34
+OrderNo=34
+PosNo=
+Customer=13088466
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=393.5
+SheetHeight=906.5
+SheetCode=18
+
+[Info]
+Id=4
+OrderNo=4
+PosNo=
+Customer=13084541
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=294.5
+SheetHeight=647.5
+SheetCode=3
+
+[Info]
+Id=17
+OrderNo=17
+PosNo=
+Customer=13065444
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=389.5
+SheetHeight=1373.5
+SheetCode=9
+
+[Info]
+Id=13
+OrderNo=13
+PosNo=
+Customer=13098082
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=459.5
+SheetHeight=667.5
+SheetCode=7
+
+[Info]
+Id=12
+OrderNo=12
+PosNo=
+Customer=13098082
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=459.5
+SheetHeight=667.5
+SheetCode=7
+
+[Info]
+Id=21
+OrderNo=21
+PosNo=
+Customer=13075763
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=577.5
+SheetHeight=1371.5
+SheetCode=12
+
+[Info]
+Id=27
+OrderNo=27
+PosNo=
+Customer=13073025
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=941.5
+SheetCode=13
+
+[Info]
+Id=20
+OrderNo=20
+PosNo=
+Customer=13099235
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=330.5
+SheetHeight=532.5
+SheetCode=11
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=541.5
+    Z=1902.5 Info=41
+  Y=472.5
+    Z=1096.5 Info=65
+    Z=1096.5 Info=64
+  Y=464.5
+    Z=1998.5 Info=62
+  Y=306.5
+    Z=1140.5 Info=52
+    Z=1136.5
+      W=270.5 Info=50
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=541.5 X=2440 Y=541.5 Levcut=2 Rot=0 Qcut=541.5 Lcut=2440 Tcut=14 Rcut=1288.5 Wcut=0
+x=1902.5 y=0 X=1902.5 Y=541.5 Levcut=3 Rot=90 Qcut=1902.5 Lcut=541.5 Tcut=14 Rcut=537.5 Wcut=0 IndPiece=1 Cut=1
+x=2440 y=0 X=2440 Y=541.5 Levcut=3 Rot=90 Qcut=537.5 Lcut=541.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1014 X=2440 Y=1014 Levcut=2 Rot=0 Qcut=472.5 Lcut=2440 Tcut=14 Rcut=816 Wcut=0
+x=1096.5 y=541.5 X=1096.5 Y=1014 Levcut=3 Rot=90 Qcut=1096.5 Lcut=472.5 Tcut=14 Rcut=1343.5 Wcut=0 IndPiece=2 Cut=1
+x=2193 y=541.5 X=2193 Y=1014 Levcut=3 Rot=90 Qcut=1096.5 Lcut=472.5 Tcut=14 Rcut=247 Wcut=0 IndPiece=5 Cut=1
+x=2440 y=541.5 X=2440 Y=1014 Levcut=3 Rot=90 Qcut=247 Lcut=472.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1478.5 X=2440 Y=1478.5 Levcut=2 Rot=0 Qcut=464.5 Lcut=2440 Tcut=14 Rcut=351.5 Wcut=0
+x=1998.5 y=1014 X=1998.5 Y=1478.5 Levcut=3 Rot=90 Qcut=1998.5 Lcut=464.5 Tcut=14 Rcut=441.5 Wcut=0 IndPiece=3 Cut=1
+x=2440 y=1014 X=2440 Y=1478.5 Levcut=3 Rot=90 Qcut=441.5 Lcut=464.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1785 X=2440 Y=1785 Levcut=2 Rot=0 Qcut=306.5 Lcut=2440 Tcut=14 Rcut=45 Wcut=0
+x=1140.5 y=1478.5 X=1140.5 Y=1785 Levcut=3 Rot=90 Qcut=1140.5 Lcut=306.5 Tcut=14 Rcut=1299.5 Wcut=0 IndPiece=4 Cut=1
+x=2277 y=1478.5 X=2277 Y=1785 Levcut=3 Rot=90 Qcut=1136.5 Lcut=306.5 Tcut=14 Rcut=163 Wcut=0
+x=1140.5 y=1749 X=2277 Y=1749 Levcut=4 Rot=0 Qcut=270.5 Lcut=1136.5 Tcut=14 Rcut=81 Wcut=0 IndPiece=6 Cut=1
+x=1140.5 y=1785 X=2277 Y=1785 Levcut=4 Rot=0 Qcut=36 Lcut=1136.5 Tcut=14 Rcut=45 Wcut=1
+x=2440 y=1478.5 X=2440 Y=1785 Levcut=3 Rot=90 Qcut=163 Lcut=306.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=45 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1902.5 Height=541.5 Info=41 IndPiece=1
+XO=0 YO=541.5 Width=1096.5 Height=472.5 Info=65 IndPiece=2
+XO=0 YO=1014 Width=1998.5 Height=464.5 Info=62 IndPiece=3
+XO=0 YO=1478.5 Width=1140.5 Height=306.5 Info=52 IndPiece=4
+XO=1096.5 YO=541.5 Width=1096.5 Height=472.5 Info=64 IndPiece=5
+XO=1140.5 YO=1478.5 Width=1136.5 Height=270.5 Info=50 IndPiece=6
+
+[Info]
+Id=41
+OrderNo=41
+PosNo=
+Customer=13090067
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=541.5
+SheetHeight=1902.5
+SheetCode=22
+
+[Info]
+Id=65
+OrderNo=65
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=472.5
+SheetHeight=1096.5
+SheetCode=36
+
+[Info]
+Id=64
+OrderNo=64
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=472.5
+SheetHeight=1096.5
+SheetCode=36
+
+[Info]
+Id=62
+OrderNo=62
+PosNo=
+Customer=13096806
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=464.5
+SheetHeight=1998.5
+SheetCode=34
+
+[Info]
+Id=52
+OrderNo=52
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=306.5
+SheetHeight=1140.5
+SheetCode=29
+
+[Info]
+Id=50
+OrderNo=50
+PosNo=
+Customer=13095172
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=270.5
+SheetHeight=1136.5
+SheetCode=28
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=676.5
+    Z=1683.5 Info=18
+    Z=617.5
+      W=400.5 Info=74
+  Y=263.5
+    Z=1908.5 Info=47
+  Y=486.5
+    Z=996.5 Info=69
+    Z=1359.5
+      W=342.5 Info=40
+  Y=403.5
+    Z=1642.5
+      W=374.5 Info=66
+    Z=532.5
+      W=330.5 Info=19
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=676.5 X=2440 Y=676.5 Levcut=2 Rot=0 Qcut=676.5 Lcut=2440 Tcut=14 Rcut=1153.5 Wcut=0
+x=1683.5 y=0 X=1683.5 Y=676.5 Levcut=3 Rot=90 Qcut=1683.5 Lcut=676.5 Tcut=14 Rcut=756.5 Wcut=0 IndPiece=1 Cut=1
+x=2301 y=0 X=2301 Y=676.5 Levcut=3 Rot=90 Qcut=617.5 Lcut=676.5 Tcut=14 Rcut=139 Wcut=0
+x=1683.5 y=400.5 X=2301 Y=400.5 Levcut=4 Rot=0 Qcut=400.5 Lcut=617.5 Tcut=14 Rcut=1429.5 Wcut=0 IndPiece=7 Cut=1
+x=1683.5 y=676.5 X=2301 Y=676.5 Levcut=4 Rot=0 Qcut=276 Lcut=617.5 Tcut=14 Rcut=1153.5 Wcut=1
+x=2440 y=0 X=2440 Y=676.5 Levcut=3 Rot=90 Qcut=139 Lcut=676.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=940 X=2440 Y=940 Levcut=2 Rot=0 Qcut=263.5 Lcut=2440 Tcut=14 Rcut=890 Wcut=0
+x=1908.5 y=676.5 X=1908.5 Y=940 Levcut=3 Rot=90 Qcut=1908.5 Lcut=263.5 Tcut=14 Rcut=531.5 Wcut=0 IndPiece=2 Cut=1
+x=2440 y=676.5 X=2440 Y=940 Levcut=3 Rot=90 Qcut=531.5 Lcut=263.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1426.5 X=2440 Y=1426.5 Levcut=2 Rot=0 Qcut=486.5 Lcut=2440 Tcut=14 Rcut=403.5 Wcut=0
+x=996.5 y=940 X=996.5 Y=1426.5 Levcut=3 Rot=90 Qcut=996.5 Lcut=486.5 Tcut=14 Rcut=1443.5 Wcut=0 IndPiece=3 Cut=1
+x=2356 y=940 X=2356 Y=1426.5 Levcut=3 Rot=90 Qcut=1359.5 Lcut=486.5 Tcut=14 Rcut=84 Wcut=0
+x=996.5 y=1282.5 X=2356 Y=1282.5 Levcut=4 Rot=0 Qcut=342.5 Lcut=1359.5 Tcut=14 Rcut=547.5 Wcut=0 IndPiece=5 Cut=1
+x=996.5 y=1426.5 X=2356 Y=1426.5 Levcut=4 Rot=0 Qcut=144 Lcut=1359.5 Tcut=14 Rcut=403.5 Wcut=1
+x=2440 y=940 X=2440 Y=1426.5 Levcut=3 Rot=90 Qcut=84 Lcut=486.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=403.5 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+x=1642.5 y=1426.5 X=1642.5 Y=1830 Levcut=3 Rot=90 Qcut=1642.5 Lcut=403.5 Tcut=14 Rcut=797.5 Wcut=0
+x=0 y=1801 X=1642.5 Y=1801 Levcut=4 Rot=0 Qcut=374.5 Lcut=1642.5 Tcut=14 Rcut=29 Wcut=0 IndPiece=4 Cut=1
+x=0 y=1830 X=1642.5 Y=1830 Levcut=4 Rot=0 Qcut=29 Lcut=1642.5 Tcut=14 Rcut=0 Wcut=0
+x=2175 y=1426.5 X=2175 Y=1830 Levcut=3 Rot=90 Qcut=532.5 Lcut=403.5 Tcut=14 Rcut=265 Wcut=0
+x=1642.5 y=1757 X=2175 Y=1757 Levcut=4 Rot=0 Qcut=330.5 Lcut=532.5 Tcut=14 Rcut=73 Wcut=0 IndPiece=6 Cut=1
+x=1642.5 y=1830 X=2175 Y=1830 Levcut=4 Rot=0 Qcut=73 Lcut=532.5 Tcut=14 Rcut=0 Wcut=0
+x=2440 y=1426.5 X=2440 Y=1830 Levcut=3 Rot=90 Qcut=265 Lcut=403.5 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1683.5 Height=676.5 Info=18 IndPiece=1
+XO=0 YO=676.5 Width=1908.5 Height=263.5 Info=47 IndPiece=2
+XO=0 YO=940 Width=996.5 Height=486.5 Info=69 IndPiece=3
+XO=0 YO=1426.5 Width=1642.5 Height=374.5 Info=66 IndPiece=4
+XO=996.5 YO=940 Width=1359.5 Height=342.5 Info=40 IndPiece=5
+XO=1642.5 YO=1426.5 Width=532.5 Height=330.5 Info=19 IndPiece=6
+XO=1683.5 YO=0 Width=617.5 Height=400.5 Info=74 IndPiece=7
+
+[Info]
+Id=18
+OrderNo=18
+PosNo=
+Customer=13097522
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=676.5
+SheetHeight=1683.5
+SheetCode=10
+
+[Info]
+Id=74
+OrderNo=74
+PosNo=
+Customer=13103834
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=400.5
+SheetHeight=617.5
+SheetCode=41
+
+[Info]
+Id=47
+OrderNo=47
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=263.5
+SheetHeight=1908.5
+SheetCode=27
+
+[Info]
+Id=69
+OrderNo=69
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=486.5
+SheetHeight=996.5
+SheetCode=38
+
+[Info]
+Id=40
+OrderNo=40
+PosNo=
+Customer=13089864
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=342.5
+SheetHeight=1359.5
+SheetCode=21
+
+[Info]
+Id=66
+OrderNo=66
+PosNo=
+Customer=13100945
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=374.5
+SheetHeight=1642.5
+SheetCode=37
+
+[Info]
+Id=19
+OrderNo=19
+PosNo=
+Customer=13099235
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=330.5
+SheetHeight=532.5
+SheetCode=11
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=1908.5
+  Y=263.5 Info=48
+  Y=332.5
+    Z=1581.5 Info=38
+  Y=342.5
+    Z=1359.5 Info=39
+  Y=277.5
+    Z=1480.5 Info=70
+  Y=614.0
+    Z=1659.5
+      W=263.5 Info=29
+      W=263.5 Info=28
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=1908.5 y=0 X=1908.5 Y=1830 Levcut=1 Rot=90 Qcut=1908.5 Lcut=1830 Tcut=14 Rcut=531.5 Wcut=0
+x=0 y=263.5 X=1908.5 Y=263.5 Levcut=2 Rot=0 Qcut=263.5 Lcut=1908.5 Tcut=14 Rcut=1566.5 Wcut=0 IndPiece=1 Cut=1
+x=0 y=596 X=1908.5 Y=596 Levcut=2 Rot=0 Qcut=332.5 Lcut=1908.5 Tcut=14 Rcut=1234 Wcut=0
+x=1581.5 y=263.5 X=1581.5 Y=596 Levcut=3 Rot=90 Qcut=1581.5 Lcut=332.5 Tcut=14 Rcut=858.5 Wcut=0 IndPiece=2 Cut=1
+x=1908.5 y=263.5 X=1908.5 Y=596 Levcut=3 Rot=90 Qcut=327 Lcut=332.5 Tcut=14 Rcut=531.5 Wcut=1
+x=0 y=938.5 X=1908.5 Y=938.5 Levcut=2 Rot=0 Qcut=342.5 Lcut=1908.5 Tcut=14 Rcut=891.5 Wcut=0
+x=1359.5 y=596 X=1359.5 Y=938.5 Levcut=3 Rot=90 Qcut=1359.5 Lcut=342.5 Tcut=14 Rcut=1080.5 Wcut=0 IndPiece=3 Cut=1
+x=1908.5 y=596 X=1908.5 Y=938.5 Levcut=3 Rot=90 Qcut=549 Lcut=342.5 Tcut=14 Rcut=531.5 Wcut=1
+x=0 y=1216 X=1908.5 Y=1216 Levcut=2 Rot=0 Qcut=277.5 Lcut=1908.5 Tcut=14 Rcut=614 Wcut=0
+x=1480.5 y=938.5 X=1480.5 Y=1216 Levcut=3 Rot=90 Qcut=1480.5 Lcut=277.5 Tcut=14 Rcut=959.5 Wcut=0 IndPiece=4 Cut=1
+x=1908.5 y=938.5 X=1908.5 Y=1216 Levcut=3 Rot=90 Qcut=428 Lcut=277.5 Tcut=14 Rcut=531.5 Wcut=1
+x=0 y=1830 X=1908.5 Y=1830 Levcut=2 Rot=0 Qcut=614 Lcut=1908.5 Tcut=14 Rcut=0 Wcut=0
+x=1659.5 y=1216 X=1659.5 Y=1830 Levcut=3 Rot=90 Qcut=1659.5 Lcut=614 Tcut=14 Rcut=780.5 Wcut=0
+x=0 y=1479.5 X=1659.5 Y=1479.5 Levcut=4 Rot=0 Qcut=263.5 Lcut=1659.5 Tcut=14 Rcut=350.5 Wcut=0 IndPiece=5 Cut=1
+x=0 y=1743 X=1659.5 Y=1743 Levcut=4 Rot=0 Qcut=263.5 Lcut=1659.5 Tcut=14 Rcut=87 Wcut=0 IndPiece=6 Cut=1
+x=0 y=1830 X=1659.5 Y=1830 Levcut=4 Rot=0 Qcut=87 Lcut=1659.5 Tcut=14 Rcut=0 Wcut=0
+x=1908.5 y=1216 X=1908.5 Y=1830 Levcut=3 Rot=90 Qcut=249 Lcut=614 Tcut=14 Rcut=531.5 Wcut=1
+XO=0 YO=0 Width=1908.5 Height=263.5 Info=48 IndPiece=1
+XO=0 YO=263.5 Width=1581.5 Height=332.5 Info=38 IndPiece=2
+XO=0 YO=596 Width=1359.5 Height=342.5 Info=39 IndPiece=3
+XO=0 YO=938.5 Width=1480.5 Height=277.5 Info=70 IndPiece=4
+XO=0 YO=1216 Width=1659.5 Height=263.5 Info=29 IndPiece=5
+XO=0 YO=1479.5 Width=1659.5 Height=263.5 Info=28 IndPiece=6
+
+[Info]
+Id=48
+OrderNo=48
+PosNo=
+Customer=13086224
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=263.5
+SheetHeight=1908.5
+SheetCode=27
+
+[Info]
+Id=38
+OrderNo=38
+PosNo=
+Customer=13087089
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=332.5
+SheetHeight=1581.5
+SheetCode=20
+
+[Info]
+Id=39
+OrderNo=39
+PosNo=
+Customer=13089864
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=342.5
+SheetHeight=1359.5
+SheetCode=21
+
+[Info]
+Id=70
+OrderNo=70
+PosNo=
+Customer=13101259
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=277.5
+SheetHeight=1480.5
+SheetCode=39
+
+[Info]
+Id=29
+OrderNo=29
+PosNo=
+Customer=13080731
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=263.5
+SheetHeight=1659.5
+SheetCode=15
+
+[Info]
+Id=28
+OrderNo=28
+PosNo=
+Customer=13080731
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=263.5
+SheetHeight=1659.5
+SheetCode=15
+
+[Pattern]
+MachineName =Genius LM
+MachineNumber =1000
+GlassID=06_CRY_FLUTED_G
+GlassDescription=
+GlassThickness=6
+GlassStructured=0
+GlassCoated=0
+Pieces=1
+Width=2440
+Height=1830
+TrimLeft=0
+TrimBottom=0
+X=2440.0
+  Y=277.5
+    Z=1480.5 Info=71
+
+[Cuttings]
+x=2440 y=0 X=2440 Y=1830 Levcut=1 Rot=90 Qcut=2440 Lcut=1830 Tcut=14 Rcut=0 Wcut=0
+x=0 y=277.5 X=2440 Y=277.5 Levcut=2 Rot=0 Qcut=277.5 Lcut=2440 Tcut=14 Rcut=1552.5 Wcut=0
+x=1480.5 y=0 X=1480.5 Y=277.5 Levcut=3 Rot=90 Qcut=1480.5 Lcut=277.5 Tcut=14 Rcut=959.5 Wcut=0 IndPiece=1 Cut=1
+x=2440 y=0 X=2440 Y=277.5 Levcut=3 Rot=90 Qcut=959.5 Lcut=277.5 Tcut=14 Rcut=0 Wcut=0
+x=0 y=1830 X=2440 Y=1830 Levcut=2 Rot=0 Qcut=1552.5 Lcut=2440 Tcut=14 Rcut=0 Wcut=0
+XO=0 YO=0 Width=1480.5 Height=277.5 Info=71 IndPiece=1
+
+[Info]
+Id=71
+OrderNo=71
+PosNo=
+Customer=13101259
+Commission=
+SecondGlassReference=
+RackNo=
+SheetWidth=277.5
+SheetHeight=1480.5
+SheetCode=39
+

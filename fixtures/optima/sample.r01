@@ -1,0 +1,209 @@
+[OPT_Header]
+OPTCutVersion=1.0
+Dimension=mm
+Date=10-06-2026
+
+[OPT_Signature]
+Creator=SPIL Opti
+
+[OPT_Pattern]
+GlassID=CLR03
+GlassThickness=3
+GlassCoated=0
+GlassType=0
+Pieces=1
+Width=3660
+Height=2440
+TrimLeft=0
+TrimBottom=0
+TrimRight=0
+TrimTop=0
+LoaderRack=
+X=1500.0000
+  Y=750.0000
+    Z=750.0000 Info=7166
+    Z=2910.0000
+      W=600.0000
+        V=600.0000 Info=7624
+  Y=1690.0000
+    Z=1000.0000
+      W=500.0000 Info=9070
+      W=1000.0000 Info=7373
+    Z=500.0000
+      W=500.0000 Info=9340
+
+[Cuttings]
+x=3660.0000 y=0.0000 X=3660.0000 Y=2440.0000
+x=1500.0000 y=0.0000 X=1500.0000 Y=2440.0000
+x=0.0000 y=2440.0000 X=1500.0000 Y=2440.0000
+x=0.0000 y=750.0000 X=1500.0000 Y=750.0000
+x=3660.0000 y=0.0000 X=3660.0000 Y=750.0000
+x=750.0000 y=0.0000 X=750.0000 Y=750.0000
+x=3660.0000 y=750.0000 X=3660.0000 Y=2440.0000
+x=1000.0000 y=750.0000 X=1000.0000 Y=2440.0000
+x=0.0000 y=2440.0000 X=1000.0000 Y=2440.0000
+x=0.0000 y=1250.0000 X=1000.0000 Y=1250.0000
+x=0.0000 y=2250.0000 X=1000.0000 Y=2250.0000
+x=750.0000 y=750.0000 X=1500.0000 Y=750.0000
+x=750.0000 y=600.0000 X=1500.0000 Y=600.0000
+x=1500.0000 y=0.0000 X=1500.0000 Y=600.0000
+x=1350.0000 y=0.0000 X=1350.0000 Y=600.0000
+x=1500.0000 y=750.0000 X=1500.0000 Y=2440.0000
+x=1000.0000 y=2440.0000 X=1500.0000 Y=2440.0000
+x=1000.0000 y=1250.0000 X=1500.0000 Y=1250.0000
+
+[Info]
+Id=7166
+SecondGlassReference=7166
+RackNo=0
+SheetWidth=750
+SheetHeight=750
+Customer=
+PosNo=
+OrderNo=
+RackCode=
+PieceStandardPz=
+UMPz=
+IDPz=
+RealDimXPz=
+RealDimYPz=
+GrindingPz=
+GrindingPzX1=
+GrindingPzY1=
+GrindingPzX2=
+GrindingPzY2=
+BendingPz=
+QuantityPz=
+PriorityPz=
+LabelsPz=
+LabelsPzCounter=
+RotationAllowed=
+PreferencePz=
+DescMatCompPz=
+DeliveryDatePz=
+PzNOTE1=
+
+[Info]
+Id=7624
+SecondGlassReference=7624
+RackNo=0
+SheetWidth=600
+SheetHeight=600
+Customer=
+PosNo=
+OrderNo=
+RackCode=
+PieceStandardPz=
+UMPz=
+IDPz=
+RealDimXPz=
+RealDimYPz=
+GrindingPz=
+GrindingPzX1=
+GrindingPzY1=
+GrindingPzX2=
+GrindingPzY2=
+BendingPz=
+QuantityPz=
+PriorityPz=
+LabelsPz=
+LabelsPzCounter=
+RotationAllowed=
+PreferencePz=
+DescMatCompPz=
+DeliveryDatePz=
+PzNOTE1=
+
+[Info]
+Id=9070
+SecondGlassReference=9070
+RackNo=0
+SheetWidth=1000
+SheetHeight=500
+Customer=
+PosNo=
+OrderNo=
+RackCode=
+PieceStandardPz=
+UMPz=
+IDPz=
+RealDimXPz=
+RealDimYPz=
+GrindingPz=
+GrindingPzX1=
+GrindingPzY1=
+GrindingPzX2=
+GrindingPzY2=
+BendingPz=
+QuantityPz=
+PriorityPz=
+LabelsPz=
+LabelsPzCounter=
+RotationAllowed=
+PreferencePz=
+DescMatCompPz=
+DeliveryDatePz=
+PzNOTE1=
+
+[Info]
+Id=7373
+SecondGlassReference=7373
+RackNo=0
+SheetWidth=1000
+SheetHeight=1000
+Customer=
+PosNo=
+OrderNo=
+RackCode=
+PieceStandardPz=
+UMPz=
+IDPz=
+RealDimXPz=
+RealDimYPz=
+GrindingPz=
+GrindingPzX1=
+GrindingPzY1=
+GrindingPzX2=
+GrindingPzY2=
+BendingPz=
+QuantityPz=
+PriorityPz=
+LabelsPz=
+LabelsPzCounter=
+RotationAllowed=
+PreferencePz=
+DescMatCompPz=
+DeliveryDatePz=
+PzNOTE1=
+
+[Info]
+Id=9340
+SecondGlassReference=9340
+RackNo=0
+SheetWidth=500
+SheetHeight=500
+Customer=
+PosNo=
+OrderNo=
+RackCode=
+PieceStandardPz=
+UMPz=
+IDPz=
+RealDimXPz=
+RealDimYPz=
+GrindingPz=
+GrindingPzX1=
+GrindingPzY1=
+GrindingPzX2=
+GrindingPzY2=
+BendingPz=
+QuantityPz=
+PriorityPz=
+LabelsPz=
+LabelsPzCounter=
+RotationAllowed=
+PreferencePz=
+DescMatCompPz=
+DeliveryDatePz=
+PzNOTE1=
+

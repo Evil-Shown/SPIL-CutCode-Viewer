@@ -1,0 +1,19 @@
+{
+  "name": "@spil/cutcode-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "cutcode-batch": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "@spil/cutcode-core": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}
