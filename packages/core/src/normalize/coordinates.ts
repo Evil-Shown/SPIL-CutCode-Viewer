@@ -62,11 +62,16 @@ function normalizeCutPlan(plan: CutPlan): CutPlan {
     return { ...p, bounds, polygon: p.polygon?.map((pt) => normalizePoint(pt.x, pt.y, sem, sheetH)) };
   });
 
-  const cuts: Cut[] = plan.cuts.map((c) => ({
-    ...c,
-    points: c.points.map((pt) => normalizePoint(pt.x, pt.y, sem, sheetH)),
-    center: c.center ? normalizePoint(c.center.x, c.center.y, sem, sheetH) : undefined,
-  }));
+  const cuts: Cut[] = plan.cuts.map((c) => {
+    const flipped = isFlippedY(sem) !== (sem.xAxis === "left");
+    return {
+      ...c,
+      points: c.points.map((pt) => normalizePoint(pt.x, pt.y, sem, sheetH)),
+      center: c.center ? normalizePoint(c.center.x, c.center.y, sem, sheetH) : undefined,
+      // A mirrored axis flips the sweep direction
+      ccw: c.type === "arc" && c.ccw !== undefined ? (flipped ? !c.ccw : c.ccw) : undefined,
+    };
+  });
 
   const laser = plan.laser?.map((l) => {
     const p = normalizePoint(l.x, l.y, sem, sheetH);

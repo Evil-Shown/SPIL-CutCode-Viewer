@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
-import type { CutPlan, Point } from "@spil/cutcode-core";
+import type { Cut, CutPlan, Point } from "@spil/cutcode-core";
+import { sampleArc } from "@spil/cutcode-core";
 import { useAppStore } from "./store";
 import { THEMES, STAGE_COLORS } from "./theme";
 
@@ -40,6 +41,8 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
   const sizeRef = useRef({ w: 0, h: 0 });
   const panState = useRef<{ panning: boolean; lastX: number; lastY: number; moved: boolean }>({ panning: false, lastX: 0, lastY: 0, moved: false });
   const hoverRef = useRef<{ type: "cut" | "pane"; index: number } | null>(null);
+  const progressRef = useRef<number>(-1); // cut-sequence playback position (< 0 = inactive)
+  const measurePts = useRef<Point[]>([]);
 
   const layers = useAppStore((s) => s.layers);
   const themeName = useAppStore((s) => s.theme);
@@ -47,6 +50,9 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
   const selectedPaneId = useAppStore((s) => s.selectedPaneId);
   const fitRequest = useAppStore((s) => s.fitRequest);
   const focusTarget = useAppStore((s) => s.focusTarget);
+  const seqPlaying = useAppStore((s) => s.seqPlaying);
+  const seqSpeed = useAppStore((s) => s.seqSpeed);
+  const measureMode = useAppStore((s) => s.measureMode);
   const selectCut = useAppStore((s) => s.selectCut);
   const selectPane = useAppStore((s) => s.selectPane);
   const setStatus = useAppStore((s) => s.setStatus);
@@ -156,9 +162,30 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     });
 
     /* ---------- cuts ---------- */
+    const drawCutPath = (cut: Cut) => {
+      ctx.beginPath();
+      if (cut.type === "arc" && cut.center && cut.radius) {
+        const a0 = Math.atan2(cut.points[0].y - cut.center.y, cut.points[0].x - cut.center.x);
+        const a1 =
+          cut.points.length > 1 && (cut.points[0].x !== cut.points[1].x || cut.points[0].y !== cut.points[1].y)
+            ? Math.atan2(cut.points[1].y - cut.center.y, cut.points[1].x - cut.center.x)
+            : a0 + Math.PI * 2;
+        ctx.arc(cut.center.x * S + view.tx, cut.center.y * S + view.ty, cut.radius * S, a0, a1, cut.ccw ?? false);
+      } else {
+        cut.points.forEach((p, j) => {
+          const px = view.tx + p.x * S;
+          const py = view.ty + p.y * S;
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+      }
+    };
+
     sheet.cuts.forEach((cut, i) => {
       const isSelected = selectedCutIndex === i;
       const isHover = hoverRef.current?.type === "cut" && hoverRef.current.index === i;
+      const seqPos = progressRef.current;
+      const dimmed = seqPos >= 0 && cut.sequenceIndex > seqPos;
       ctx.strokeStyle = isSelected
         ? theme.cutSelected
         : isHover
@@ -166,13 +193,9 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
           : layers.stages && cut.stage
             ? STAGE_COLORS[(cut.stage - 1) % STAGE_COLORS.length]
             : theme.cutColor;
+      ctx.globalAlpha = dimmed ? 0.15 : 1;
       ctx.lineWidth = isSelected || isHover ? 3 : 1.5;
-      ctx.beginPath();
-      cut.points.forEach((p, j) => {
-        const [px, py] = w2s(p.x, p.y);
-        if (j === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      });
+      drawCutPath(cut);
       ctx.stroke();
 
       if (layers.directions && cut.points.length === 2) {
@@ -204,6 +227,65 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
         ctx.fillText(`#${cut.sequenceIndex}${cut.stageLabel ? ` (${cut.stageLabel})` : ""}`, mx + 6, my - 6);
       }
     });
+    ctx.globalAlpha = 1;
+
+    /* ---------- pane dimension annotations ---------- */
+    if (layers.dimensions) {
+      ctx.font = "10px system-ui, sans-serif";
+      for (const pane of sheet.panes) {
+        if (pane.bounds.width * S > 44 && pane.bounds.height * S > 18) {
+          const [cx, cy] = w2s(pane.bounds.x + pane.bounds.width / 2, pane.bounds.y + pane.bounds.height / 2);
+          ctx.fillStyle = theme.textDim;
+          ctx.textAlign = "center";
+          ctx.fillText(`${pane.bounds.width.toFixed(0)}×${pane.bounds.height.toFixed(0)}`, cx, cy + 3);
+          ctx.textAlign = "left";
+        }
+      }
+    }
+
+    /* ---------- measure overlay ---------- */
+    if (measurePts.current.length > 0) {
+      ctx.strokeStyle = theme.accent;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath();
+      measurePts.current.forEach((p, j) => {
+        const [px, py] = w2s(p.x, p.y);
+        if (j === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+      for (const p of measurePts.current) {
+        const [px, py] = w2s(p.x, p.y);
+        ctx.fillStyle = theme.accent;
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (measurePts.current.length === 2) {
+        const [a, b] = measurePts.current as [Point, Point];
+        const dist = Math.hypot(b.x - a.x, b.y - a.y);
+        const [mx, my] = w2s((a.x + b.x) / 2, (a.y + b.y) / 2);
+        const label = `${dist.toFixed(1)} mm`;
+        ctx.font = "bold 11px system-ui, sans-serif";
+        const tw = ctx.measureText(label).width;
+        ctx.fillStyle = theme.panel;
+        ctx.fillRect(mx + 6, my - 18, tw + 8, 15);
+        ctx.fillStyle = theme.accent;
+        ctx.fillText(label, mx + 10, my - 7);
+      }
+    }
+
+    /* ---------- playback progress readout ---------- */
+    if (progressRef.current >= 0) {
+      const maxSeq = sheet.cuts.length - 1;
+      ctx.fillStyle = theme.panel;
+      ctx.fillRect(RULER_SIZE + 8, h - 28, 130, 20);
+      ctx.fillStyle = theme.text;
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillText(`cut ${Math.round(Math.min(progressRef.current, maxSeq))}/${maxSeq} · ${seqSpeed}×`, RULER_SIZE + 14, h - 14);
+    }
 
     /* ---------- laser marks ---------- */
     sheet.laser?.forEach((l) => {
@@ -285,7 +367,8 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     for (const cut of miniCuts) {
-      cut.points.forEach((p, j) => {
+      const pts = cutPolyline(cut);
+      pts.forEach((p, j) => {
         const vx = mmX + p.x * ms;
         const vy = mmY + p.y * ms;
         if (j === 0) ctx.moveTo(vx, vy);
@@ -311,7 +394,7 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     ctx.strokeStyle = theme.viewportRect;
     ctx.lineWidth = 1.5;
     ctx.strokeRect(rvx, rvy, rvw, rvh);
-  }, [sheet, layers, theme, selectedCutIndex, selectedPaneId]);
+  }, [sheet, layers, theme, selectedCutIndex, selectedPaneId, seqSpeed]);
 
   const fit = useCallback(() => {
     const view = viewRef.current;
@@ -376,6 +459,28 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     draw();
   }, [draw]);
 
+  /* ---------- cut-sequence playback (loop until paused) ---------- */
+  useEffect(() => {
+    if (!seqPlaying) {
+      progressRef.current = -1;
+      draw();
+      return;
+    }
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      const maxSeq = Math.max(1, sheet.cuts.length - 1);
+      progressRef.current += dt * 6 * seqSpeed; // ~6 cuts/sec at 1x
+      if (progressRef.current > maxSeq) progressRef.current = 0; // loop
+      draw();
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [seqPlaying, seqSpeed, sheet, draw]);
+
   /* ---------- keyboard ---------- */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -383,7 +488,7 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
       if (e.key === "f" || e.key === "F") fit();
       else if (e.key === "+" || e.key === "=") zoomAt(sizeRef.current.w / 2, sizeRef.current.h / 2, 1.25);
       else if (e.key === "-") zoomAt(sizeRef.current.w / 2, sizeRef.current.h / 2, 0.8);
-      else if (e.key === "Escape") { selectCut(null); selectPane(null); }
+      else if (e.key === "Escape") { selectCut(null); selectPane(null); measurePts.current = []; draw(); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -395,13 +500,24 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     return { x: (px - view.tx) / view.scale, y: (py - view.ty) / view.scale };
   }, []);
 
+  const cutPolyline = useCallback((cut: Cut): Point[] => {
+    if (cut.type === "arc" && cut.center && cut.radius) {
+      return sampleArc(
+        { start: cut.points[0], end: cut.points[1] ?? cut.points[0], radius: cut.radius, side: cut.ccw ? -1 : 1 },
+        20
+      );
+    }
+    return cut.points;
+  }, []);
+
   const hitTest = useCallback((wx: number, wy: number): { type: "cut" | "pane"; index: number } | null => {
     const view = viewRef.current;
     let best: { type: "cut" | "pane"; index: number; dist: number } | null = null;
     sheet.cuts.forEach((cut, i) => {
-      for (let j = 0; j < cut.points.length - 1; j++) {
-        const a = cut.points[j];
-        const b = cut.points[j + 1];
+      const pts = cutPolyline(cut);
+      for (let j = 0; j < pts.length - 1; j++) {
+        const a = pts[j];
+        const b = pts[j + 1];
         const d = distToSegment(wx, wy, a.x, a.y, b.x, b.y) * view.scale;
         if (d < 10 && (!best || d < best.dist)) best = { type: "cut", index: i, dist: d };
       }
@@ -416,7 +532,7 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
       if (inside) return { type: "pane", index: i };
     }
     return null;
-  }, [sheet]);
+  }, [sheet, cutPolyline]);
 
   const minimapRect = useCallback(() => {
     const mmW = sheet.sheet.width;
@@ -495,6 +611,21 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     }
 
     const wpt = s2w(px, py);
+
+    // measure mode: collect up to 2 points, then restart on next click
+    if (measureMode) {
+      if (measurePts.current.length >= 2) measurePts.current = [];
+      measurePts.current.push(wpt);
+      if (measurePts.current.length === 2) {
+        const [a, b] = measurePts.current as [Point, Point];
+        setStatus(`distance: ${Math.hypot(b.x - a.x, b.y - a.y).toFixed(2)} mm (Δx ${Math.abs(b.x - a.x).toFixed(2)}, Δy ${Math.abs(b.y - a.y).toFixed(2)}) — Esc to clear`);
+      } else {
+        setStatus("measure: click second point…");
+      }
+      draw();
+      return;
+    }
+
     const hit = hitTest(wpt.x, wpt.y);
     if (hit?.type === "cut") selectCut(hit.index);
     else if (hit?.type === "pane") selectPane(sheet.panes[hit.index].id);

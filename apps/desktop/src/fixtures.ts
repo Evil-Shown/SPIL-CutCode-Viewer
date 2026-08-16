@@ -10,7 +10,7 @@ export interface FixtureSample {
   url: string;
 }
 
-const modules = import.meta.glob("../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,OTD,DAT,EDI}", {
+const modules = import.meta.glob("../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,dxf,OTD,DAT,EDI,DXF}", {
   query: "?url",
   import: "default",
   eager: true,
@@ -23,6 +23,7 @@ const VENDOR_BY_DIR: Record<string, string> = {
   lisec: "Lisec",
   macotech: "Macotech",
   optima: "Optima",
+  dxf: "DXF",
 };
 
 export const fixtureSamples: FixtureSample[] = Object.entries(modules)

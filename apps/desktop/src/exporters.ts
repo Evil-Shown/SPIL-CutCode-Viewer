@@ -1,5 +1,17 @@
-import type { CutPlan } from "@spil/cutcode-core";
+import type { Cut, CutPlan } from "@spil/cutcode-core";
+import { sampleArc } from "@spil/cutcode-core";
 import { THEMES, STAGE_COLORS, type ThemeName } from "./theme";
+
+/** Points of a cut as a polyline (arcs are sampled). */
+function cutPolyline(cut: Cut): Array<{ x: number; y: number }> {
+  if (cut.type === "arc" && cut.center && cut.radius) {
+    return sampleArc(
+      { start: cut.points[0], end: cut.points[1] ?? cut.points[0], radius: cut.radius, side: cut.ccw ? -1 : 1 },
+      32
+    );
+  }
+  return cut.points;
+}
 
 /** Render a sheet to a canvas 2D context at the given scale (px per mm). */
 export function drawSheetToCtx(
@@ -49,12 +61,17 @@ export function drawSheetToCtx(
     }
   });
 
-  // Cuts
+  // Cuts (arcs sampled into smooth polylines)
   sheet.cuts.forEach((cut, i) => {
     ctx.strokeStyle = opts.stages && cut.stage ? STAGE_COLORS[(cut.stage - 1) % STAGE_COLORS.length] : theme.cutColor;
     ctx.lineWidth = i === sheet.cuts.length - 1 ? 1.5 : 1;
     ctx.beginPath();
-    cut.points.forEach((p, j) => (j === 0 ? ctx.moveTo(p.x * scale, p.y * scale) : ctx.lineTo(p.x * scale, p.y * scale)));
+    cutPolyline(cut).forEach((p, j) => {
+      const px = p.x * scale;
+      const py = p.y * scale;
+      if (j === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    });
     ctx.stroke();
   });
 
@@ -102,7 +119,7 @@ export function renderSvg(sheet: CutPlan, pxPerMm = 0.5): string {
   });
 
   sheet.cuts.forEach((cut) => {
-    const pts = cut.points.map((p) => `${f(p.x)},${f(p.y)}`).join(" ");
+    const pts = cutPolyline(cut).map((p) => `${f(p.x)},${f(p.y)}`).join(" ");
     parts.push(`<polyline points="${pts}" fill="none" stroke="#ea580c" stroke-width="0.8"/>`);
   });
 

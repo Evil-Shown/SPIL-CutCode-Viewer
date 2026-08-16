@@ -109,6 +109,7 @@ export function parseLisecDat(content: string, sourcePath: string): ParseResult 
 
   const blocks: Array<{ traverse: number; cuts: BlockCut[] }> = [];
   let currentBlock: { traverse: number; cuts: BlockCut[] } | null = null;
+  const laser: CutPlan["laser"] = [];
 
   for (const raw of lines) {
     const line = raw.trim();
@@ -148,6 +149,22 @@ export function parseLisecDat(content: string, sourcePath: string): ParseResult 
         case "LPL_HOEHE": height = parseFloat(val); break;
         case "LPL_DICKE": thickness = parseFloat(val); break;
         case "LPL_GLASCODE": glassCode = val; break;
+        case "LASER":
+        case "RLASER": {
+          // Laser mark: [LASER] X=100 Y=50 [LSR_ANGLE=0] [LSR_MIRROR=0] ...
+          const lx = parseFloat(val.match(/\bX=([\d.]+)/)?.[1] ?? "");
+          const ly = parseFloat(val.match(/\bY=([\d.]+)/)?.[1] ?? "");
+          const la = parseFloat(val.match(/LSR_ANGLE=(-?[\d.]+)/)?.[1] ?? "");
+          if (Number.isFinite(lx) && Number.isFinite(ly)) {
+            laser.push({
+              x: lx,
+              y: ly,
+              angle: Number.isFinite(la) ? la : undefined,
+              mirror: /LSR_MIRROR=1/.test(val),
+            });
+          }
+          break;
+        }
         default:
           if (!KNOWN_HEADER_KEYS.has(key)) {
             warnings.push(`Unknown Lisec key: ${key}`);
@@ -210,6 +227,7 @@ export function parseLisecDat(content: string, sourcePath: string): ParseResult 
       metadata: { vendor: "Lisec", glassType: glassCode, glassThickness: thickness, sourcePath },
       sheets: [{
         id: "sheet-1",
+        laser: laser.length > 0 ? laser : undefined,
         sheet: { width, height },
         panes,
         cuts,

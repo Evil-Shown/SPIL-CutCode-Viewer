@@ -1,6 +1,7 @@
 import { detectFormat } from "../detect/formatDetector.js";
 import type { ParseResult } from "../model/types.js";
 import { parseBotteroOpt } from "./bottero-opt.js";
+import { parseDxf } from "./dxf.js";
 import { parseHeglaEdi } from "./hegla-edi.js";
 import { parseIntermacOtd } from "./intermac-otd.js";
 import { parseLisecDat } from "./lisec-dat.js";
@@ -16,6 +17,7 @@ const PARSERS: Record<string, (content: string, sourcePath: string) => ParseResu
   "optima-otv": parseOptimaOtv,
   "macotech-imp": parseMacotechImp,
   "hegla-edi": parseHeglaEdi,
+  "dxf": parseDxf,
 };
 
 export function parseCutcode(content: string, sourcePath = ""): ParseResult {

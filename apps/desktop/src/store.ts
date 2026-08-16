@@ -8,6 +8,7 @@ export interface LayerToggles {
   labels: boolean;
   directions: boolean;
   stages: boolean;
+  dimensions: boolean;
 }
 
 export interface FocusTarget {
@@ -32,6 +33,10 @@ interface AppState {
   theme: ThemeName;
   recents: string[];
 
+  seqPlaying: boolean;
+  seqSpeed: number;
+  measureMode: boolean;
+
   fitRequest: number;
   focusTarget: FocusTarget | null;
   statusMessage: string | null;
@@ -48,6 +53,9 @@ interface AppState {
   requestFit: () => void;
   focusOn: (target: Omit<FocusTarget, "nonce">) => void;
   setStatus: (msg: string | null) => void;
+  setSeqPlaying: (playing: boolean) => void;
+  cycleSeqSpeed: () => void;
+  toggleMeasure: () => void;
 }
 
 function loadStored<T>(key: string, fallback: T): T {
@@ -77,9 +85,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   selectedCutIndex: null,
   selectedPaneId: null,
 
-  layers: { grid: true, rulers: true, labels: true, directions: false, stages: false },
+  layers: { grid: true, rulers: true, labels: true, directions: false, stages: false, dimensions: false },
   theme: loadStored<ThemeName>("ccv.theme", "light"),
   recents: loadStored<string[]>("ccv.recents", []),
+
+  seqPlaying: false,
+  seqSpeed: 1,
+  measureMode: false,
 
   fitRequest: 0,
   focusTarget: null,
@@ -129,4 +141,15 @@ export const useAppStore = create<AppState>((set, get) => ({
   focusOn: (target) => set({ focusTarget: { ...target, nonce: Date.now() } }),
 
   setStatus: (msg) => set({ statusMessage: msg }),
+
+  setSeqPlaying: (playing) => set({ seqPlaying: playing }),
+
+  cycleSeqSpeed: () =>
+    set((s) => {
+      const speeds = [1, 2, 4, 8];
+      const idx = speeds.indexOf(s.seqSpeed);
+      return { seqSpeed: speeds[(idx + 1) % speeds.length] ?? 1 };
+    }),
+
+  toggleMeasure: () => set((s) => ({ measureMode: !s.measureMode })),
 }));

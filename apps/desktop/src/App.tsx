@@ -24,6 +24,12 @@ export default function App() {
   const layers = useAppStore((s) => s.layers);
   const theme = useAppStore((s) => s.theme);
   const statusMessage = useAppStore((s) => s.statusMessage);
+  const seqPlaying = useAppStore((s) => s.seqPlaying);
+  const seqSpeed = useAppStore((s) => s.seqSpeed);
+  const measureMode = useAppStore((s) => s.measureMode);
+  const setSeqPlaying = useAppStore((s) => s.setSeqPlaying);
+  const cycleSeqSpeed = useAppStore((s) => s.cycleSeqSpeed);
+  const toggleMeasure = useAppStore((s) => s.toggleMeasure);
   const setFromParse = useAppStore((s) => s.setFromParse);
   const setLoadError = useAppStore((s) => s.setLoadError);
   const setActiveSheet = useAppStore((s) => s.setActiveSheet);
@@ -152,7 +158,7 @@ export default function App() {
             <input
               type="file"
               className="hidden"
-              accept=".otd,.dat,.opt,.r01,.imp,.edi,.otv,.cut,.xml,.json"
+              accept=".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.cut,.xml,.json"
               onChange={handleBrowserFile}
             />
           </label>
@@ -168,6 +174,33 @@ export default function App() {
         {layerBtn("labels", "Labels")}
         {layerBtn("directions", "Arrows")}
         {layerBtn("stages", "Stages")}
+        {layerBtn("dimensions", "Dims")}
+
+        <span className="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
+
+        {sheet && sheet.cuts.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => setSeqPlaying(!seqPlaying)}
+              className={seqPlaying ? TOOL_BTN_ACTIVE : TOOL_BTN}
+              title="Play cut sequence"
+            >
+              {seqPlaying ? "⏸ Pause" : "▶ Play"}
+            </button>
+            <button type="button" onClick={cycleSeqSpeed} className={TOOL_BTN} title="Playback speed">
+              {seqSpeed}×
+            </button>
+          </>
+        )}
+        <button
+          type="button"
+          onClick={toggleMeasure}
+          className={measureMode ? TOOL_BTN_ACTIVE : TOOL_BTN}
+          title="Measure distance (click two points, Esc clears)"
+        >
+          Measure
+        </button>
 
         <span className="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
 

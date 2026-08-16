@@ -20,6 +20,7 @@ for the legacy qiewer / Perfect Cut viewer.
 | Optima | `.otv` | OptiTV JSON: multi subProject/layout, rotation |
 | Macotech | `.imp` | OPT_* family + `[SHEETS]` fallback, UTF-16LE support |
 | Hegla | `.edi` | EDICUT + fixed-width variants, polygon piece outlines |
+| DXF | `.dxf` | Native import: LINE / LWPOLYLINE / CIRCLE / ARC entities |
 
 Encodings: UTF-8, UTF-16LE/BE (BOM + heuristic), Windows-1252 fallback —
 files are read as bytes and decoded before parsing.
@@ -31,7 +32,14 @@ files are read as bytes and decoded before parsing.
 - **Multi-sheet**: sheet tabs for multi-pattern files
 - **Selection**: click cuts (full-polyline hit testing) and panes
   (rect + polygon); hover highlighting
-- **Layers**: grid, rulers, labels, direction arrows, stage colors (X/Y/Z/W…)
+- **Layers**: grid, rulers, labels, direction arrows, stage colors (X/Y/Z/W…),
+  pane dimensions
+- **Arcs & shapes**: Intermac `[Shape]` arcs (L= radius / C= side) render as
+  true curves on canvas, minimap, PNG and SVG
+- **Cut-sequence playback**: animated play-through with speed control
+  (1×/2×/4×/8×), loops until paused
+- **Measure tool**: click two points for live distance in mm
+- **Laser marks**: Lisec `[LASER]` / `[RLASER]` marks render on the sheet
 - **Validation panel**: zero-length cuts, out-of-bounds (±0.5 mm),
   duplicate cuts, kerf proximity (<3 mm) — grouped by severity,
   click to zoom to the issue
@@ -50,7 +58,7 @@ files are read as bytes and decoded before parsing.
 ```powershell
 cd "C:\Users\TUF\Downloads\SPIL CutCode Viewer"
 npm install
-npm test            # core test suite (31 tests)
+npm test            # core test suite (34 tests)
 npm run typecheck   # all workspaces
 npm run build       # core + cli + desktop
 npm run dev         # desktop app in browser (Vite)

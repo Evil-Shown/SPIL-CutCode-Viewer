@@ -66,6 +66,16 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
     };
   }
 
+  // DXF: group-code file with a HEADER/ENTITIES section
+  if (/^\s*0\r?\nSECTION/i.test(content) || (/\$ACADVER/.test(head) && /ENTITIES/.test(content))) {
+    return {
+      vendor: "DXF",
+      formatId: "dxf",
+      confidence: "high",
+      matchedSignal: "DXF SECTION/ACADVER",
+    };
+  }
+
   if (BOTTERO_LINE.test(trimmed) || BOTTERO_TOKEN.test(head)) {
     return {
       vendor: "Bottero",
@@ -95,6 +105,9 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
   }
   if (ext === "edi") {
     return { vendor: "Hegla", formatId: "hegla-edi", confidence: "medium", matchedSignal: "extension.edi" };
+  }
+  if (ext === "dxf") {
+    return { vendor: "DXF", formatId: "dxf", confidence: "medium", matchedSignal: "extension.dxf" };
   }
 
   return {

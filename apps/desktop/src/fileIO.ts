@@ -2,7 +2,7 @@ import { parseFileBytes, parseAndNormalize, type ParseResult } from "@spil/cutco
 
 export const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 
-const CUTCODE_EXTENSIONS = ["otd", "dat", "opt", "r01", "imp", "edi", "otv", "cut", "xml", "json"];
+const CUTCODE_EXTENSIONS = ["otd", "dat", "opt", "r01", "imp", "edi", "otv", "dxf", "cut", "xml", "json"];
 
 function lastDir(): string | undefined {
   try {

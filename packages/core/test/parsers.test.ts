@@ -175,6 +175,51 @@ describe("parsers", () => {
     expect(s?.sheet.width).toBe(3660);
     expect(s?.cuts.length).toBeGreaterThan(0);
   });
+
+  it("parses Intermac [Shape] arcs (L= radius, C= side) as arc cuts", () => {
+    const c = readFileSync(join(fixtures, "intermac/regression/CIRCLEPERFCUT.OTD"), "utf8");
+    const r = parseAndNormalize(c, "CIRCLEPERFCUT.OTD");
+    const s = sheet(r.document);
+    const arcs = s?.cuts.filter((cut) => cut.type === "arc") ?? [];
+    expect(arcs.length).toBeGreaterThanOrEqual(2);
+    // The two L=214.5 arcs form a full circle: (479,264.5)→(50,264.5)
+    const a = arcs[0];
+    expect(a?.radius).toBe(214.5);
+    expect(a?.center).toBeDefined();
+    expect(a?.center?.x).toBeCloseTo(264.5, 1);
+    expect(a?.center?.y).toBeCloseTo(264.5, 1);
+  });
+
+  it("parses DXF LINE/LWPOLYLINE/CIRCLE/ARC entities", () => {
+    const c = readFileSync(join(fixtures, "dxf/sample.dxf"), "utf8");
+    const r = parseAndNormalize(c, "sample.dxf");
+    expect(r.status).toBe("ok");
+    const s = sheet(r.document);
+    expect(s?.sheet.width).toBe(600);
+    expect(s?.sheet.height).toBe(400);
+    expect(s?.cuts.length).toBe(8); // 2 lines + 4 closed polyline segs + circle + arc
+    const arcs = s?.cuts.filter((cut) => cut.type === "arc") ?? [];
+    expect(arcs.length).toBe(2);
+    expect(arcs[0]?.radius).toBe(50);
+    // DXF is Y-up; normalization flips to top-left
+    expect(arcs[0]?.center?.y).toBeCloseTo(200, 0);
+  });
+
+  it("parses Lisec [LASER] marks", () => {
+    const c = [
+      "[BATCH]",
+      "[LPL_BREITE]600",
+      "[LPL_HOEHE]400",
+      "[TRAVERE]300",
+      "[LASER] X=100 Y=50 LSR_ANGLE=90 LSR_MIRROR=0",
+      "[RLASER] X=200 Y=80 LSR_MIRROR=1",
+    ].join("\r\n");
+    const r = parseAndNormalize(c, "laser.dat");
+    const s = sheet(r.document);
+    expect(s?.laser?.length).toBe(2);
+    expect(s?.laser?.[0]).toMatchObject({ x: 100, angle: 90 });
+    expect(s?.laser?.[1]?.mirror).toBe(true);
+  });
 });
 
 /* ------------------------------------------------------------------ */

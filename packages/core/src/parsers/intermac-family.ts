@@ -1,5 +1,6 @@
 import type { Cut, CutDocument, CutPlan, Pane, ParseResult } from "../model/types.js";
 import { stageLabel } from "../model/types.js";
+import { arcCenter } from "../geometry/arc.js";
 
 function num(s: string | undefined): number | undefined {
   if (!s) return undefined;
@@ -123,6 +124,13 @@ interface PatternData {
     points: Array<{ x: number; y: number }>;
     info?: number;
   }>;
+  shapeArcs: Array<{
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+    radius: number;
+    side: number;
+    info?: number;
+  }>;
 }
 
 export type FamilyConfig = {
@@ -145,6 +153,7 @@ export function parseIntermacFamily(
   const patterns: PatternData[] = [];
   let cur: PatternData | null = null;
   let section = "";
+  let shapeId: number | undefined;
 
   for (const raw of lines) {
     const line = raw.trim();
@@ -156,7 +165,7 @@ export function parseIntermacFamily(
       section = name;
 
       if (name === config.patternKey || name === "pattern") {
-        cur = { header: {}, tree: [], cuttings: [], xoPanes: [], shapes: [] };
+        cur = { header: {}, tree: [], cuttings: [], xoPanes: [], shapes: [], shapeArcs: [] };
         patterns.push(cur);
       }
       continue;
@@ -246,16 +255,32 @@ export function parseIntermacFamily(
 
     /* ---- [Shape] ---- */
     if (section === "shape") {
-      const parts = line.match(/[xy]=([\d.]+)/gi);
-      if (parts) {
-        const vals = parts.map((p) => parseFloat(p.split("=")[1]));
-        const pts: Array<{ x: number; y: number }> = [];
-        for (let i = 0; i + 1 < vals.length; i += 2) {
-          pts.push({ x: vals[i], y: vals[i + 1] });
-        }
-        if (pts.length >= 2) {
-          const infoM = line.match(/Info=(\d+)/);
-          cur.shapes.push({ points: pts, info: infoM ? parseInt(infoM[1], 10) : undefined });
+      const idM = line.match(/^Id=(\d+)/i);
+      if (idM) {
+        shapeId = parseInt(idM[1], 10);
+        continue;
+      }
+      // Coordinate line: x=<start> y=<start> X=<end> Y=<end> [L=<radius>] [C=<side>]
+      const x1 = num(line.match(/^x=([\d.]+)/i)?.[1]);
+      const y1 = num(line.match(/(?:^|\s)y=([\d.]+)/i)?.[1]);
+      const x2 = num(line.match(/\bX=([\d.]+)/)?.[1]);
+      const y2 = num(line.match(/\bY=([\d.]+)/)?.[1]);
+      if (x1 !== undefined && y1 !== undefined && x2 !== undefined && y2 !== undefined) {
+        const radius = num(line.match(/\bL=([\d.]+)/)?.[1]);
+        const side = num(line.match(/\bC=(-?[\d.]+)/)?.[1]);
+        if (radius !== undefined && radius > 0) {
+          cur.shapeArcs.push({
+            start: { x: x1, y: y1 },
+            end: { x: x2, y: y2 },
+            radius,
+            side: side === undefined ? 1 : side >= 0 ? 1 : -1,
+            info: shapeId,
+          });
+        } else {
+          cur.shapes.push({
+            points: [{ x: x1, y: y1 }, { x: x2, y: y2 }],
+            info: shapeId,
+          });
         }
       }
     }
@@ -383,6 +408,20 @@ export function parseIntermacFamily(
           paneRefs: shape.info ? [String(shape.info)] : undefined,
         });
       }
+    }
+
+    // 3b) Arc cuts from [Shape] sections (L= radius, C= curvature side)
+    for (const arc of pat.shapeArcs) {
+      const center = arcCenter(arc);
+      cuts.push({
+        type: "arc",
+        points: [arc.start, arc.end],
+        center: center ?? undefined,
+        radius: arc.radius,
+        ccw: arc.side < 0,
+        sequenceIndex: globalSeq++,
+        paneRefs: arc.info !== undefined ? [String(arc.info)] : undefined,
+      });
     }
 
     // 4) [Info] fallback panes (IMP files without XO/YO)
