@@ -1,16 +1,28 @@
-# Bottero OPT
+# Bottero OPT (hex token stream)
 
-## Detection
-- Lines `[P\d+H\d+R…]` with hex coordinate tokens
+One bracketed line per piece; coordinates are **hex ticks × 1/16 mm**
+(verify against `PERF-Clean` decompile `bottero/CCNBottero` `ConvUnit` if
+renders drift).
 
-## coordinateSemantics
-- Origin: top-left (heuristic)
-- Units: internal hex ticks × 1/16 → mm (from qiewer token stream analysis)
+```
+[P1H1R8EF8R5F50t5x258y258X1BE4Y47FEYFB4ZC62...]
+```
 
-## Token grammar (heuristic)
-- `P#H#R#` — piece, head, rack
-- `xNNNyNNN` — piece dimensions mm
-- `X/Y/Z/W` + hex — coordinates
+## Token grammar (heuristic, case-sensitive)
 
-## Note
-Refine scale against Ghidra MCP on qiewer opt reader if renders drift.
+- `P<n>` piece number, `H<n>` height class, `R<code>` rack id
+  (short — parsed non-greedily up to the next lowercase command).
+- `t<n>` tilt/quality marker; after it `x<dec>y<dec>` are **decimal mm**
+  piece dimensions — deliberately excluded from the hex token class.
+- `X` / `Z` + hex → x-axis tick; `Y` / `W` + hex → y-axis tick. Successive
+  X/Y pairs form the cut polyline.
+- `C` (arc), `Q`, `R` tokens are recognized but skipped (arcs not decoded
+  in v0.2).
+
+## Notes (`bottero-opt.ts`)
+
+- Token regex is **uppercase-only** `[XYZWQRC][0-9A-F]+` — the old
+  case-insensitive regex ate the lowercase decimal dims as bogus hex points.
+- Sheet size = max decoded coordinate (or the first `xNyN` decimal pair).
+- Each piece yields a pane at origin (the format carries no sheet-space
+  placement) plus its polyline cuts with `rackCode`/`paneRefs`.
