@@ -1,6 +1,7 @@
+#!/usr/bin/env node
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
-import { parseAndNormalize } from "@spil/cutcode-core";
+import { parseFileBytes } from "@spil/cutcode-core";
 
 type Row = {
   path: string;
@@ -9,7 +10,10 @@ type Row = {
   status: string;
   warnings: string[];
   error?: string;
+  sheets: number;
   sheet?: string;
+  panes?: number;
+  cuts?: number;
 };
 
 const EXT = new Set([
@@ -28,27 +32,38 @@ function walk(dir: string, out: string[] = []): string[] {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  let root = "C:\\Users\\TUF\\Downloads\\Cutcode";
-  let out = "report.json";
-  let strict = false;
+  const opts = { root: "", out: "report.json", strict: false };
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--root") root = args[++i];
-    if (args[i] === "--out") out = args[++i];
-    if (args[i] === "--strict") strict = true;
+    if (args[i] === "--root") opts.root = args[++i] ?? "";
+    else if (args[i] === "--out") opts.out = args[++i] ?? "report.json";
+    else if (args[i] === "--strict") opts.strict = true;
   }
-  return { root, out, strict };
+  return opts;
 }
 
 const { root, out, strict } = parseArgs();
-const files = walk(root);
+if (!root) {
+  console.error("cutcode-batch: missing --root <directory>");
+  process.exit(2);
+}
+
+let files: string[];
+try {
+  files = walk(root);
+} catch (e) {
+  console.error(`cutcode-batch: cannot read directory "${root}" — ${(e as Error).message}`);
+  process.exit(2);
+}
+
 const rows: Row[] = [];
 let failed = 0;
 
 for (const path of files) {
   try {
-    const content = readFileSync(path, "utf8");
-    const r = parseAndNormalize(content, path);
+    const bytes = new Uint8Array(readFileSync(path));
+    const r = parseFileBytes(bytes, path);
     if (r.status === "failed") failed++;
+    const firstSheet = r.document?.sheets[0];
     rows.push({
       path,
       detectedVendor: r.detected.vendor,
@@ -56,7 +71,10 @@ for (const path of files) {
       status: r.status,
       warnings: r.warnings,
       error: r.error,
-      sheet: r.plan ? `${r.plan.sheet.width}x${r.plan.sheet.height}` : undefined,
+      sheets: r.document?.sheets.length ?? 0,
+      sheet: firstSheet ? `${firstSheet.sheet.width}x${firstSheet.sheet.height}` : undefined,
+      panes: r.document?.sheets.reduce((n, s) => n + s.panes.length, 0),
+      cuts: r.document?.sheets.reduce((n, s) => n + s.cuts.length, 0),
     });
   } catch (e) {
     failed++;
@@ -67,6 +85,7 @@ for (const path of files) {
       status: "failed",
       warnings: [],
       error: String(e),
+      sheets: 0,
     });
   }
 }
