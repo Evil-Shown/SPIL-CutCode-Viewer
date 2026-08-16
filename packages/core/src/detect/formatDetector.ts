@@ -66,6 +66,26 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
     };
   }
 
+  // Perfect Cut job report XML (statistics, no geometry)
+  if (/<CUT>/i.test(content) && /<FAMILY\b/i.test(content)) {
+    return {
+      vendor: "Perfect Cut",
+      formatId: "perfectcut-xml",
+      confidence: "high",
+      matchedSignal: "<CUT>/<FAMILY>",
+    };
+  }
+
+  // Macotech/Perfect Cut machine family configuration (dati/*.IMP)
+  if (/^\[FAMILY\d+\]\s*$/im.test(content) && !/\[OPT_Pattern\]/i.test(content) && !/\[Pattern\]/i.test(content)) {
+    return {
+      vendor: "Macotech",
+      formatId: "macotech-family",
+      confidence: "high",
+      matchedSignal: "[FAMILYn] without [Pattern]",
+    };
+  }
+
   // DXF: group-code file with a HEADER/ENTITIES section
   if (/^\s*0\r?\nSECTION/i.test(content) || (/\$ACADVER/.test(head) && /ENTITIES/.test(content))) {
     return {
@@ -108,6 +128,12 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
   }
   if (ext === "dxf") {
     return { vendor: "DXF", formatId: "dxf", confidence: "medium", matchedSignal: "extension.dxf" };
+  }
+  if (ext === "ot5") {
+    return { vendor: "Perfect Cut", formatId: "perfectcut-ot5", confidence: "high", matchedSignal: "extension.ot5 (encrypted)" };
+  }
+  if (ext === "xml") {
+    return { vendor: "Perfect Cut", formatId: "perfectcut-xml", confidence: "low", matchedSignal: "extension.xml" };
   }
 
   return {

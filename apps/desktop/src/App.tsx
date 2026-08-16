@@ -158,7 +158,7 @@ export default function App() {
             <input
               type="file"
               className="hidden"
-              accept=".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.cut,.xml,.json"
+              accept=".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.ot5,.xml,.cut,.json"
               onChange={handleBrowserFile}
             />
           </label>

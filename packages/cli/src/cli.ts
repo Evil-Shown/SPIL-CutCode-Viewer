@@ -33,7 +33,7 @@ type Report = {
 };
 
 const EXT = new Set([
-  ".otd", ".dat", ".opt", ".r01", ".imp", ".edi", ".otv", ".dxf", ".cut", ".xml", ".json",
+  ".otd", ".dat", ".opt", ".r01", ".imp", ".edi", ".otv", ".dxf", ".ot5", ".cut", ".xml", ".json",
 ]);
 
 const USAGE = `cutcode-batch — corpus regression tool for SPIL CutCode Viewer

@@ -220,6 +220,32 @@ describe("parsers", () => {
     expect(s?.laser?.[0]).toMatchObject({ x: 100, angle: 90 });
     expect(s?.laser?.[1]?.mirror).toBe(true);
   });
+
+  it("parses Perfect Cut XML job report (UTF-16LE fixture)", () => {
+    const bytes = new Uint8Array(readFileSync(join(fixtures, "perfectcut/regression/B19598.xml")));
+    const r = parseFileBytes(bytes, "B19598.xml");
+    expect(r.status).toBe("partial"); // statistics-only
+    expect(r.detected.formatId).toBe("perfectcut-xml");
+    expect(r.document?.sheets.length).toBeGreaterThanOrEqual(1);
+    expect(r.document?.sheets[0]?.sheet.width).toBe(3660);
+    expect(r.document?.metadata.machine).toContain("INTERMAC");
+    expect(r.warnings.some((w) => w.includes("Statistics-only"))).toBe(true);
+  });
+
+  it("reports Macotech family configs clearly (no layout)", () => {
+    const bytes = new Uint8Array(readFileSync(join(fixtures, "macotech/regression/family-config.imp")));
+    const r = parseFileBytes(bytes, "family-config.imp");
+    expect(r.status).toBe("failed");
+    expect(r.detected.formatId).toBe("macotech-family");
+    expect(r.error).toContain("family configuration");
+  });
+
+  it("reports encrypted .ot5 archives clearly", () => {
+    const r = parseAndNormalize("binary garbage \x00\x01\x02", "archive.OT5");
+    expect(r.status).toBe("failed");
+    expect(r.detected.formatId).toBe("perfectcut-ot5");
+    expect(r.error).toContain("Encrypted");
+  });
 });
 
 /* ------------------------------------------------------------------ */
