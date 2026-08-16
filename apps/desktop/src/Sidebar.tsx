@@ -1,47 +1,70 @@
 import { useAppStore } from "./store";
-
-const SAMPLES = [
-  { label: "Intermac OTD", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Intermac\\06_CRY_FLUTED_G.OTD" },
-  { label: "Lisec DAT", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Lisec\\PL001.DAT" },
-  { label: "Bottero OPT", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Bottero\\92941_1.opt" },
-  { label: "Optima R01", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Optima\\CLR03\\CLR03_4.r01" },
-  { label: "Optima OTV", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Optima\\OptiTV\\3mm Clear\\o1.otv" },
-  { label: "Macotech IMP", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Macotech\\1\\CLR10\\CLR10_1.imp" },
-  { label: "Hegla EDI", path: "C:\\Users\\TUF\\Downloads\\Cutcode\\Hegla\\3981.EDI" },
-];
+import { fixtureSamples } from "./fixtures";
+import { isTauri, readCutcodeFile } from "./fileIO";
 
 type Props = {
-  onOpenPath: (path: string) => void;
+  onOpenResult: (path: string, resultPromise: Promise<import("@spil/cutcode-core").ParseResult>) => void;
 };
 
-export function Sidebar({ onOpenPath }: Props) {
+export function Sidebar({ onOpenResult }: Props) {
+  const recents = useAppStore((s) => s.recents);
   const filePath = useAppStore((s) => s.filePath);
 
   return (
-    <div className="flex flex-col h-full border-r border-slate-200 bg-white">
-      <div className="p-3 border-b border-slate-200 bg-slate-50">
-        <h1 className="text-sm font-semibold text-slate-900">SPIL CutCode</h1>
-        <p className="text-xs text-slate-500 mt-0.5">Viewer</p>
+    <div className="flex h-full flex-col overflow-y-auto bg-white text-sm dark:bg-slate-900">
+      <div className="border-b border-slate-200 px-3 py-2 dark:border-slate-700">
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Samples</h2>
       </div>
-      <div className="p-2 space-y-1">
-        <p className="text-xs font-medium text-slate-500 px-2 py-1">Samples</p>
-        {SAMPLES.map((s) => (
+      <div className="p-2">
+        {fixtureSamples.length === 0 && (
+          <p className="px-2 text-xs text-slate-400">No bundled samples found.</p>
+        )}
+        {fixtureSamples.map((s) => (
           <button
-            key={s.path}
+            key={s.url}
             type="button"
-            onClick={() => onOpenPath(s.path)}
-            className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-colors ${
-              filePath === s.path
-                ? "bg-blue-50 text-blue-800 border border-blue-200 font-medium"
-                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent"
+            onClick={async () => {
+              onOpenResult(s.name, (async () => {
+                const { loadFixtureUrl } = await import("./fileIO");
+                return loadFixtureUrl(s.url, s.name);
+              })());
+            }}
+            className={`mb-0.5 block w-full rounded-md px-2 py-1.5 text-left text-xs hover:bg-slate-100 dark:hover:bg-slate-800 ${
+              filePath === s.name ? "bg-blue-50 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200" : ""
             }`}
           >
-            {s.label}
+            <span className="block truncate font-medium">{s.name}</span>
+            <span className="text-[10px] text-slate-400">{s.vendor}</span>
           </button>
         ))}
       </div>
-      <div className="mt-auto p-3 text-xs text-slate-400 border-t border-slate-200">
-        Use Open to browse Cutcode folder
+
+      {isTauri && recents.length > 0 && (
+        <>
+          <div className="border-y border-slate-200 px-3 py-2 dark:border-slate-700">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Recent Files</h2>
+          </div>
+          <div className="p-2">
+            {recents.map((path) => (
+              <button
+                key={path}
+                type="button"
+                onClick={() => onOpenResult(path, readCutcodeFile(path))}
+                className={`mb-0.5 block w-full truncate rounded-md px-2 py-1.5 text-left text-xs hover:bg-slate-100 dark:hover:bg-slate-800 ${
+                  filePath === path ? "bg-blue-50 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200" : ""
+                }`}
+                title={path}
+              >
+                {path.split(/[/\\]/).pop()}
+                <span className="block truncate text-[10px] text-slate-400">{path}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="mt-auto border-t border-slate-200 p-3 text-[10px] text-slate-400 dark:border-slate-700">
+        SPIL CutCode Viewer v0.2
       </div>
     </div>
   );

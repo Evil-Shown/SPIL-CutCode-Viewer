@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPIL CutCode Viewer</title>
+    <script>
+      // Apply persisted theme before first paint to avoid flash
+      try {
+        var t = JSON.parse(localStorage.getItem("ccv.theme") || '"light"');
+        if (t === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
   </head>
-  <body class="bg-slate-50 text-slate-800 antialiased">
+  <body class="bg-slate-50 text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-100">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

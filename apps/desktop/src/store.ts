@@ -1,48 +1,132 @@
 import { create } from "zustand";
-import type { CutPlan, ParseResult } from "@spil/cutcode-core";
+import type { CutDocument, ParseResult } from "@spil/cutcode-core";
+import type { ThemeName } from "./theme";
 
-type AppState = {
-  plan: CutPlan | null;
+export interface LayerToggles {
+  grid: boolean;
+  rulers: boolean;
+  labels: boolean;
+  directions: boolean;
+  stages: boolean;
+}
+
+export interface FocusTarget {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  nonce: number;
+}
+
+interface AppState {
+  document: CutDocument | null;
   parseResult: ParseResult | null;
   filePath: string | null;
-  selectedCutIndex: number | null;
-  showLabels: boolean;
-  showGrid: boolean;
-  showCutSequence: boolean;
-  cutSequenceLimit: number | null;
-  fitRequest: number;
-  setFromParse: (path: string, result: ParseResult) => void;
-  setSelectedCut: (index: number | null) => void;
-  toggleLabels: () => void;
-  toggleGrid: () => void;
-  toggleCutSequence: () => void;
-  setCutSequenceLimit: (limit: number | null) => void;
-  requestFit: () => void;
-};
+  loadError: string | null;
 
-export const useAppStore = create<AppState>((set) => ({
-  plan: null,
+  activeSheetIndex: number;
+  selectedCutIndex: number | null;
+  selectedPaneId: string | null;
+
+  layers: LayerToggles;
+  theme: ThemeName;
+  recents: string[];
+
+  fitRequest: number;
+  focusTarget: FocusTarget | null;
+  statusMessage: string | null;
+
+  setFromParse: (path: string, result: ParseResult) => void;
+  setLoadError: (msg: string) => void;
+  setActiveSheet: (i: number) => void;
+  selectCut: (i: number | null) => void;
+  selectPane: (id: string | null) => void;
+  toggleLayer: (key: keyof LayerToggles) => void;
+  setTheme: (t: ThemeName) => void;
+  toggleTheme: () => void;
+  pushRecent: (path: string) => void;
+  requestFit: () => void;
+  focusOn: (target: Omit<FocusTarget, "nonce">) => void;
+  setStatus: (msg: string | null) => void;
+}
+
+function loadStored<T>(key: string, fallback: T): T {
+  try {
+    const v = localStorage.getItem(key);
+    return v !== null ? (JSON.parse(v) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function store(key: string, value: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* ignore */
+  }
+}
+
+export const useAppStore = create<AppState>((set, get) => ({
+  document: null,
   parseResult: null,
   filePath: null,
+  loadError: null,
+
+  activeSheetIndex: 0,
   selectedCutIndex: null,
-  showLabels: true,
-  showGrid: true,
-  showCutSequence: false,
-  cutSequenceLimit: null,
+  selectedPaneId: null,
+
+  layers: { grid: true, rulers: true, labels: true, directions: false, stages: false },
+  theme: loadStored<ThemeName>("ccv.theme", "light"),
+  recents: loadStored<string[]>("ccv.recents", []),
+
   fitRequest: 0,
-  setFromParse: (path, result) =>
+  focusTarget: null,
+  statusMessage: null,
+
+  setFromParse: (path, result) => {
     set({
-      filePath: path,
+      document: result.document ?? null,
       parseResult: result,
-      plan: result.plan ?? null,
+      filePath: path,
+      loadError: null,
+      activeSheetIndex: 0,
       selectedCutIndex: null,
-      cutSequenceLimit: null,
+      selectedPaneId: null,
       fitRequest: Date.now(),
+    });
+    get().pushRecent(path);
+  },
+
+  setLoadError: (msg) =>
+    set({ loadError: msg, document: null, parseResult: null, filePath: null, selectedCutIndex: null, selectedPaneId: null }),
+
+  setActiveSheet: (i) => set({ activeSheetIndex: i, selectedCutIndex: null, selectedPaneId: null, fitRequest: Date.now() }),
+
+  selectCut: (i) => set({ selectedCutIndex: i, selectedPaneId: null }),
+  selectPane: (id) => set({ selectedPaneId: id, selectedCutIndex: null }),
+
+  toggleLayer: (key) => set((s) => ({ layers: { ...s.layers, [key]: !s.layers[key] } })),
+
+  setTheme: (t) => {
+    store("ccv.theme", t);
+    document.documentElement.classList.toggle("dark", t === "dark");
+    set({ theme: t });
+  },
+
+  toggleTheme: () => get().setTheme(get().theme === "light" ? "dark" : "light"),
+
+  pushRecent: (path) =>
+    set((s) => {
+      const recents = [path, ...s.recents.filter((p) => p !== path)].slice(0, 8);
+      store("ccv.recents", recents);
+      return { recents };
     }),
-  setSelectedCut: (index) => set({ selectedCutIndex: index }),
-  toggleLabels: () => set((s) => ({ showLabels: !s.showLabels })),
-  toggleGrid: () => set((s) => ({ showGrid: !s.showGrid })),
-  toggleCutSequence: () => set((s) => ({ showCutSequence: !s.showCutSequence })),
-  setCutSequenceLimit: (limit) => set({ cutSequenceLimit: limit }),
+
   requestFit: () => set({ fitRequest: Date.now() }),
+
+  focusOn: (target) => set({ focusTarget: { ...target, nonce: Date.now() } }),
+
+  setStatus: (msg) => set({ statusMessage: msg }),
 }));
