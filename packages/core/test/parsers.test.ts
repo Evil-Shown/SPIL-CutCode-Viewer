@@ -91,6 +91,34 @@ describe("parsers", () => {
     expect(s?.cuts.length).toBeGreaterThan(0);
   });
 
+  it("parses real production Lisec layouts with exact guillotine geometry", () => {
+    // From SPIL Opti output: ESL rezanje ct260814, Float 4mm
+    const c = readFileSync(join(fixtures, "lisec/regression/PL001.DAT"), "utf8");
+    const r = parseAndNormalize(c, "PL001.DAT");
+    expect(r.status).toBe("ok");
+    expect(r.warnings.length).toBe(0);
+    const s = sheet(r.document);
+    expect(s?.sheet.width).toBe(600);
+    expect(s?.sheet.height).toBe(321);
+    expect(s?.panes.length).toBe(11);
+
+    // B34: strip 1 [0,144.2], bottom band 0..149.9 (bottom-left origin)
+    const b34 = s?.panes.find((p) => p.id === "34");
+    expect(b34?.bounds.width).toBeCloseTo(144.2, 2);
+    expect(b34?.bounds.height).toBeCloseTo(149.9, 2);
+    // B160: strip 3, second piece in top band — 128.7 + 116.4 = 245.1 strip width
+    const b160 = s?.panes.find((p) => p.id === "160");
+    expect(b160?.bounds.width).toBeCloseTo(116.4, 2);
+    expect(b160?.bounds.x).toBeCloseTo(347.9 + 128.7, 2);
+    // All panes on-sheet
+    for (const pane of s?.panes ?? []) {
+      expect(pane.bounds.x).toBeGreaterThanOrEqual(-0.01);
+      expect(pane.bounds.y).toBeGreaterThanOrEqual(-0.01);
+      expect(pane.bounds.x + pane.bounds.width).toBeLessThanOrEqual(s!.sheet.width + 0.01);
+      expect(pane.bounds.y + pane.bounds.height).toBeLessThanOrEqual(s!.sheet.height + 0.01);
+    }
+  });
+
   it("parses Intermac multi-sheet file (FULL fixture, no truncation)", () => {
     const c = readFileSync(join(fixtures, "intermac/sample.otd"), "utf8");
     const r = parseAndNormalize(c, "sample.OTD");

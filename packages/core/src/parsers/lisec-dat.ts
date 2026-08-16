@@ -22,80 +22,6 @@ const KNOWN_HEADER_KEYS = new Set([
 
 type BlockCut = { kind: "y" | "z" | "w"; value: number; bock?: string };
 
-/**
- * Reconstruct pane rectangles from the Lisec guillotine tree.
- *
- * Lisec uses bottom-left origin, Y-up:
- *   - TRAVERE = vertical cross-cut at X = traverse (full sheet height)
- *   - Y_SCHNITT = horizontal cut within strip left of traverse
- *   - Z_SCHNITT = vertical cut within strip (from bottom to traverse height)
- *   - W_SCHNITT = horizontal cut within Z-sub-strip
- *
- * Panes are the glass pieces defined by adjacent cuts sharing a bock code.
- */
-function rebuildPanes(
-  sheetW: number,
-  sheetH: number,
-  blocks: Array<{ traverse: number; cuts: BlockCut[] }>
-): Pane[] {
-  // Collect all cut positions sorted
-  const traverses = [0, ...blocks.map((b) => b.traverse), sheetW];
-  const panes: Pane[] = [];
-
-  for (let bi = 0; bi < blocks.length; bi++) {
-    const block = blocks[bi];
-    const left = traverses[bi]!;
-    const right = traverses[bi + 1]!;
-    const stripWidth = right - left;
-
-    // Collect horizontal cut positions within this strip
-    const yCuts = block.cuts
-      .filter((c) => c.kind === "y" || c.kind === "w")
-      .map((c) => c.value)
-      .sort((a, b) => a - b);
-
-    const yPositions = [0, ...yCuts, sheetH];
-
-    for (let yi = 0; yi < yCuts.length; yi++) {
-      const yBot = yPositions[yi]!;
-      const yTop = yPositions[yi + 1]!;
-      const bandHeight = yTop - yBot;
-
-      // Find bock codes associated with this horizontal band
-      const bandCuts = block.cuts.filter(
-        (c) => (c.kind === "y" || c.kind === "w") && Math.abs(c.value - yTop) < 0.01 && c.bock
-      );
-      if (bandCuts.length > 0) {
-        const bock = bandCuts[0]!.bock!;
-        panes.push({
-          id: bock,
-          bounds: { x: left, y: yBot, width: stripWidth, height: bandHeight },
-          label: `Bock ${bock}`,
-        });
-      }
-
-      // Z cuts within this band — split into vertical sub-panes
-      const zCuts = block.cuts
-        .filter((c) => c.kind === "z" && c.bock)
-        .sort((a, b) => a.value - b.value);
-      if (zCuts.length > 0) {
-        const zPositions = [left, ...zCuts.map((z) => z.value), right];
-        for (let zi = 0; zi < zCuts.length; zi++) {
-          const zLeft = zPositions[zi]!;
-          const zRight = zPositions[zi + 1]!;
-          panes.push({
-            id: zCuts[zi]!.bock!,
-            bounds: { x: zLeft, y: yBot, width: zRight - zLeft, height: bandHeight },
-            label: `Bock ${zCuts[zi]!.bock}`,
-          });
-        }
-      }
-    }
-  }
-
-  return panes;
-}
-
 export function parseLisecDat(content: string, sourcePath: string): ParseResult {
   const warnings: string[] = [];
   const lines = content.split(/\r?\n/);
@@ -183,43 +109,112 @@ export function parseLisecDat(content: string, sourcePath: string): ParseResult 
     };
   }
 
-  // Build cuts from traverse blocks (Lisec native: bottom-left origin, Y-up)
-  for (const block of blocks) {
-    const tx = block.traverse;
+  // Build cuts + panes from the traverse blocks.
+  //
+  // Verified semantics (bottom-left origin, Y-up) — validated against real
+  // production files where piece widths sum exactly to strip widths:
+  //   TRAVERSE w  = strip WIDTH; strips accumulate from x = 0
+  //   Y_SCHNITT h = band HEIGHT; bands stack from y = 0 within the strip.
+  //                 A BOCK on the Y line = one full-strip-width piece.
+  //   Z_SCHNITT w = piece WIDTH within the band, laid left→right from the
+  //                 strip's left edge. A BOCK identifies the piece.
+  //   W_SCHNITT h = height of a horizontal sub-cut inside the current piece.
+  const panes: Pane[] = [];
+  let xCursor = 0;
 
-    // Main traverse cut — vertical at traverse position, full sheet height
-    cuts.push({
-      type: "line",
-      points: [{ x: tx, y: 0 }, { x: tx, y: height }],
-      sequenceIndex: seq++,
-      stage: 1,
-      stageLabel: stageLabel("LISEC", 1),
-    });
+  for (const block of blocks) {
+    const stripLeft = xCursor;
+    const stripRight = xCursor + block.traverse;
+    xCursor = stripRight;
+
+    // Traverse cross-cut: vertical, full sheet height
+    if (stripRight < width - 0.01 || Math.abs(stripRight - width) < 0.01) {
+      cuts.push({
+        type: "line",
+        points: [{ x: stripRight, y: 0 }, { x: stripRight, y: height }],
+        sequenceIndex: seq++,
+        stage: 1,
+        stageLabel: stageLabel("LISEC", 1),
+      });
+    }
+
+    let bandBottom = 0;
+    let bandHeight = 0;
+    let zCursor = stripLeft;
+    let curPiece: { left: number; width: number; bottom: number; height: number } | null = null;
 
     for (const cut of block.cuts) {
-      if (cut.kind === "y" || cut.kind === "w") {
-        cuts.push({
-          type: "line",
-          points: [{ x: 0, y: cut.value }, { x: tx, y: cut.value }],
-          sequenceIndex: seq++,
-          stage: 2,
-          stageLabel: stageLabel("LISEC", 2),
-          bockCode: cut.bock,
-        });
+      if (cut.kind === "y") {
+        bandBottom += bandHeight; // close previous band
+        bandHeight = cut.value;
+        zCursor = stripLeft;
+        curPiece = null;
+        const yTop = bandBottom + bandHeight;
+        if (yTop < height - 0.01) {
+          cuts.push({
+            type: "line",
+            points: [{ x: stripLeft, y: yTop }, { x: stripRight, y: yTop }],
+            sequenceIndex: seq++,
+            stage: 2,
+            stageLabel: stageLabel("LISEC", 2),
+            bockCode: cut.bock,
+          });
+        }
+        if (cut.bock) {
+          // Bock on the Y line: a full-strip-width piece in this band
+          panes.push({
+            id: cut.bock,
+            bounds: { x: stripLeft, y: bandBottom, width: block.traverse, height: cut.value },
+            label: `Bock ${cut.bock}`,
+          });
+        }
       } else if (cut.kind === "z") {
-        cuts.push({
-          type: "line",
-          points: [{ x: cut.value, y: 0 }, { x: cut.value, y: tx }],
-          sequenceIndex: seq++,
-          stage: 3,
-          stageLabel: stageLabel("LISEC", 3),
-          bockCode: cut.bock,
-        });
+        const pieceLeft = zCursor;
+        zCursor += cut.value;
+        const bandTop = bandBottom + bandHeight;
+        if (zCursor < stripRight - 0.01) {
+          cuts.push({
+            type: "line",
+            points: [{ x: zCursor, y: bandBottom }, { x: zCursor, y: bandTop }],
+            sequenceIndex: seq++,
+            stage: 3,
+            stageLabel: stageLabel("LISEC", 3),
+            bockCode: cut.bock,
+          });
+        }
+        if (cut.bock) {
+          panes.push({
+            id: cut.bock,
+            bounds: { x: pieceLeft, y: bandBottom, width: cut.value, height: bandHeight },
+            label: `Bock ${cut.bock}`,
+          });
+        }
+        curPiece = { left: pieceLeft, width: cut.value, bottom: bandBottom, height: bandHeight };
+      } else if (cut.kind === "w") {
+        // Horizontal sub-cut inside the current piece
+        if (curPiece) {
+          const y = curPiece.bottom + cut.value;
+          if (y < curPiece.bottom + curPiece.height - 0.01) {
+            cuts.push({
+              type: "line",
+              points: [{ x: curPiece.left, y }, { x: curPiece.left + curPiece.width, y }],
+              sequenceIndex: seq++,
+              stage: 4,
+              stageLabel: stageLabel("LISEC", 4),
+              bockCode: cut.bock,
+            });
+          }
+          if (cut.bock) {
+            panes.push({
+              id: cut.bock,
+              bounds: { x: curPiece.left, y: curPiece.bottom, width: curPiece.width, height: cut.value },
+              label: `Bock ${cut.bock}`,
+            });
+          }
+        }
       }
     }
   }
-
-  const panes = rebuildPanes(width, height, blocks);
 
   return {
     status: warnings.length ? "partial" : "ok",
