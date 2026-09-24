@@ -29,48 +29,122 @@ export function Landing({ onSelect }: Props) {
   }, [query, onlyReady]);
 
   const readyCount = MACHINES.filter((m) => m.importReady).length;
+  const featured = MACHINES.find((m) => m.id === "bottero-bcs") ?? MACHINES[0];
+  const rail = MACHINES.filter((m) => m.id !== featured.id).slice(0, 4);
+  const brands = [...new Set(MACHINES.map((m) => m.brand))];
 
   return (
     <div className="landing">
-      <nav className="landing-nav">
-        <div className="landing-brand"><span>◩</span> SPIL CUTCODE SIMULATOR</div>
-        <div className="landing-nav-meta">MACHINE FIELD GUIDE · 2026</div>
-      </nav>
-      <header className="landing-top">
-        <div>
-          <p className="eyebrow">§ 00 — Select a cutting system</p>
-          <h1>Glass<span>·</span>works</h1>
-          <p className="lede">
-            A visual field guide to industrial glass cutting—choose the physical table, load its native program, and inspect every score in motion.
-          </p>
-          <div className="landing-pills">
-            <span><i />Real-time 3D</span>
-            <span><i />Native cutcode</span>
-            <span><i />Machine-specific</span>
-          </div>
-        </div>
-        <div className="landing-stats">
-          <div>
-            <strong>{MACHINES.length}</strong>
-            <span>machines</span>
-          </div>
-          <div>
-            <strong>{readyCount}</strong>
-            <span>import ready</span>
-          </div>
-        </div>
-      </header>
+      <section className="poster">
+        <header className="poster-bar">
+          <span>SPIL CutCode</span>
+          <a href="#library">Machine library</a>
+        </header>
 
-      <div className="landing-tools">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search brand, model, or country"
-          aria-label="Search machines"
-        />
-        <button type="button" className={onlyReady ? "chip on" : "chip"} onClick={() => setOnlyReady((v) => !v)}>
-          Import ready
-        </button>
+        <div className="poster-grid">
+          <div className="poster-copy">
+            <p className="poster-kicker">Glass cutting simulator</p>
+            <h1>See the score before the glass is on the table.</h1>
+            <p>
+              Pick a real cutting system, load its native program, and play the head across the sheet in 3D or in plan.
+            </p>
+            <div className="poster-actions">
+              <a className="poster-cta" href="#library">Browse machines</a>
+              <button type="button" className="poster-ghost" onClick={() => onSelect(featured)}>
+                Open {featured.brand} {featured.model}
+              </button>
+            </div>
+            <dl className="poster-facts">
+              <div>
+                <dt>Machines</dt>
+                <dd>{MACHINES.length}</dd>
+              </div>
+              <div>
+                <dt>Import ready</dt>
+                <dd>{readyCount}</dd>
+              </div>
+              <div>
+                <dt>Makers</dt>
+                <dd>{brands.length}</dd>
+              </div>
+              <div>
+                <dt>Views</dt>
+                <dd>3D + plan</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="poster-stage">
+            <button type="button" className="poster-frame" onClick={() => onSelect(featured)}>
+              <img src={`/machines/${featured.id}.png`} alt={`${featured.brand} ${featured.model}`} />
+              <span className="frame-cap">
+                <em>On the floor</em>
+                <strong>
+                  {featured.brand} {featured.model}
+                </strong>
+                <small>
+                  {featured.origin} · bed {featured.bed.width} × {featured.bed.height} mm
+                </small>
+              </span>
+            </button>
+            <div className="poster-rail">
+              {rail.map((m) => (
+                <button key={m.id} type="button" onClick={() => onSelect(m)}>
+                  <img src={`/machines/${m.id}.png`} alt="" />
+                  <span>
+                    {m.brand}
+                    <small>{m.model}</small>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <footer className="poster-foot">
+          <span>© 2026 SPIL</span>
+          <ul>
+            {brands.map((b) => (
+              <li key={b}>{b}</li>
+            ))}
+          </ul>
+        </footer>
+      </section>
+
+      <section className="poster-steps">
+        <article>
+          <span>01</span>
+          <h3>Pick the table</h3>
+          <p>Each card is a real cutting system — bed size, origin, and the file types that machine accepts.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Load the cutcode</h3>
+          <p>Drop an OTD, CUT, or the maker’s own program. The sheet is built from that file, not from a generic drawing.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Run the score</h3>
+          <p>Play the head across the glass in 3D, or drop to plan view and read every line of the path.</p>
+        </article>
+      </section>
+
+      <div className="landing-tools" id="library">
+        <div>
+          <p className="section-eyebrow">The tables</p>
+          <h2>Every system in the library.</h2>
+        </div>
+        <div className="filter-row">
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search brand, model, or country"
+            aria-label="Search machines"
+          />
+          <button type="button" className={onlyReady ? "chip on" : "chip"} onClick={() => setOnlyReady((v) => !v)}>
+            Import ready
+          </button>
+        </div>
       </div>
 
       <div className="machine-grid">
