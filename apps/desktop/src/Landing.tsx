@@ -1,32 +1,17 @@
 import { useMemo, useState } from "react";
-import { MACHINES, machineVisual, type Machine } from "./machines";
+import { MACHINES, type Machine } from "./machines";
 
 type Props = {
   onSelect: (machine: Machine) => void;
 };
 
 function MachineThumb({ machine }: { machine: Machine }) {
-  const v = machineVisual(machine);
   return (
-    <svg className="machine-thumb" viewBox="0 0 360 170" role="img" aria-label={`${machine.brand} ${machine.model} table`}>
-      <path d="M44 126 180 76 319 119 181 164Z" fill={v.frame} opacity=".28" />
-      {v.layout === "laminated" && <path d="M176 81 249 53 332 79 257 108Z" fill={v.bed} stroke={v.frame} strokeWidth="5" />}
-      <path d="M34 104 177 52 326 98 180 148Z" fill={v.bed} stroke={v.frame} strokeWidth="7" />
-      <path d="M34 104v19l146 48v-23zM326 98v20l-146 53v-23z" fill={v.frame} opacity=".88" />
-      {[68, 108, 148, 188, 228, 268].map((x) => (
-        <path key={x} d={`M${x} 92 ${x + 144} 137`} stroke="#fff" opacity=".09" strokeWidth="2" />
-      ))}
-      {v.layout === "split" && <path d="m180 52 0 96" stroke={v.frame} strokeWidth="6" />}
-      <path d="m54 88 3 24M301 79l3 28" stroke={v.gantry} strokeWidth="8" />
-      <path d="m55 88 245-9" stroke={v.gantry} strokeWidth="12" />
-      <rect x="168" y="69" width="35" height="25" rx="3" fill={v.frame} />
-      <path d="M180 94v24" stroke={v.frame} strokeWidth="5" />
-      {v.loadingArms && [82, 146, 210].map((x) => (
-        <path key={x} d={`M${x} 126 ${x - 32} 159`} stroke={v.frame} strokeWidth="7" strokeLinecap="round" />
-      ))}
-      <path d={v.pedestal === "left" ? "M25 115v38h20v-38z" : "M315 111v38h20v-38z"} fill={v.frame} />
-      <rect x={v.pedestal === "left" ? 27 : 317} y="120" width="16" height="11" fill="#9bdaf1" opacity=".9" />
-    </svg>
+    <img
+      className="machine-thumb"
+      src={`/machines/${machine.id}.png`}
+      alt={`${machine.brand} ${machine.model}`}
+    />
   );
 }
 
