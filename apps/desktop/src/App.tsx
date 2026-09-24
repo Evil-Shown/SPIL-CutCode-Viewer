@@ -31,7 +31,6 @@ export default function App() {
   const loadError = useAppStore((s) => s.loadError);
   const activeSheetIndex = useAppStore((s) => s.activeSheetIndex);
   const layers = useAppStore((s) => s.layers);
-  const theme = useAppStore((s) => s.theme);
   const statusMessage = useAppStore((s) => s.statusMessage);
   const seqPlaying = useAppStore((s) => s.seqPlaying);
   const seqSpeed = useAppStore((s) => s.seqSpeed);
@@ -45,7 +44,6 @@ export default function App() {
   const setLoadError = useAppStore((s) => s.setLoadError);
   const setActiveSheet = useAppStore((s) => s.setActiveSheet);
   const toggleLayer = useAppStore((s) => s.toggleLayer);
-  const setTheme = useAppStore((s) => s.setTheme);
   const requestFit = useAppStore((s) => s.requestFit);
   const setMachine = useAppStore((s) => s.setMachine);
   const setViewMode = useAppStore((s) => s.setViewMode);
@@ -62,7 +60,7 @@ export default function App() {
 
   // Apply persisted theme class on mount
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", useAppStore.getState().theme === "dark");
+    document.documentElement.classList.remove("dark");
     prefetchStage3D();
   }, []);
 
@@ -312,14 +310,6 @@ export default function App() {
               {parseResult.detected.vendor} · {parseResult.detected.formatId} · {parseResult.status}
             </span>
           )}
-          <button
-            type="button"
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className={TOOL_BTN}
-            title="Toggle theme"
-          >
-            {theme === "light" ? "🌙" : "☀️"}
-          </button>
         </div>
       </header>
 

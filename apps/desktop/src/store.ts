@@ -50,8 +50,6 @@ interface AppState {
   selectCut: (i: number | null) => void;
   selectPane: (id: string | null) => void;
   toggleLayer: (key: keyof LayerToggles) => void;
-  setTheme: (t: ThemeName) => void;
-  toggleTheme: () => void;
   pushRecent: (path: string) => void;
   requestFit: () => void;
   focusOn: (target: Omit<FocusTarget, "nonce">) => void;
@@ -92,7 +90,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   selectedPaneId: null,
 
   layers: { grid: true, rulers: true, labels: true, directions: false, stages: false, dimensions: false },
-  theme: loadStored<ThemeName>("ccv.theme", "light"),
+  theme: "light",
   recents: loadStored<string[]>("ccv.recents", []),
 
   seqPlaying: false,
@@ -128,14 +126,6 @@ export const useAppStore = create<AppState>((set, get) => ({
   selectPane: (id) => set({ selectedPaneId: id, selectedCutIndex: null }),
 
   toggleLayer: (key) => set((s) => ({ layers: { ...s.layers, [key]: !s.layers[key] } })),
-
-  setTheme: (t) => {
-    store("ccv.theme", t);
-    document.documentElement.classList.toggle("dark", t === "dark");
-    set({ theme: t });
-  },
-
-  toggleTheme: () => get().setTheme(get().theme === "light" ? "dark" : "light"),
 
   pushRecent: (path) =>
     set((s) => {

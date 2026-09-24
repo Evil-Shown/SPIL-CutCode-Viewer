@@ -1,4 +1,4 @@
-export type ThemeName = "light" | "dark";
+export type ThemeName = "light";
 
 export interface Theme {
   bg: string;
@@ -57,34 +57,6 @@ export const THEMES: Record<ThemeName, Theme> = {
     errorSev: "#dc2626",
     warnSev: "#d97706",
     okSev: "#059669",
-  },
-  dark: {
-    bg: "#0f172a",
-    panel: "#1e293b",
-    border: "#334155",
-    text: "#e2e8f0",
-    textDim: "#94a3b8",
-    accent: "#3b82f6",
-    sheetFill: "#162032",
-    sheetStroke: "#94a3b8",
-    gridMinor: "#1e293b",
-    gridMajor: "#334155",
-    rulerBg: "#162032",
-    rulerText: "#94a3b8",
-    rulerTick: "#475569",
-    cutColor: "#fb923c",
-    cutDim: "#334155",
-    cutSelected: "#fbbf24",
-    cutHover: "#fdba74",
-    paneStrokes: ["#60a5fa", "#a78bfa", "#22d3ee", "#34d399", "#fbbf24", "#f472b6", "#818cf8", "#a3e635"],
-    paneFillAlpha: 0.15,
-    rotatedPane: "#2dd4bf",
-    laserColor: "#f87171",
-    viewportRect: "#60a5fa",
-    minimapBg: "#162032",
-    errorSev: "#f87171",
-    warnSev: "#fbbf24",
-    okSev: "#34d399",
   },
 };
 
