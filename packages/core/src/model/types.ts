@@ -3,7 +3,7 @@ export type Point = { x: number; y: number };
 export type Rect = { x: number; y: number; width: number; height: number };
 
 /**
- * How a parser's native coordinates map to viewer space.
+ * How a parser's native coordinates map to simulator space.
  * The vertical reference is fully described by `origin`:
  *  - "top-left": y grows downward from the sheet's top edge (already canonical)
  *  - "bottom-left": y grows upward from the sheet's bottom edge (needs flip)

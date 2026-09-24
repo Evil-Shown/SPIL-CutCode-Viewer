@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Default capabilities for SPIL CutCode Viewer",
+  "description": "Default capabilities for SPIL CutCode Simulator",
   "windows": ["main"],
   "permissions": [
     "core:default",

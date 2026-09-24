@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * cutcode-batch — corpus regression tool for SPIL CutCode Viewer.
+ * cutcode-batch — corpus regression tool for SPIL CutCode Simulator.
  *
  * Parses every cutcode file under a directory and writes a JSON report.
  * With --baseline, compares the fresh run against a previous report and
@@ -36,7 +36,7 @@ const EXT = new Set([
   ".otd", ".dat", ".opt", ".r01", ".imp", ".edi", ".otv", ".dxf", ".ot5", ".cut", ".xml", ".json",
 ]);
 
-const USAGE = `cutcode-batch — corpus regression tool for SPIL CutCode Viewer
+const USAGE = `cutcode-batch — corpus regression tool for SPIL CutCode Simulator
 
 Usage:
   cutcode-batch --root <directory> [options]

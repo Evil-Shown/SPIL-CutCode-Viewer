@@ -73,7 +73,7 @@ export function Sidebar({ machine, onOpenResult }: Props) {
       )}
 
       <div className="mt-auto border-t border-slate-200 p-3 text-[10px] text-slate-400 dark:border-slate-700">
-        SPIL CutCode Viewer v0.2
+        SPIL CutCode Simulator v0.2
       </div>
     </div>
   );

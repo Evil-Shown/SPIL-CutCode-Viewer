@@ -48,7 +48,7 @@ export function Landing({ onSelect }: Props) {
   return (
     <div className="landing">
       <nav className="landing-nav">
-        <div className="landing-brand"><span>◩</span> SPIL CUTCODE</div>
+        <div className="landing-brand"><span>◩</span> SPIL CUTCODE SIMULATOR</div>
         <div className="landing-nav-meta">MACHINE FIELD GUIDE · 2026</div>
       </nav>
       <header className="landing-top">

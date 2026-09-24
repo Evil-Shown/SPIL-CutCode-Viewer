@@ -1,4 +1,4 @@
-# SPIL CutCode Viewer — Roadmap to a world-class cutting simulator
+# SPIL CutCode Simulator — Roadmap
 
 Goal: the tool a glass plant opens before sending a program to the table.
 It must answer: *Will this file cut correctly on this machine, how long will

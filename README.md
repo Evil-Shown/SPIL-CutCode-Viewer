@@ -1,6 +1,6 @@
-# SPIL CutCode Viewer
+# SPIL CutCode Simulator
 
-Modern desktop viewer for multi-vendor glass cutcode files — the replacement
+Modern desktop simulator for multi-vendor glass cutcode files — the replacement
 for the legacy qiewer / Perfect Cut viewer.
 
 ## Stack
@@ -25,7 +25,7 @@ for the legacy qiewer / Perfect Cut viewer.
 Encodings: UTF-8, UTF-16LE/BE (BOM + heuristic), Windows-1252 fallback —
 files are read as bytes and decoded before parsing.
 
-## Viewer features
+## Simulator features
 
 - **Canvas**: pan (drag), cursor-anchored zoom (0.35×–3.5×), double-click
   fit, adaptive rulers + grid (50/250 mm), trim zone, sheet dimensions
@@ -52,6 +52,7 @@ files are read as bytes and decoded before parsing.
 - Drag & drop file open, recent files, bundled sample fixtures
   (work in browser dev mode and in the packaged app)
 - Keyboard: `Space` play/pause · `[`/`]` or arrows step cut · `Home` reset · `F` fit · `+`/`−` zoom · `Esc` deselect
+- **Graphics**: high-end GPUs start at full 3D quality. Low-end PCs paint the first 3D frame at ~70% (no AA, 1.4× DPR, 1024 shadows), then immediately rebuild at 100% — same look as a high-end PC.
 
 ## Development
 

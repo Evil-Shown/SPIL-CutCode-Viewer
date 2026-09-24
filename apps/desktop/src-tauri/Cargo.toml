@@ -1,7 +1,7 @@
 [package]
 name = "spil-cutcode-viewer"
 version = "0.1.0"
-description = "SPIL CutCode Viewer"
+description = "SPIL CutCode Simulator"
 authors = ["SPIL"]
 edition = "2021"
 

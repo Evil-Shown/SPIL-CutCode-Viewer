@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import type { ParseResult } from "@spil/cutcode-core";
 import { CutCanvas } from "./CutCanvas";
-import { CutStage3D } from "./CutStage3D";
 import { Inspector } from "./Inspector";
 import { Landing } from "./Landing";
 import { MachineSpecs } from "./MachineSpecs";
@@ -9,11 +8,14 @@ import { PlaybackDriver } from "./PlaybackDriver";
 import { Sidebar } from "./Sidebar";
 import { SimConsole } from "./SimConsole";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { prefetchStage3D } from "./graphicsProfile";
 import { machineAccepts, machineById } from "./machines";
 import { seqClock } from "./seqClock";
 import { useAppStore, type LayerToggles } from "./store";
 import { isTauri, openFileDialog, openFileFromBrowser, saveDialog, writeBinaryFile } from "./fileIO";
 import { renderPng, renderSvg, dataUrlToBytes, downloadBytes, triggerPrint } from "./exporters";
+
+const CutStage3D = lazy(() => import("./CutStage3D").then((m) => ({ default: m.CutStage3D })));
 
 const TOOL_BTN =
   "rounded-md border px-2 py-1.5 text-xs shadow-sm border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700";
@@ -61,6 +63,7 @@ export default function App() {
   // Apply persisted theme class on mount
   useEffect(() => {
     document.documentElement.classList.toggle("dark", useAppStore.getState().theme === "dark");
+    prefetchStage3D();
   }, []);
 
   useEffect(() => {
@@ -358,18 +361,20 @@ export default function App() {
         <main className="workbench-canvas">
           <ErrorBoundary>
             {viewMode === "3d" ? (
-              <CutStage3D
-                machine={machine}
-                sheet={
-                  sheet ?? {
-                    id: "bed",
-                    sheet: { width: machine.bed.width, height: machine.bed.height },
-                    panes: [],
-                    cuts: [],
-                    coordinateSemantics: { origin: "top-left", xAxis: "right", units: "mm" },
+              <Suspense fallback={<div className="flex h-full items-center justify-center text-sm text-slate-500">Loading 3D…</div>}>
+                <CutStage3D
+                  machine={machine}
+                  sheet={
+                    sheet ?? {
+                      id: "bed",
+                      sheet: { width: machine.bed.width, height: machine.bed.height },
+                      panes: [],
+                      cuts: [],
+                      coordinateSemantics: { origin: "top-left", xAxis: "right", units: "mm" },
+                    }
                   }
-                }
-              />
+                />
+              </Suspense>
             ) : sheet ? (
               <CutCanvas sheet={sheet} />
             ) : loadError ? (

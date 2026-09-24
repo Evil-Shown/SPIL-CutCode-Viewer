@@ -1,5 +1,5 @@
 {
-  "name": "spil-cutcode-viewer",
+  "name": "spil-cutcode-simulator",
   "private": true,
   "workspaces": [
     "packages/*",

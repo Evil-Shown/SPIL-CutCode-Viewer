@@ -3,6 +3,7 @@ import type { Cut, CutPlan, Point } from "@spil/cutcode-core";
 import { headAt, sampleArc } from "@spil/cutcode-core";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { needsQualityRamp } from "./graphicsProfile";
 import { machineVisual, type Machine } from "./machines";
 import { seqClock } from "./seqClock";
 import { useAppStore } from "./store";
@@ -10,12 +11,12 @@ import { useAppStore } from "./store";
 type Props = { sheet: CutPlan; machine: Machine };
 type CamMode = "perspective" | "top";
 
-function cutPolyline(cut: Cut): Point[] {
+function cutPolyline(cut: Cut, arcSegs = 28): Point[] {
   if (cut.type === "arc" && cut.center && cut.radius && cut.points.length >= 2) {
     const start = cut.points[0];
     const end = cut.points[1];
     if (Math.hypot(end.x - start.x, end.y - start.y) < 1e-6) return [start];
-    return sampleArc({ start, end, radius: cut.radius, side: cut.ccw ? -1 : 1 }, 28);
+    return sampleArc({ start, end, radius: cut.radius, side: cut.ccw ? -1 : 1 }, arcSegs);
   }
   return cut.points;
 }
@@ -50,6 +51,7 @@ export function CutStage3D({ sheet, machine }: Props) {
   const camModeRef = useRef<CamMode>("perspective");
   const [camMode, setCamMode] = useState<CamMode>("perspective");
   const [progress, setProgress] = useState(-1);
+  const [quality, setQuality] = useState(() => (needsQualityRamp() ? 0.7 : 1));
   const seqPlaying = useAppStore((s) => s.seqPlaying);
   const sw = sheet.sheet.width;
   const sh = sheet.sheet.height;
@@ -70,17 +72,22 @@ export function CutStage3D({ sheet, machine }: Props) {
     const mount = mountRef.current;
     if (!mount) return;
 
+    const full = quality >= 1;
+    const arcSegs = full ? 28 : 20;
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf5f1ea);
-    scene.fog = new THREE.Fog(0xf5f1ea, 14, 32);
+    if (full) scene.fog = new THREE.Fog(0xf5f1ea, 14, 32);
 
     const camera = new THREE.PerspectiveCamera(40, 1, 0.05, 80);
     const perspectivePos = new THREE.Vector3(4.8, 4.8, 5.8);
     const topPos = new THREE.Vector3(0, 9.5, 0.02);
     camera.position.copy(perspectivePos);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({
+      antialias: full,
+      powerPreference: "high-performance",
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, full ? 2 : 1.4));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -101,7 +108,7 @@ export function CutStage3D({ sheet, machine }: Props) {
     const sun = new THREE.DirectionalLight(0xfff0d5, 1.05);
     sun.position.set(6, 10, 4);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(full ? 2048 : 1024, full ? 2048 : 1024);
     sun.shadow.camera.left = -8;
     sun.shadow.camera.right = 8;
     sun.shadow.camera.top = 8;
@@ -120,7 +127,7 @@ export function CutStage3D({ sheet, machine }: Props) {
     const visual = machineVisual(machine);
 
     const floor = new THREE.Mesh(
-      new THREE.CircleGeometry(9, 48),
+      new THREE.CircleGeometry(9, full ? 48 : 32),
       new THREE.MeshStandardMaterial({ color: 0xe8dfd0, roughness: 0.95 })
     );
     floor.rotation.x = -Math.PI / 2;
@@ -205,15 +212,23 @@ export function CutStage3D({ sheet, machine }: Props) {
 
     const glass = new THREE.Mesh(
       new THREE.BoxGeometry(w, glassT, d),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xd7eef8,
-        roughness: 0.06,
-        metalness: 0,
-        transmission: 0.72,
-        thickness: 0.02,
-        transparent: true,
-        opacity: 0.92,
-      })
+      full
+        ? new THREE.MeshPhysicalMaterial({
+            color: 0xd7eef8,
+            roughness: 0.06,
+            metalness: 0,
+            transmission: 0.72,
+            thickness: 0.02,
+            transparent: true,
+            opacity: 0.92,
+          })
+        : new THREE.MeshStandardMaterial({
+            color: 0xd7eef8,
+            roughness: 0.08,
+            metalness: 0.04,
+            transparent: true,
+            opacity: 0.86,
+          })
     );
     glass.position.y = tableT + glassT / 2;
     glass.castShadow = true;
@@ -275,7 +290,7 @@ export function CutStage3D({ sheet, machine }: Props) {
     head.castShadow = true;
     gantry.add(head);
     const wheel = new THREE.Mesh(
-      new THREE.SphereGeometry(0.018, 12, 12),
+      new THREE.SphereGeometry(0.018, full ? 12 : 10, full ? 12 : 10),
       new THREE.MeshStandardMaterial({ color: 0xfff5e0, emissive: 0xc75d3f, emissiveIntensity: 0.8 })
     );
     wheel.position.y = -0.14;
@@ -319,7 +334,9 @@ export function CutStage3D({ sheet, machine }: Props) {
 
     let camAnim: { from: THREE.Vector3; to: THREE.Vector3; fromTarget: THREE.Vector3; toTarget: THREE.Vector3; t: number } | null = null;
     let lastMode = camModeRef.current;
+    let lastScoreKey = "";
     let raf = 0;
+    let alive = true;
 
     const tick = () => {
       const mode = camModeRef.current;
@@ -345,30 +362,34 @@ export function CutStage3D({ sheet, machine }: Props) {
         }
       }
 
-      for (const child of [...scoreGroup.children]) {
-        const line = child as THREE.Line;
-        line.geometry.dispose();
-        scoreGroup.remove(line);
-      }
       const prog = seqClock.progress;
       const tl = seqClock.timeline;
       const h = seqClock.timeS >= 0 && tl ? headAt(tl, seqClock.timeS) : null;
-      sheet.cuts.forEach((cut) => {
-        const poly = cutPolyline(cut);
-        if (poly.length < 2) return;
-        const active = h?.phase === "score" && h.activeCutIndex === cut.sequenceIndex;
-        const hidden = prog >= 0 && cut.sequenceIndex > prog;
-        if (hidden) return;
-        const drawPts = active && h ? prefixPolyline(poly, h.cutProgress) : poly;
-        if (drawPts.length < 2) return;
-        const geo = new THREE.BufferGeometry().setFromPoints(drawPts.map((p) => toWorld(p)));
-        scoreGroup.add(new THREE.Line(geo, active ? activeMat : cut.stageLabel === "Low-E" ? loweMat : scoreMat));
-      });
+      const scoreKey = `${prog}|${h?.activeCutIndex ?? ""}|${h?.cutProgress.toFixed(3) ?? ""}`;
+      if (full || scoreKey !== lastScoreKey) {
+        lastScoreKey = scoreKey;
+        for (const child of [...scoreGroup.children]) {
+          const line = child as THREE.Line;
+          line.geometry.dispose();
+          scoreGroup.remove(line);
+        }
+        sheet.cuts.forEach((cut) => {
+          const poly = cutPolyline(cut, arcSegs);
+          if (poly.length < 2) return;
+          const active = h?.phase === "score" && h.activeCutIndex === cut.sequenceIndex;
+          const hidden = prog >= 0 && cut.sequenceIndex > prog;
+          if (hidden) return;
+          const drawPts = active && h ? prefixPolyline(poly, h.cutProgress) : poly;
+          if (drawPts.length < 2) return;
+          const geo = new THREE.BufferGeometry().setFromPoints(drawPts.map((p) => toWorld(p)));
+          scoreGroup.add(new THREE.Line(geo, active ? activeMat : cut.stageLabel === "Low-E" ? loweMat : scoreMat));
+        });
+      }
       let headPt: Point;
       if (h) {
         headPt = h.pos;
       } else {
-        headPt = sheet.cuts[0] ? cutPolyline(sheet.cuts[0])[0] ?? { x: sw / 2, y: 40 } : { x: sw / 2, y: 40 };
+        headPt = sheet.cuts[0] ? cutPolyline(sheet.cuts[0], arcSegs)[0] ?? { x: sw / 2, y: 40 } : { x: sw / 2, y: 40 };
       }
       const hp = toWorld(headPt);
       gantry.position.z = hp.z;
@@ -377,18 +398,25 @@ export function CutStage3D({ sheet, machine }: Props) {
 
       controls.update();
       renderer.render(scene, camera);
+      if (!full) {
+        raf = requestAnimationFrame(() => {
+          if (alive) setQuality(1);
+        });
+        return;
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
 
     return () => {
+      alive = false;
       cancelAnimationFrame(raf);
       observer.disconnect();
       controls.dispose();
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };
-  }, [sheet, machine, sw, sh]);
+  }, [sheet, machine, sw, sh, quality]);
 
   const scored = progress < 0 ? sheet.cuts.length : Math.min(sheet.cuts.length, Math.floor(progress) + 1);
   const pct = sheet.cuts.length ? Math.round((scored / sheet.cuts.length) * 100) : 0;
