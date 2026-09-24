@@ -35,12 +35,11 @@ export function Landing({ onSelect }: Props) {
 
   return (
     <div className="landing">
+      <nav className="landing-nav">
+        <span>SPIL CutCode</span>
+        <a href="#library">Machine library</a>
+      </nav>
       <section className="poster">
-        <header className="poster-bar">
-          <span>SPIL CutCode</span>
-          <a href="#library">Machine library</a>
-        </header>
-
         <div className="poster-grid">
           <div className="poster-copy">
             <p className="poster-kicker">Glass cutting simulator</p>
@@ -130,10 +129,10 @@ export function Landing({ onSelect }: Props) {
       </section>
 
       <div className="landing-tools" id="library">
-        <div>
-          <p className="section-eyebrow">The tables</p>
-          <h2>Every system in the library.</h2>
-        </div>
+        <header className="poster-bar">
+          <span>The tables</span>
+          <span>Every system in the library</span>
+        </header>
         <div className="filter-row">
           <input
             value={query}
