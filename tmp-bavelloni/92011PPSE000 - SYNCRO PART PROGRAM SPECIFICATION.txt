@@ -1,0 +1,2477 @@
+
+
+===== PAGE 1 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+ 
+ 
+ 
+SYNCRO 
+PART PROGRAM SPECIFICATION 
+(NUM 1040) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+===== PAGE 2 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc 
+Page 2 of 44 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Rev. Date Author Description CR 
+0 17.11.08 S. Azzoni  First Emission  
+     
+     
+
+
+===== PAGE 3 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc 
+Page 3 of 44 
+ 
+ 
+SUMMARY 
+ 
+1.  INTRODUCTION....................................... ...........................................................1.4  
+1.1  Purpose............................................ .....................................................1.4  
+1.2  Scope ....................................................................................................1.4  
+1.3  Definitions, Acronyms and Abbreviations ..............................................1.4  
+1.3.1  Definitions..............................................................................................1.4  
+1.3.2  Acronyms .............................................................................................. 1.4  
+1.4  References ............................................................................................ 1.4  
+2.  GENERAL DESCRIPTION ..................................................................................2 .5  
+2.1  Axis reference description .....................................................................2.5  
+2.1.1  Reference in LEFT bottom position .......................................................2.5  
+2.1.2  Reference in RIGHT bottom position.....................................................2.6  
+2.2  STRUCTURE OF THE PROGRAM........................... ............................2.6  
+3.  FUNCTIONAL REQUIREMENTS ........................................................................3.7  
+3.1  Monolitic glass (left bottom reference)...................................................3.7  
+3.1.1  Common part of all part programs................... ......................................3.7  
+3.1.2 Straight cuts only................................. ..................................................3 .9  
+3.1.3  Straight cuts plus shapes ....................................................................3.10  
+3.2  Monolitic glass (right bottom reference) ..............................................3.14  
+3.2.1  Flipping shapes horizontally ................................................................3.16  
+3.2.2  Differences between Left and Right Reference ISO code ...................3.17  
+3.3  Laminated glass ..................................................................................3.19  
+3.3.1  Differences between First and Second Side ISO code........................3.19  
+3.4  Sending the cutting program to the Numerical control.........................3.21  
+3.5  Displaying a cutting pattern preview............... .....................................3.21  
+ 
+ 
+
+
+===== PAGE 4 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 4 of 44 
+ 
+ 
+1.  INTRODUCTION 
+ 
+ 
+1.1 Purpose 
+The document describes the format of a part program used for straight and shaped cuts. 
+ 
+1.2 Scope 
+The document applies only to cutting table of model “Syncro”. 
+ 
+1.3 Definitions, Acronyms and Abbreviations 
+ 
+1.3.1 Definitions 
+ 
+1.3.2 Acronyms 
+ 
+Acronym/Abbreviation Description 
+  
+  
+ 
+ 
+1.4 References 
+ 
+
+
+===== PAGE 5 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 5 of 44 
+ 
+ 
+2. GENERAL DESCRIPTION 
+2.1 Axis reference description 
+ 
+The axis reference is relevant for the part program  because the effect of a NC instruction 
+has different effect depending on the orientation of the axis. 
+ 
+2.1.1 Reference in LEFT bottom position 
+ 
+ 
+ 
+ 
+X 
+Y 
+Glass moves from right to left 
+C 
+
+
+===== PAGE 6 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 6 of 44 
+ 
+ 
+2.1.2 Reference in RIGHT bottom position 
+ 
+ 
+ 
+ 
+ 
+2.2 STRUCTURE OF THE PROGRAM 
+ 
+The post-processor must generate a text file countering a number of piece programs equal 
+to the number of different schemes to cut.   
+A progressive number (e.g. %3 ) identifies each pro gram in the first line. The number of 
+the piece program must be between 0 and 3000  (0<Pr ogram number<3000). Once the 
+value of 2999 is reached, the counter starts from one. 
+ 
+Each piece program is made up of: 
+• A heading containing geometrical information on th e sheet, the number of sheets to 
+cut, the ones already cut etc.  
+• A call to carry out cuts followed by an upgrading of the counter for glass sheets 
+already cut.  
+• The list of all cuts to carry out 
+ 
+ 
+X 
+Y 
+Glass moves from left to right 
+C 
+
+
+===== PAGE 7 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 7 of 44 
+ 
+ 
+3. FUNCTIONAL REQUIREMENTS 
+3.1 Monolitic glass (left bottom reference) 
+ 
+ 
+ 
+ 
+3.1.1 Common part of all part programs 
+ 
+3.1.1.1 Header  
+ 
+%1 Number of piece program %n   0<n<3000 
+N1(M0000001_001) Label N1: 
+Comment of 8 letters followed by progressive number  of 
+the cutting scheme. In this case program 11 is the first 
+cutting scheme of the “Sample1”work order. Use “_” to 
+form the string with fixed length equal to 12 lette rs. This 
+comment is visualized in the Control Number of the 
+Program List page 
+N2E30000=15000E30001=1500E30002=0007 Label N2: 
+E30000= Dimension X of the sheet in decimals of 
+millimeter (5 letters).  
+E30001= Dimension Y of the sheet in millimeter (4 
+letters). 
+E30002= Thickness of the sheet in millimeters (4 letters) 
+N3E30003=0001E30005=0000 Label N3: 
+E30003= Number of sheets to cut (4 letters)  
+E30005= Number of piece program relevant to cutting  the 
+second side of a laminated glass sheet (4 letters) 0000 
+for normal cut. 
+N4E30004=0 Label N4: 
+E30004= Number of sheets already cut. Of course, th ey 
+will be equal to 0 when generating the piece progra m. 
+Use N4E30004=-1 in the piece program relevant to 
+cutting the first side of a laminated glass.  
+Attention : The string  N4E30004=0 (or\1) MUST be 
+followed by 12 SPACEs (ASCII 32) 
+N5(MON             ) Label N5: 
+Code (or description) of the type of material, 16 
+characters. 
+This string is used in the Numerical Control to sel ect the 
+value of cutting pressure. If this code is not in t he NC 
+table, cutting pressure is selected according to th e 
+thickness. 
+(NUM SYNCRO) Just a comment string indicating the type of NC for  which 
+the piece program has been generated. 
+
+
+===== PAGE 8 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 8 of 44 
+ 
+ 
+E10028=0 Specify if the part program has to be executed for the 
+Vinyl (E10028=0 means no Vinyl; E10028=1 means Viny l 
+present)  
+G77H9100 Running the %9100 macro (program start) 
+M96 Normal sheet or first side of a laminated material. 
+For the second side of a laminated glass use M98 
+G77N10N12 
+or 
+G77N14N16 
+ 
+Call to carry out cuts. It is just a jump, with ret urn, to carry 
+out the lines of the program ranging from label N10  to 
+label N12. These labels are always equal to 10 and 12 for 
+a straight-cut program. This line will be different for cutting 
+schemes containing shapes (see § 
+3.1.3 ). 
+G79E20002=0N6 
+ 
+Increment of the counter for glass sheet to cut is not done 
+if the program is run with the head disabled.  
+(E20002=0) (Simulation of cutting the sheet). 
+E30004=E30004+1 Increment of the counter for sheets already cut. 
+G76N4N4 
+ 
+Upgrading of the counter for sheets already cut (E3 0004) 
+(described for label N4) 
+N6G77H9101 
+ 
+Running the %9101 macro (Parking of bridge and 
+possible sheet evacuation). 
+The four lines G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+are inside the cutting programs of normal sheets or for the 
+second side of laminated material.  
+When cutting the first side of a laminated glass th ese four 
+lines are replaced by only one line:  
+G77H9101 
+G79N123 It is a jump to the last label of the program 
+  
+………   
+  
+N123 Last label of the program 
+ 
+ 
+
+
+===== PAGE 9 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 9 of 44 
+ 
+ 
+3.1.2 Straight cuts only 
+ 
+3.1.2.1 List of cuts 
+ 
+N10 
+ 
+Beginning of list of cuts 
+G59XL170YL171CL172 
+ 
+ 
+EDL172 
+ 
+ 
+L918=0 
+ 
+ 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+ 
+ 
+%9030 Macro to carry out a straight cut: 
+L6=X beginning of cut (mm) 
+L7=Y end of cut (mm) 
+L8=angle for head positioning (0,90,180,270) (in 
+degrees) 
+L13=X end of cut (mm) 
+L14=Y end of cut (mm) 
+ED0 
+ 
+ 
+G59XYC 
+ 
+ 
+N12  
+ 
+
+
+===== PAGE 10 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 10 of 44 
+ 
+ 
+3.1.3 Straight cuts plus shapes 
+ 
+When shapes are present in the cutting pattern the geometrical description of the path for 
+each shape will be present just once in the program. A call to the specific shape cutting will 
+be present in the section “lists of cuts”, between the call and the execution of the cutting a 
+reference change will assure to cut the shape in the correct position. 
+ 
+ 
+ 
+ 
+3.1.3.1 List of cuts 
+ 
+N14 
+ 
+Beginning of list of cuts, the number of the label 
+depends on the number of shapes in the scheme. 
+G59XL170YL171CL172 
+ 
+ 
+EDL172 
+ 
+ 
+L918=0 
+ 
+ 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+ 
+ 
+%9030 Macro to carry out a straight cut: 
+L6=X beginning of cut (mm) 
+L7=Y end of cut (mm) 
+L8=angle for head positioning (0,90,180,270) (in 
+degrees) 
+L13=X end of cut (mm) 
+L14=Y end of cut (mm) 
+(Header section)  
+……  
+G77N14N16 
+…….. 
+ 
+(Change of shape reference) 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+(Geometry of the shape) 
+N10 
+….. 
+N11 
+ 
+(List of cuts)   
+N14 
+….. 
+….. 
+L6=270L7=520L8=90L13= 10 L14= 11 G77N8N9 
+…. 
+N16 
+ 
+
+
+===== PAGE 11 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 11 of 44 
+ 
+ 
+L6=270L7=520L8=90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+L6=Position X of the shape, referred to the center of 
+the square (mm) 
+L7=Position Y of the shape, referred to the center of 
+the square mm) 
+L8=angle of the shape (0,90,180,270) (in degrees) 
+L13=Value of the label of the block where the 
+description of the shape starts (10 because the 
+shape starts with N10). 
+L14=Value of the label of the block where the 
+description of the shape ends (11 because the 
+shape ends with N11). 
+G77N8N9 When carrying out cuts of the shape, this 
+string remains unchanged for all programs 
+ED0 
+G59XYC 
+Reset of the Cartesian reference system 
+N16  
+ 
+ 
+3.1.3.2 Change of shape reference 
+ 
+Block N8-N9 inside the programs for shaped cutting concerns rotative shift of the 
+reference system for all shapes in the scheme. This  block remains the same for all 
+programs, it will be slightly different for shaped cut on the second side of a laminated glass 
+sheet.    
+ 
+ 
+N8 
+ 
+ 
+G77H9700 
+ 
+Running the %9700 macro that will change the 
+reference system 
+G77NL13NL14 
+ 
+Carrying out the shape 
+G77H9000 
+ 
+Rise of the head 
+ED0 
+G59XYC 
+Reset of the Cartesian reference system 
+N9  
+ 
+ 
+3.1.3.3 Shape geometry 
+ 
+Each different shape in the cutting scheme is written only once in the piece program.   
+Each shape is contained between two labels starting from N10. 
+So, the first shape will be described between label s N10-N11, the second between N12-
+N13, the third between N14-N15 and so on. 
+In this example only one shape is present (repeated  4 times) therefore, only labels N10 
+and N11 are used.  
+
+
+===== PAGE 12 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 12 of 44 
+ 
+ 
+The general rule is: 
+Last label used for the shapes =  (Number of Different Shapes * 2) + 10 - 1 
+ 
+Call (**) G77N12N14  depends on the number of shapes in the scheme     
+  G77NE1NE2 E1=First free label  = (Number of Diffe rent Shapes * 2) + 10 
+  E2=E1+2 
+ 
+• Scheme of straight cut G77N10N12 
+ 
+• Scheme of shaped cut G77N12N14 
+N10-N11 Description of shape 
+ 
+• Cutting scheme with two different shapes G77N14N16  
+N10-N11 Description of shape 1 
+N12-N13 Description of shape 2 
+ 
+The geometrical description of the shape is contain ed between two EG instructions to 
+define the acceleration value to use.  
+ 
+ EG E80010 
+ ........ 
+ path of the shape  
+ ........ 
+ EG 100 
+ 
+The L1  variable contains the value of the radius (in mm) of the element FOLLOWING the 
+element being cut (as definition put L1=10000 in ca se of straight lines). The numerical 
+control uses the value of the radius of the element  to prearrange cutting pressures 
+appropriately.   
+ 
+ 
+The shape can contain only straight lines or arcs, so it is described using only the 
+traditional functions:  
+G01 XendYendFfeed 
+G02 XendYendIxcJycFfeed 
+G03 XendYendIxcJycFfeed 
+The Cartesian reference system is in the middle of the square containing the shape. 
+The head rises and resets when two successive eleme nts are not radiused and of course, 
+when the two elements are not joined together.   
+Generally, two elements are considered radiused whe n the tangent in the final point of the 
+first element and the tangent of the starting point of the second element differ less than 0.3 
+degrees. 
+The shaped used in example 3 is completely radiused  and so only initial positioning of the 
+head is done. The beginning of the head is in the m iddle point of the lower side of the 
+rectangle.  
+ 
+To each geometrical element making up the shape, an d therefore, to each G1/G2/G3 
+instruction, is associated a speed rate according to the table: 
+ 
+
+
+===== PAGE 13 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 13 of 44 
+ 
+ 
+E82401 SPEED FOR ARCS WITH RADIUS <=10mm 
+E82403 SPEED FOR ARCS WITH 10mm< RADIUS <=30mm 
+E82405 SPEED FOR ARCS WITH 30mm< RADIUS <=60mm 
+E82407 SPEED FOR ARCS WITH 60mm< RADIUS <=100mm 
+E82409 SPEED FOR ARCS WITH 100mm< RADIUS <=500mm 
+E82410 SPEED FOR ARCS WITH RADIUS>500mm   and for straight elements. 
+ 
+ 
+ 
+N10 
+ 
+ 
+EGE80010 
+ 
+Definition of acceleration for shapes (excluding 
+circles) 
+G77H9000 Rise of the head 
+L2=L1 
+L1=10000L6=-500L7=-250L8=59.0 
+ 
+Positioning of the head  
+L1=10000 the first element to cut after positioning  is 
+a straight line.  
+L6   X initial (mm) 
+L7   Y initial (mm) 
+L8   Initial angle of the head (in degrees) 
+G77H9001 
+ 
+Sub-program for head positioning at L6,L7,L8 
+L2=L1 
+L1=0 
+G01X-200Y250FE82410 
+ 
+L2 contains a Backup of L1 
+L1 contains value of the radius (in mm) of the 
+element FOLLOWING the element being cut 
+G77H9000 
+ 
+Rise of the head 
+L2=L1 
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+ 
+ 
+EG100 Restoring 100% acceleration 
+N11  
+
+
+===== PAGE 14 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 14 of 44 
+ 
+ 
+3.2 Monolitic glass (right bottom reference) 
+ 
+In a table configured with the reference on the rig ht bottom (see 
+§2.1.2 ) the part program 
+execution is mirrored on the X direction. For this reason, if we want to keep the same 
+result that was drawn with the CAD software we have  to change the geometry of the 
+shapes. 
+ 
+Let’s take for example a shape (triangle) in a left bottom reference pattern: 
+ 
+With an X and C (orientation of the tool) axis that  are mirrored the final result of the ISO 
+code (G01, G02 and G03) execution could be like the  following picture (flipped 
+horizontally). 
+ 
+ 
+
+
+===== PAGE 15 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 15 of 44 
+ 
+ 
+In order to preserve the original shape its geometr y in the ISO code should be changed 
+flipping horizontally the single shape according to the shape center. 
+ 
+ 
+The above scheme will produce as final cut the result of the following picture: 
+ 
+And that is the correct result: useful pieces on th e right and shapes that are like viewed in 
+the CAD software. 
+ 
+
+
+===== PAGE 16 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 16 of 44 
+ 
+ 
+3.2.1 Flipping shapes horizontally 
+ 
+The effect of flipping horizontally a shape is not just on X coordinates that becomes –X, 
+but also on positive rotations that will be clockwise (G02 becomes G03 and vice versa). 
+ 
+ 
+ 
+ 
+ 
+X 
+Y (x 1, y 1) 
+(x 2, y 2) 
+α 
+X 
+Y (-x1, y 1) 
+(-x2, y 2) 
+180-α 
+Flipping horizontally 
+
+
+===== PAGE 17 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 17 of 44 
+ 
+ 
+3.2.2 Differences between Left and Right Reference ISO code 
+ 
+Left Bottom Reference 
+ 
+Right Bottom Reference 
+ 
+  
+%2 
+N1(M0000002_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000 
+L6= -500 L7=-250 L8=59.0  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X-200 Y250FE82410 
+G77H9000 
+%3 
+N1(M0000003_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000 
+L6=500L7=-250 L8=121.0  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X200 Y250FE82410 
+G77H9000 
+Next X 
+position  
+
+
+===== PAGE 18 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 18 of 44 
+ 
+ 
+L2=L1 
+L1=10000 
+L6= -200 L7=250 L8=324.5  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X500 Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250 
+L6=250 L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X -250 Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520 
+L8=90 L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+L2=L1 
+L1=10000 
+L6=200 L7=250 L8=215.5  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X-500 Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250 
+L6= -250 L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X250 Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520 
+L8= -90 L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Tool 
+orientation  
+Orientation of the 
+axis reference 
+centered in the 
+shape 
+
+
+===== PAGE 19 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 19 of 44 
+ 
+ 
+3.3 Laminated glass 
+ 
+When laminated glass is selected two ISO program mu st be present. The two programs 
+reference each other in the header section. The cut ting pattern of the second program is 
+flipped on the X direction for both straight cuts and shapes (see 
+§3.2.1 ). 
+ 
+3.3.1 Differences between First and Second Side ISO  code 
+ 
+Side A 
+ 
+Side B 
+ 
+ 
+%4 
+N1(M0000004_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=000 
+5 
+N4E30004= -1            
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+ 
+ 
+ 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+%5 
+N1(M0000004_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=000 
+4 
+N4E30004=0             
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M98 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6 
+G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+Sheets are 
+counted only on 
+side B 
+Identifies a side 
+A program  
+Reference to 
+side A program  
+M98 instead of 
+M96  
+M99 instead of 
+M97  
+
+
+===== PAGE 20 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 20 of 44 
+ 
+ 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000 
+L6= -500 L7=-250 L8=59.0  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X-200 Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000 
+L6= -200 L7=250 L8=324.5  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X500 Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250 
+L6=250 L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X -250 Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20 L7=3L8=90 L13=20 L14=1497G77 H9030  
+L6=21 L7=1270 L8=0L13=519 L14=1270G77 H9030  
+L6=52 0L7=1497L8=270 L13=520 L14=21G77 H9030  
+L6=21 L7=20 L8=0L13=1497 L14=20G77 H9030  
+L6=519 L7=1020 L8=180L13=21 L14=1020G77 H9030  
+L6=270 L7=520 L8=90 L13=10L14=11G77N8N9 
+L6=270 L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000 
+L6=500 L7=-250 L8=121.0  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X200 Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000 
+L6=200 L7=250 L8=215.5  
+G77H9001 
+L2=L1 
+L1=0 
+G01 
+X-500 Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250 
+L6= -250 L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X250 Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6= -20 L7=3L8=90L13=-20 L14=1497G77 H9031  
+L6= -21 L7=1270 L8=180L13=-519 L14=1270G77 H9031  
+L6= -520 L7=1497L8=270 L13=-520 L14=21G77 H9031  
+L6= -21 L7=20 L8=180L13=-1499 L14=20G77 H9031  
+L6= -519 L7=1020 L8=0L13=-21 L14=1020G77 H9031  
+L6= -270 L7=520 L8=-90 L13=10L14=11G77N8N9 
+L6= -270 L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+ 
+ 
+ 
+G02 
+instead of 
+G03 
+9031 
+instead of 
+9030 
+
+
+===== PAGE 21 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 21 of 44 
+ 
+ 
+3.4 Sending the cutting program to the Numerical co ntrol  
+ 
+The piece program is loaded to the Numerical Contro l using a Glaston application – 
+INOUTCNC - that transfer the ISO program from PC to CNC. 
+ 
+From any application is possible to call INOUTCNC p assing file name to transfer to CNC : 
+INOUTCNC will start the transfer of the ISO program  and, at the end of the operation, will 
+show a message about the result. 
+ 
+Next rows show an example to call INOUTCNC application ( using Visual Basic IDE ) : 
+ 
+Dim RetVal as double 
+ 
+Const InOutExe$ ="C:\EASYCAD\INOUTCNC\INOUTCNC.EXE" 
+const NamefileIso$ = "C:\EASYCAD\PIPPO.CUT" 
+ 
+RetVal = Shell(InOutExe$ + chr(32) + NameFileIso$) 
+ 
+ 
+Shell function runs an executable program and retur ns a Variant (Double) representing the 
+program's task ID if successful, otherwise it returns zero. 
+ 
+3.5 Displaying a cutting pattern preview  
+To Be defined 
+
+
+===== PAGE 22 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 22 of 44 
+ 
+ 
+ANNEX DOCUMENTATION 
+ 
+ANNEX A 
+ 
+Example of part program for monolithic glass with zero reference on left bottom 
+with just straight cuts. 
+ 
+ 
+ 
+%1 
+N1(M0000001_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N10N12 
+G79E20002=0N6 
+E30004=E30004+1 
+
+
+===== PAGE 23 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 23 of 44 
+ 
+ 
+G76N4N4 
+N6G77H9101 
+G79N123 
+G77H9700 
+N10 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+ED0 
+G59XYC 
+N12 
+N123 
+ 
+
+
+===== PAGE 24 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 24 of 44 
+ 
+ 
+ANNEX B 
+ 
+Example of part program for monolithic glass with zero reference on left bottom 
+ 
+ 
+ 
+%2 
+N1(M0000002_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+G77H9700 
+G77NL13NL14 
+
+
+===== PAGE 25 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 25 of 44 
+ 
+ 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=-500L7=-250L8=59.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X-250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+
+
+===== PAGE 26 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 26 of 44 
+ 
+ 
+ANNEX C 
+ 
+Example of part program for monolithic glass with zero reference on right bottom 
+ 
+ 
+ 
+%3 
+N1(M0000003_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+
+
+===== PAGE 27 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 27 of 44 
+ 
+ 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=500L7=-250L8=121.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=200L7=250L8=215.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=-250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=-90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+
+
+===== PAGE 28 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 28 of 44 
+ 
+ 
+ANNEX D 
+ 
+Example of part program for laminated glass with zero reference on left bottom 
+ 
+ 
+ 
+ 
+%4 
+N1(M0000004_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0005 
+N4E30004=-1            
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+
+
+===== PAGE 29 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 29 of 44 
+ 
+ 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=-500L7=-250L8=59.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X-250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+
+
+===== PAGE 30 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 30 of 44 
+ 
+ 
+%5 
+N1(M0000004_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0004 
+N4E30004=0             
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M98 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=500L7=-250L8=121.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=200L7=250L8=215.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=-250L7=-125L8=90 
+G77H9001 
+L2=L1 
+
+
+===== PAGE 31 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 31 of 44 
+ 
+ 
+L1=0 
+G02X250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=3L8=90L13=-20L14=1497G77H9031 
+L6=-21L7=1270L8=180L13=-519L14=1270G77H9031 
+L6=-520L7=1497L8=270L13=-520L14=21G77H9031 
+L6=-21L7=20L8=180L13=-1499L14=20G77H9031 
+L6=-519L7=1020L8=0L13=-21L14=1020G77H9031 
+L6=-270L7=520L8=-90L13=10L14=11G77N8N9 
+L6=-270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+ 
+ 
+
+
+===== PAGE 32 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 32 of 44 
+ 
+ 
+ANNEX E 
+ 
+Example of part program for laminated glass with zero reference on right bottom. 
+ 
+ 
+ 
+ 
+%6 
+N1(M0000006_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0007 
+N4E30004=-1            
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+
+
+===== PAGE 33 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 33 of 44 
+ 
+ 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=500L7=-250L8=121.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=200L7=250L8=215.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=-250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=-90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+
+
+===== PAGE 34 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 34 of 44 
+ 
+ 
+N123 
+%7 
+N1(M0000006_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0006 
+N4E30004=0             
+N5(LAMY3           ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M98 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=-500L7=-250L8=59.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=250L7=-125L8=90 
+G77H9001 
+
+
+===== PAGE 35 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 35 of 44 
+ 
+ 
+L2=L1 
+L1=0 
+G03X-250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=3L8=90L13=-20L14=1497G77H9031 
+L6=-21L7=1270L8=180L13=-519L14=1270G77H9031 
+L6=-520L7=1497L8=270L13=-520L14=21G77H9031 
+L6=-21L7=20L8=180L13=-1499L14=20G77H9031 
+L6=-519L7=1020L8=0L13=-21L14=1020G77H9031 
+L6=-270L7=520L8=90L13=10L14=11G77N8N9 
+L6=-270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+
+
+===== PAGE 36 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 36 of 44 
+ 
+ 
+ANNEX F 
+ 
+Example of part program for monolitic glass with repeated shapes. Zero reference 
+on left bottom. 
+ 
+ 
+ 
+ 
+%8 
+N1(M0000008_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+
+
+===== PAGE 37 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 37 of 44 
+ 
+ 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=-500L7=-250L8=59.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X-250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=770L7=21L8=90L13=770L14=1019G77H9030 
+L6=1020L7=1019L8=270L13=1020L14=21G77H9030 
+L6=1497L7=20L8=180L13=21L14=20G77H9030 
+L6=521L7=520L8=0L13=1019L14=520G77H9030 
+L6=1497L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+
+
+===== PAGE 38 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 38 of 44 
+ 
+ 
+L6=645L7=270L8=90L13=12L14=13G77N8N9 
+L6=645L7=770L8=90L13=12L14=13G77N8N9 
+L6=895L7=270L8=90L13=12L14=13G77N8N9 
+L6=895L7=770L8=90L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+ 
+
+
+===== PAGE 39 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 39 of 44 
+ 
+ 
+ANNEX G 
+ 
+Example of part program for monolitic glass with repeated shapes. Zero reference 
+on right bottom. 
+ 
+ 
+ 
+%9 
+N1(M0000009_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+
+
+===== PAGE 40 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 40 of 44 
+ 
+ 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=500L7=-250L8=121.0 
+G77H9001 
+L2=L1 
+L1=0 
+G01X200Y250FE82410 
+G77H9000 
+L2=L1 
+L1=10000L6=200L7=250L8=215.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X-500Y-250FE82410 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=250L6=-250L7=-125L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X250Y-125I0J-125FE82409 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=770L7=21L8=90L13=770L14=1019G77H9030 
+L6=1020L7=1019L8=270L13=1020L14=21G77H9030 
+L6=1497L7=20L8=180L13=21L14=20G77H9030 
+L6=521L7=520L8=0L13=1019L14=520G77H9030 
+L6=1497L7=1020L8=180L13=21L14=1020G77H9030 
+L6=270L7=520L8=-90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+
+
+===== PAGE 41 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 41 of 44 
+ 
+ 
+L6=645L7=270L8=-90L13=12L14=13G77N8N9 
+L6=645L7=770L8=-90L13=12L14=13G77N8N9 
+L6=895L7=270L8=-90L13=12L14=13G77N8N9 
+L6=895L7=770L8=-90L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 
+ 
+ 
+ 
+
+
+===== PAGE 42 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 42 of 44 
+ 
+ 
+ANNEX H 
+ 
+Example of part program for monolitic glass with “only cicle” shapes. Zero 
+reference on left bottom. 
+ 
+ 
+ 
+%10 
+N1(M0000010_001) 
+N2E30000=15000E30001=1500E30002=0007 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(MON             ) 
+(NUM SYNCRO) 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+
+
+===== PAGE 43 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 43 of 44 
+ 
+ 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=150L6=-150L7=0L8=90 
+G77H9001 
+L2=L1 
+L1=150 
+G02X150Y0I0J0FE82409 
+L2=L1 
+L1=0 
+G02X-150Y0I0J0FE82409 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L2=L1 
+L1=10000L6=-100L7=300L8=270 
+G77H9001 
+L2=L1 
+L1=100 
+G01X-100Y0FE82410 
+L2=L1 
+L1=10000 
+G03X0Y-100I0J0FE82407 
+L2=L1 
+L1=0 
+G01X300Y-100FE82410 
+G77H9000 
+L2=L1 
+L1=100L6=-200L7=-300L8=180 
+G77H9001 
+L2=L1 
+L1=0 
+G02X-300Y-200I-200J-200FE82407 
+G77H9000 
+EG100 
+N13 
+N14 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+
+
+===== PAGE 44 =====
+ 
+PRODUCT 
+ 
+SYNCRO 
+CODE 
+ 
+9.2.011.PPS.E 
+REVISION  
+ 
+000 
+ 
+ 
+92011ppse.doc  
+Page 44 of 44 
+ 
+ 
+L6=21L7=1220L8=0L13=619L14=1220G77H9030 
+L6=620L7=1497L8=270L13=620L14=21G77H9030 
+L6=920L7=21L8=90L13=920L14=619G77H9030 
+L6=919L7=320L8=180L13=621L14=320G77H9030 
+L6=21L7=620L8=0L13=1497L14=620G77H9030 
+L6=1497L7=20L8=180L13=21L14=20G77H9030 
+L6=770L7=170L8=0L13=10L14=11G77N8N9 
+L6=770L7=470L8=0L13=10L14=11G77N8N9 
+L6=320L7=320L8=0L13=12L14=13G77N8N9 
+L6=320L7=920L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+N16 
+N123 

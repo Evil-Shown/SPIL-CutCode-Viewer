@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { parseAndNormalize } from "../src/index.js";
+import { analyzeYield, bedFitWarning, parseAndNormalize, sheetFitsBed } from "../src/index.js";
 import { DEFAULT_KINEMATICS, moveTimeS, type MachineKinematics } from "../src/sim/kinematics.js";
 import { buildTimeline, headAt } from "../src/sim/timeline.js";
 import type { CutPlan, Point } from "../src/model/types.js";
@@ -121,5 +121,86 @@ describe("buildTimeline", () => {
     expect(h.cutProgress).toBeGreaterThan(0);
     expect(h.cutProgress).toBeLessThan(1);
     expect(onPolyline(h.pos, score.path, 0.05)).toBe(true);
+  });
+});
+
+function rectPanePlan(sheetW: number, sheetH: number, paneW: number, paneH: number): CutPlan {
+  return {
+    id: "y",
+    sheet: { width: sheetW, height: sheetH },
+    panes: [
+      {
+        id: "p1",
+        bounds: { x: 0, y: 0, width: paneW, height: paneH },
+      },
+    ],
+    cuts: [
+      {
+        type: "line",
+        points: [
+          { x: 0, y: 0 },
+          { x: paneW, y: 0 },
+        ],
+        sequenceIndex: 0,
+      },
+    ],
+    coordinateSemantics: { origin: "top-left", xAxis: "right", units: "mm" },
+  };
+}
+
+describe("analyzeYield", () => {
+  it("reports 20% yield for a 400×500 pane on a 1000×1000 sheet", () => {
+    const report = analyzeYield(rectPanePlan(1000, 1000, 400, 500));
+    expect(report.sheetAreaMm2).toBe(1_000_000);
+    expect(report.paneAreaMm2).toBe(200_000);
+    expect(report.wasteAreaMm2).toBe(800_000);
+    expect(report.yieldPct).toBeCloseTo(20, 6);
+    expect(report.paneCount).toBe(1);
+    expect(report.cutCount).toBe(1);
+  });
+
+  it("uses shoelace area when a polygon outline is present", () => {
+    const plan = rectPanePlan(1000, 1000, 400, 500);
+    plan.panes[0]!.polygon = [
+      { x: 0, y: 0 },
+      { x: 400, y: 0 },
+      { x: 400, y: 500 },
+      { x: 0, y: 500 },
+    ];
+    expect(analyzeYield(plan).paneAreaMm2).toBeCloseTo(200_000, 6);
+    expect(analyzeYield(plan).yieldPct).toBeCloseTo(20, 6);
+  });
+
+  it("clamps yield between 0 and 100", () => {
+    const over = analyzeYield(rectPanePlan(100, 100, 200, 200));
+    expect(over.yieldPct).toBe(100);
+    expect(over.wasteAreaMm2).toBe(0);
+    const empty = analyzeYield({
+      id: "empty",
+      sheet: { width: 0, height: 0 },
+      panes: [],
+      cuts: [],
+      coordinateSemantics: { origin: "top-left", xAxis: "right", units: "mm" },
+    });
+    expect(empty.yieldPct).toBe(0);
+  });
+});
+
+describe("sheetFitsBed", () => {
+  it("accepts a sheet within the bed plus tolerance", () => {
+    const plan = rectPanePlan(6100, 3350, 400, 500);
+    expect(sheetFitsBed(plan, { width: 6100, height: 3350 })).toBe(true);
+    expect(sheetFitsBed(plan, { width: 6099.6, height: 3350 }, 0.5)).toBe(true);
+    expect(bedFitWarning(plan, { width: 6100, height: 3350 })).toBeUndefined();
+  });
+
+  it("warns when the sheet is larger than the bed", () => {
+    const plan = rectPanePlan(6200, 3400, 400, 500);
+    const bed = { width: 6100, height: 3350 };
+    expect(sheetFitsBed(plan, bed)).toBe(false);
+    const warning = bedFitWarning(plan, bed);
+    expect(warning).toMatch(/OVERSIZE/i);
+    expect(warning).toMatch(/6200/);
+    expect(warning).toMatch(/6100/);
   });
 });

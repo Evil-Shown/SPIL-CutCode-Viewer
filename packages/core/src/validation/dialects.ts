@@ -14,6 +14,8 @@ const DIALECTS: Record<string, MachineDialect> = {
   BOTTERO: { kerfMinDistanceMm: 2 },
   HEGLA: { kerfMinDistanceMm: 2.5 },
   INTERMAC: { kerfMinDistanceMm: 3 },
+  BAVELLONI: { kerfMinDistanceMm: 3 },
+  GLASTON: { kerfMinDistanceMm: 3 },
   OPTIMA: { kerfMinDistanceMm: 3 },
   MACOTEC: { kerfMinDistanceMm: 3 },
   MACOTECH: { kerfMinDistanceMm: 3 },

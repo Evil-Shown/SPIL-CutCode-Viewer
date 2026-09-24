@@ -20,6 +20,7 @@ const VENDOR_BY_DIR: Record<string, string> = {
   bottero: "Bottero",
   hegla: "Hegla",
   intermac: "Intermac",
+  bavelloni: "Bavelloni",
   lisec: "Lisec",
   macotech: "Macotech",
   optima: "Optima",

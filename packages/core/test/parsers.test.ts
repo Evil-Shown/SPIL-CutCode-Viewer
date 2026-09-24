@@ -268,14 +268,16 @@ describe("parsers", () => {
     expect(r.error).toContain("family configuration");
   });
 
-  it("parses Intermac ISO .CUT programs (sheet, scores, shaped piece)", () => {
+  it("parses NUM ISO .CUT programs (sheet, scores, shaped piece)", () => {
     const c = readFileSync(join(fixtures, "intermac/2_01.CUT"), "utf8");
     const d = detectFormat(c, "2_01.CUT");
-    expect(d.formatId).toBe("intermac-cut");
+    expect(d.formatId).toBe("bavelloni-cut");
+    expect(d.vendor).toBe("Bavelloni");
     expect(d.confidence).toBe("high");
 
     const r = parseAndNormalize(c, "2_01.CUT");
     expect(r.status).toBe("ok");
+    expect(r.document?.metadata.machine).toContain("SYNCRO");
     const s = sheet(r.document);
     expect(s?.sheet.width).toBe(3660);
     expect(s?.sheet.height).toBe(2440);
@@ -296,6 +298,81 @@ describe("parsers", () => {
       expect(p.x).toBeLessThanOrEqual(3660.5);
       expect(p.y).toBeLessThanOrEqual(2440.5);
     }
+  });
+
+  it("always reads E30000 as tenths of a millimetre", () => {
+    const c = [
+      "%1",
+      "N1(SMALL_001)",
+      "N2E30000=8000E30001=1200E30002=0004",
+      "N5(MON             )",
+      "(NUM SYNCRO)",
+      "L6=0L7=0L8=0L13=100L14=0G77H9030",
+    ].join("\n");
+    const r = parseAndNormalize(c, "small.CUT");
+    expect(r.document?.sheets[0]?.sheet.width).toBe(800);
+    expect(r.document?.sheets[0]?.sheet.height).toBe(1200);
+  });
+
+  it("reuses shape blocks by L13/L14 N-labels (SYNCRO G77N8N9)", () => {
+    const c = readFileSync(join(fixtures, "bavelloni/syncro-two-shapes.CUT"), "utf8");
+    const r = parseAndNormalize(c, "syncro-two-shapes.CUT");
+    expect(r.status).toBe("ok");
+    const s = sheet(r.document);
+    expect(s?.sheet.width).toBe(1500);
+    expect(s?.sheet.height).toBe(1500);
+    expect(s?.panes.length).toBe(4);
+    const scores = s?.cuts.filter((cut) => cut.stage === 1 || cut.stage === 2) ?? [];
+    expect(scores.length).toBe(1);
+    const large = s?.panes.filter((p) => Math.abs(p.bounds.width - 1000) < 1) ?? [];
+    const small = s?.panes.filter((p) => Math.abs(p.bounds.width - 400) < 1) ?? [];
+    expect(large.length).toBe(3);
+    expect(small.length).toBe(1);
+  });
+
+  it("parses REV 372 SR Low-E grind paths (G77H9666)", () => {
+    const c = readFileSync(join(fixtures, "bavelloni/rev372-lowe.CUT"), "utf8");
+    const d = detectFormat(c, "rev372-lowe.CUT");
+    expect(d.formatId).toBe("bavelloni-cut");
+    expect(d.vendor).toBe("Bavelloni");
+
+    const r = parseAndNormalize(c, "rev372-lowe.CUT");
+    expect(r.status).toBe("ok");
+    expect(r.document?.metadata.machine).toContain("REV 372");
+    const s = sheet(r.document);
+    expect(s?.sheet.width).toBe(1200);
+    const grind = s?.cuts.filter((cut) => cut.stageLabel === "Low-E") ?? [];
+    expect(grind.length).toBe(4);
+  });
+
+  it("detects Flexium Plus and reads jumbo E30000 tenths", () => {
+    const c = readFileSync(join(fixtures, "bavelloni/flexium-plus.CUT"), "utf8");
+    const d = detectFormat(c, "flexium-plus.CUT");
+    expect(d.formatId).toBe("bavelloni-cut");
+    const r = parseAndNormalize(c, "flexium-plus.CUT");
+    expect(r.document?.metadata.machine).toContain("Flexium");
+    expect(r.document?.sheets[0]?.sheet.width).toBe(3210);
+    expect(r.document?.sheets[0]?.sheet.height).toBe(2100);
+    expect(r.document?.sheets[0]?.cuts.length).toBe(3);
+  });
+
+  it("splits multi-program NUM files into one sheet per %n", () => {
+    const c = [
+      "%1",
+      "N1(SHEET_A)",
+      "N2E30000=15000E30001=1500E30002=0004",
+      "(NUM SYNCRO)",
+      "L6=0L7=0L8=0L13=100L14=0G77H9030",
+      "%2",
+      "N1(SHEET_B)",
+      "N2E30000=20000E30001=1000E30002=0004",
+      "(NUM SYNCRO)",
+      "L6=0L7=0L8=0L13=200L14=0G77H9030",
+    ].join("\n");
+    const r = parseAndNormalize(c, "multi.CUT");
+    expect(r.document?.sheets.length).toBe(2);
+    expect(r.document?.sheets[0]?.sheet.width).toBe(1500);
+    expect(r.document?.sheets[1]?.sheet.width).toBe(2000);
   });
 
   it("reports encrypted .ot5 archives clearly", () => {

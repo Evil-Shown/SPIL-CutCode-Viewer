@@ -108,6 +108,8 @@ export type ParseResult = {
 export const STAGE_LABELS: Record<string, string[]> = {
   OPTIMA: ["X", "Y", "Z", "W", "V", "A", "B", "C", "D", "E"],
   INTERMAC: ["X", "Y", "Z", "W", "V", "A", "B", "C", "D", "E"],
+  BAVELLONI: ["X", "Y", "Z", "W", "V", "A", "B", "C", "D", "E"],
+  GLASTON: ["X", "Y", "Z", "W", "V", "A", "B", "C", "D", "E"],
   MACOTEC: ["X", "Y", "Z", "W", "V", "A", "B", "C", "D", "E"],
   BOTTERO: ["X", "Y", "Z", "W", "Q", "R"],
   HEGLA: ["X", "Y", "Z", "V", "W"],

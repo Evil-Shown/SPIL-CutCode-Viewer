@@ -185,17 +185,22 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
       const isHover = hoverRef.current?.type === "cut" && hoverRef.current.index === i;
       const seqPos = seqClock.progress;
       const dimmed = seqPos >= 0 && cut.sequenceIndex > seqPos;
+      const isLowE = cut.stageLabel === "Low-E";
       ctx.strokeStyle = isSelected
         ? theme.cutSelected
         : isHover
           ? theme.cutHover
-          : layers.stages && cut.stage
-            ? STAGE_COLORS[(cut.stage - 1) % STAGE_COLORS.length]
-            : theme.cutColor;
+          : isLowE
+            ? theme.laserColor
+            : layers.stages && cut.stage
+              ? STAGE_COLORS[(cut.stage - 1) % STAGE_COLORS.length]
+              : theme.cutColor;
       ctx.globalAlpha = dimmed ? 0.15 : 1;
-      ctx.lineWidth = isSelected || isHover ? 3 : 1.5;
+      ctx.lineWidth = isSelected || isHover ? 3 : isLowE ? 1.75 : 1.5;
+      ctx.setLineDash(isLowE && !isSelected ? [7, 4] : []);
       drawCutPath(cut);
       ctx.stroke();
+      ctx.setLineDash([]);
 
       if (layers.directions && cut.points.length === 2) {
         const a = cut.points[0];

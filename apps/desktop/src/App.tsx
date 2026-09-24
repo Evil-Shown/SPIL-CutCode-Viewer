@@ -4,10 +4,13 @@ import { CutCanvas } from "./CutCanvas";
 import { CutStage3D } from "./CutStage3D";
 import { Inspector } from "./Inspector";
 import { Landing } from "./Landing";
+import { MachineSpecs } from "./MachineSpecs";
 import { PlaybackDriver } from "./PlaybackDriver";
 import { Sidebar } from "./Sidebar";
+import { SimConsole } from "./SimConsole";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { machineAccepts, machineById } from "./machines";
+import { seqClock } from "./seqClock";
 import { useAppStore, type LayerToggles } from "./store";
 import { isTauri, openFileDialog, openFileFromBrowser, saveDialog, writeBinaryFile } from "./fileIO";
 import { renderPng, renderSvg, dataUrlToBytes, downloadBytes, triggerPrint } from "./exporters";
@@ -58,6 +61,45 @@ export default function App() {
   // Apply persisted theme class on mount
   useEffect(() => {
     document.documentElement.classList.toggle("dark", useAppStore.getState().theme === "dark");
+  }, []);
+
+  useEffect(() => {
+    const typing = (t: EventTarget | null) =>
+      t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement
+      || (t instanceof HTMLElement && t.isContentEditable);
+
+    const onKey = (e: KeyboardEvent) => {
+      if (typing(e.target)) return;
+      const st = useAppStore.getState();
+      if (!st.machineId) return;
+      if (e.code === "Space") {
+        e.preventDefault();
+        st.setSeqPlaying(!st.seqPlaying);
+        return;
+      }
+      if (e.key === "[" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        seqClock.stepCut(-1);
+        return;
+      }
+      if (e.key === "]" || e.key === "ArrowRight") {
+        e.preventDefault();
+        seqClock.stepCut(1);
+        return;
+      }
+      if (e.key === "Home") {
+        e.preventDefault();
+        st.setSeqPlaying(false);
+        seqClock.seek(0);
+        return;
+      }
+      if (e.key === "1") st.setSeqSpeed(1);
+      else if (e.key === "2") st.setSeqSpeed(2);
+      else if (e.key === "3") st.setSeqSpeed(4);
+      else if (e.key === "4") st.setSeqSpeed(8);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   const openResult = useCallback(
@@ -307,8 +349,9 @@ export default function App() {
           <div className="panel-machine">
             <span>01 · Selected system</span>
             <strong>{machine.brand} {machine.model}</strong>
-            <small>{machine.bed.width} × {machine.bed.height} mm work area</small>
+            <small>{machine.origin} · {machine.kind}</small>
           </div>
+          <MachineSpecs machine={machine} />
           <Sidebar machine={machine} onOpenResult={openResult} />
         </aside>
 
@@ -373,6 +416,8 @@ export default function App() {
           <Inspector />
         </aside>
       </div>
+
+      <SimConsole />
 
       {/* Status bar */}
       <footer className="flex shrink-0 items-center justify-between border-t border-slate-200 bg-white px-3 py-1 text-[11px] text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">

@@ -3,7 +3,7 @@ import type { ParseResult } from "../model/types.js";
 import { parseBotteroOpt } from "./bottero-opt.js";
 import { parseDxf } from "./dxf.js";
 import { parseHeglaEdi } from "./hegla-edi.js";
-import { parseIntermacCut } from "./intermac-cut.js";
+import { parseIntermacCut, parseBavelloniCut } from "./intermac-cut.js";
 import { parseIntermacOtd } from "./intermac-otd.js";
 import { parseLisecDat } from "./lisec-dat.js";
 import { parseMacotechFamily } from "./macotech-family.js";
@@ -27,6 +27,7 @@ function parsePerfectCutOt5(_content: string, sourcePath: string): ParseResult {
 const PARSERS: Record<string, (content: string, sourcePath: string) => ParseResult> = {
   "intermac-otd": parseIntermacOtd,
   "intermac-cut": parseIntermacCut,
+  "bavelloni-cut": parseBavelloniCut,
   "lisec-dat": parseLisecDat,
   "bottero-opt": parseBotteroOpt,
   "optima-r01": parseOptimaR01,

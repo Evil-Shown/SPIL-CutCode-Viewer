@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
+import { analyzeYield, buildTimeline } from "@spil/cutcode-core";
 import { useAppStore } from "./store";
 import { validateDocument, type ValidationIssue } from "./validation";
-import { THEMES } from "./theme";
+import { kinematicsFor, machineById } from "./machines";
+import { seqClock } from "./seqClock";
+import { formatSimTime, useSeqClock } from "./useSeqClock";
 
 function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -78,12 +81,11 @@ export function Inspector() {
   const activeSheetIndex = useAppStore((s) => s.activeSheetIndex);
   const selectedCutIndex = useAppStore((s) => s.selectedCutIndex);
   const selectedPaneId = useAppStore((s) => s.selectedPaneId);
+  const machineId = useAppStore((s) => s.machineId);
   const focusOn = useAppStore((s) => s.focusOn);
   const selectPane = useAppStore((s) => s.selectPane);
-  const themeName = useAppStore((s) => s.theme);
   const [paneFilter, setPaneFilter] = useState("");
-
-  const theme = THEMES[themeName];
+  useSeqClock();
 
   const issues = useMemo(() => (document ? validateDocument(document) : []), [document]);
 
@@ -103,6 +105,8 @@ export function Inspector() {
   const filteredPanes = paneFilter
     ? sheet.panes.filter((p) => p.id.toLowerCase().includes(paneFilter.toLowerCase()))
     : sheet.panes;
+  const yieldReport = analyzeYield(sheet);
+  const cycle = seqClock.timeline ?? buildTimeline(sheet, kinematicsFor(machineById(machineId)));
 
   return (
     <div className="flex h-full flex-col overflow-y-auto text-sm">
@@ -187,6 +191,48 @@ export function Inspector() {
         </dl>
       </Section>
 
+      {yieldReport && (
+        <Section title="Yield">
+          <dl className="space-y-1 text-xs">
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Yield</dt>
+              <dd className="font-medium">{yieldReport.yieldPct.toFixed(1)}%</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Pane area</dt>
+              <dd className="font-medium">{(yieldReport.paneAreaMm2 / 1e6).toFixed(3)} m²</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Waste</dt>
+              <dd className="font-medium">{(yieldReport.wasteAreaMm2 / 1e6).toFixed(3)} m²</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Panes</dt>
+              <dd className="font-medium">{yieldReport.paneCount}</dd>
+            </div>
+          </dl>
+        </Section>
+      )}
+
+      {cycle && (
+        <Section title="Cycle">
+          <dl className="space-y-1 text-xs">
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Cycle time</dt>
+              <dd className="font-medium">{formatSimTime(cycle.totalS)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Score</dt>
+              <dd className="font-medium">{(cycle.cuttingLengthMm / 1000).toFixed(2)} m</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Rapid</dt>
+              <dd className="font-medium">{(cycle.rapidLengthMm / 1000).toFixed(2)} m</dd>
+            </div>
+          </dl>
+        </Section>
+      )}
+
       {selectedPane && (
         <Section title="Selected Pane">
           <dl className="space-y-1 text-xs">
@@ -254,7 +300,7 @@ export function Inspector() {
       </Section>
 
       <div className="mt-auto px-3 py-2 text-[10px] text-slate-400">
-        Shortcuts: F fit · +/− zoom · Esc deselect · double-click fit
+        Shortcuts: Space play · [ ] step · Home reset · F fit · +/− zoom · Esc deselect
       </div>
     </div>
   );

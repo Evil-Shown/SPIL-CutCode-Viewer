@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { CutDocument, ParseResult } from "@spil/cutcode-core";
+import { machineById } from "./machines";
 import type { ThemeName } from "./theme";
 
 export interface LayerToggles {
@@ -57,6 +58,7 @@ interface AppState {
   setStatus: (msg: string | null) => void;
   setSeqPlaying: (playing: boolean) => void;
   cycleSeqSpeed: () => void;
+  setSeqSpeed: (speed: number) => void;
   toggleMeasure: () => void;
   setMachine: (id: string | null) => void;
   setViewMode: (mode: "2d" | "3d") => void;
@@ -96,7 +98,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   seqPlaying: false,
   seqSpeed: 1,
   measureMode: false,
-  machineId: null,
+  machineId: machineById(loadStored<string | null>("ccv.machine", null))?.id ?? null,
   viewMode: "3d",
 
   fitRequest: 0,
@@ -157,9 +159,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       return { seqSpeed: speeds[(idx + 1) % speeds.length] ?? 1 };
     }),
 
+  setSeqSpeed: (speed) => set({ seqSpeed: speed > 0 ? speed : 1 }),
+
   toggleMeasure: () => set((s) => ({ measureMode: !s.measureMode })),
 
-  setMachine: (id) =>
+  setMachine: (id) => {
+    store("ccv.machine", id);
     set({
       machineId: id,
       document: null,
@@ -169,7 +174,8 @@ export const useAppStore = create<AppState>((set, get) => ({
       seqPlaying: false,
       viewMode: "3d",
       activeSheetIndex: 0,
-    }),
+    });
+  },
 
   setViewMode: (mode) => set({ viewMode: mode }),
 }));

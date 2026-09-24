@@ -1,0 +1,394 @@
+
+
+===== PAGE 1 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 1/21 Glaston(Tianjin) Co.,Ltd 
+ 
+Part Program Specification Supplement 
+ 
+Contents:  
+1. Monolithic glass (For UC serial cutting function) 
+1.1 Cutting head go up. 
+1.2 New setting for possible to remove the cutting near to edge 
+2. Low-E glass (For UC200, UC500 and UC1000 Low-E function) 
+ 
+ 
+1. Monolithic Glass (Left bottom reference) 
+1.1 Cutting head go up  
+We add variables in the part program to specify which cut is last one. After machine finish 
+the last cutting, cutting head will go up to top position. 
+The specified variables are E30010 and E30009.  
+1.1.1 Straight cut only 
+Here below is one example. 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=10L7=3L8=90L13=10L14=2097G77H9030 
+L6=810L7=2097L8=270L13=810L14=11G77H9030 
+L6=11L7=10L8=0L13=3207L14=10G77H9030 
+E30009=1 
+E30010=1 
+L6=809L7=1010L8=180L13=11L14=1010G77H9030 
+E30009=0 
+E30010=0 
+ED0 
+G59XYC 
+
+
+===== PAGE 2 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 2/21 Glaston(Tianjin) Co.,Ltd 
+ 
+1.1.2 Straight plus shape 
+ Here below is one example. 
+%4027 
+N1(M00005_001  ) 
+N2E30000=32100E30001=2100E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=0             
+N5(FL4             ) 
+(NUM SYNCRO_LOWE 2010) 
+VAR 
+ [INDEX] 
+ [NLOOP] 
+ [DIS_LOW]=E40094 
+ [DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9104 
+G76N4N4 
+N6G77H9101 
+G79N123 
+N8 
+G77H9700 
+G77NL13NL14 
+ED0 
+G59XYC 
+
+
+===== PAGE 3 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 3/21 Glaston(Tianjin) Co.,Ltd 
+ 
+N9 
+N10 
+EGE80010 
+L2=L1 
+L1=400L6=-400L7=-210L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G02X400Y-210I0J-210FE82409 
+G77H9000 
+L2=L1 
+L1=200L6=200L7=-210L8=90 
+G77H9001 
+L2=L1 
+L1=0 
+G03X-200Y-210I0J-210FE82409 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+L2=L1 
+L1=10000L6=400L7=-510L8=90 
+G77H9001 
+L2=L1 
+L1=400 
+G01X400Y90FE82410 
+L2=L1 
+L1=10000 
+
+
+===== PAGE 4 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 4/21 Glaston(Tianjin) Co.,Ltd 
+ 
+G03X-400Y90I0J90FE82409 
+L2=L1 
+L1=0 
+G01X-400Y-510FE82410 
+E30009=1 
+G77H9000 
+E30009=0 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]<> 1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=3L7=840L8=0L13=3207L14=840G77H9030 
+L6=3060L7=839L8=270L13=3060L14=3G77H9030 
+L6=3040L7=841L8=90L13=3040L14=1639G77H9030 
+L6=2880L7=1641L8=90L13=2880L14=2097G77H9030 
+L6=2879L7=2060L8=180L13=2041L14=2060G77H9030 
+L6=2040L7=2097L8=270L13=2040L14=3G77H9030 
+L6=1020L7=3L8=90L13=1020L14=1679G77H9030 
+L6=840L7=1681L8=90L13=840L14=2097G77H9030 
+L6=1680L7=2097L8=270L13=1680L14=1681G77H9030 
+L6=2039L7=1680L8=180L13=3L14=1680G77H9030 
+L6=2041L7=1640L8=0L13=3207L14=1640G77H9030 
+ED0 
+G59XYC 
+L6=420L7=1890L8=0L13=10L14=11G77N8N9 
+L6=1260L7=1890L8=0L13=10L14=11G77N8N9 
+
+
+===== PAGE 5 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 5/21 Glaston(Tianjin) Co.,Ltd 
+ 
+L6=2460L7=1850L8=0L13=10L14=11G77N8N9 
+L6=510L7=420L8=90L13=12L14=13G77N8N9 
+L6=510L7=1260L8=90L13=12L14=13G77N8N9 
+L6=1530L7=420L8=90L13=12L14=13G77N8N9 
+L6=1530L7=1260L8=90L13=12L14=13G77N8N9 
+E30010=1 
+L6=2550L7=420L8=90L13=12L14=13G77N8N9 
+E30010=0 
+ENDI 
+N16 
+N123 
+ 
+1.2 New setting for possible to remove the cutting near to edge 
+We add two settings to remove the straight cutting when this cutting is very close to the glass edge. 
+1) Enable Safety Sheet Distance Cut Removal 
+2) Safety Sheet cut removal Value 
+ 
+
+
+===== PAGE 6 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 6/21 Glaston(Tianjin) Co.,Ltd 
+ 
+ 
+If enabled and valued,This remove all parallel cut from sheet edge within the value inserted ;In the 
+example here under  the Safety Sheet cut removal Value is 20 mm 
+
+
+
+===== PAGE 7 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 7/21 Glaston(Tianjin) Co.,Ltd 
+ 
+  
+   
+
+
+
+===== PAGE 8 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 8/21 Glaston(Tianjin) Co.,Ltd 
+ 
+And there’s the result cut  
+  
+NOTE:Actually this feature remove only the cut path not ,the grind path. 
+ 
+ 
+  
+
+
+
+===== PAGE 9 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 9/21 Glaston(Tianjin) Co.,Ltd 
+ 
+2. Low-E Glass (Left bottom reference) 
+1) Grinding overlap Mode  
+ 
+ 
+Here you can: 
+-Eable the multiple  grinding  path  mode for a grind path bigger than the grind tool 
+thickness 
+To enable this management ,check the  Active Overlap Grinding Mode  
+-Set the Grind tool thickness ,now is set at 20mm  
+-Set the grind overlap between a grind path and the following for multiple grind path. The 
+measure inserted means the MIMIMUM overlap between each grind path run and the 
+other.Now is set at 1 mm 
+-Center LowE Removal 
+
+
+
+===== PAGE 10 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 10/21 Glaston(Tianjin) Co.,Ltd 
+ 
+This setting will work ONLY if with ACTIVE OVERLAP GRIND MODE (multiple grind path run). 
+This  force the first grind path run  (no  matter if you have one or more path run) at the center of 
+the cut path   
+So that ,if you  set up 20 mm of multiple grinding ,this will be done at the center of the cut ,10 
+mm inside of the shape cut  and 10 mm outside of the shape cut .if you set up 30 mm ,you will 
+have two multiple grind path runs ,but the first one will be always 10 mm inside the shape cut 
+and 10 mm outside the shape cut.If you need this path will be done all INSIDE the shape cut ,you 
+have to UNCHECK this. 
+  
+
+
+===== PAGE 11 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 11/21 Glaston(Tianjin) Co.,Ltd 
+ 
+How to set   “multiple grind path” : 
+Here under is explained how to manage the multiple grind path: From inside the software shape 
+management,choose the LOWE shape family: 
+ 
+In the shape parametric mesaure insertion ,you have new parameters: MLE_01, MLE_02, MLE_03, 
+MLE_04  ,these are the measure of the grinding for each side of the shape . 
+NOTE: If you need multiple grinding path run for square and retangulare pieces (linear cut)  ,you MUST 
+use the LOW_E00  Shape , if you need normal grind for these kind of pieces,you can avoid this . 
+ Furthermore you can choose all other LOWE shape family for any other kind of shapes. 
+
+
+
+===== PAGE 12 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 12/21 Glaston(Tianjin) Co.,Ltd 
+ 
+       
+
+
+
+===== PAGE 13 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 13/21 Glaston(Tianjin) Co.,Ltd 
+ 
+EXAMPLE OF MULTIPLE GRIND PATH 
+EXAMPLE 1 :  
+If you need to cover 60 mm of grinding and you have a tool measure of 20  mm and an overlap  Grinding  
+of 1 mm  ,you will have 4 grind path  because the first one has to be 10 mm inside the cut and 10 mm 
+outside the shape cut and  each one has to be overlapped  MINIMUM  of 1 mm  between the other.The 
+amount of grind overlap between each run is chosen automatically with the limitation of the minimum 
+value.   
+EXAMPLE 2 
+Here is displayed the tool path with shapes with multiple grinding and rectangular pieces with normal 
+one run grinding ,the RED and  FUCSIA line is the tool path,the GREEN line means that that path will be 
+cut and not grinded 
+ 
+
+
+
+===== PAGE 14 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 14/21 Glaston(Tianjin) Co.,Ltd 
+ 
+ 
+  
+  
+
+
+
+===== PAGE 15 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 15/21 Glaston(Tianjin) Co.,Ltd 
+ 
+2) Full Grind Mode 
+ 
+ 
+Full grind mode if checked will work in this way: 
+If you have a shape in your optimization,the grinding will be applied AS onto the shape AS all around the 
+bounding box which contains the shape.  
+ 
+  
+
+
+
+===== PAGE 16 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 16/21 Glaston(Tianjin) Co.,Ltd 
+ 
+3) Ordered Grind Run 
+The LOWE grinding will alternate between  the sheet  border  and the internal sheet 
+path.Leave this setting at “2” 
+That is expressely request by Glaston 
+ 
+ 
+ 
+  
+
+
+
+===== PAGE 17 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 17/21 Glaston(Tianjin) Co.,Ltd 
+ 
+4) Grind distance from sheet edge 
+We have a safety  grind distance from sheet edge ,now is set to 10 mm ,you can set up it as 
+you wish ,this stop the grinding 10 mm in before the perpendicolaar grind arrive to the 
+sheet side.  
+ 
+The grind distance from sheet edge is the distance from edge from which vertical grind is done,in the 
+screenshot I have put the distance at a value of 110 mm to point out this see screenshot below: 
+Optimization 
+
+
+
+===== PAGE 18 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 18/21 Glaston(Tianjin) Co.,Ltd 
+ 
+  
+
+
+
+===== PAGE 19 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 19/21 Glaston(Tianjin) Co.,Ltd 
+ 
+Grind result ,the the grind path is in RED ,and the RED lines represents up to where it come the LOWE 
+grinding 
+ 
+ 
+  
+
+
+
+===== PAGE 20 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 20/21 Glaston(Tianjin) Co.,Ltd 
+ 
+5)  Edge distance to recognize border 
+ 
+ 
+ 
+We assume that we have to alternate grind runs  path  if one run  is located near the border of the 
+glass, this to avoid grind tool  consumption  if the grind tool edge is exceed the glass border . 
+This parameter  define  which grinding path is considered   inside/outside  the glass border  to send 
+low pressure for tool grind depending how  far the tool is outside the border 
+ 
+
+
+
+===== PAGE 21 =====
+                                                                                                                                     
+Version:A(Version Date:2014.07.23) 21/21 Glaston(Tianjin) Co.,Ltd 
+ 
+ 
+      
+The parameter    Edge distance to recognize border  define the border line according this 
+parameter, For example: 
+If grinding wheel locate glass edge outside 10mm, and this parameter is 5mm Then is defined  as border 
+line. 
+ If grinding wheel locate glass edge outside 4mm, and this parameter is 5mm Then is  defined  as inside 
+line  
+ 
+ 
+A 2014/07/23 First release 
+Ver. N. Date Description of the modification 
+Written by Checked by Approved by 
+Date: 
+2014/07/08 
+Signature: 
+Richard Zhang 
+Date: 
+2014/07/16 
+Signature: 
+Ward Qin 
+Date: Signature: 
+ 

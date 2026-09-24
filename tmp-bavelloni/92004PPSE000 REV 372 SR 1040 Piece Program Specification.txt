@@ -1,0 +1,5083 @@
+
+
+===== PAGE 1 =====
+ 
+PRODUCT 
+ 
+REV  372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+ 
+ 
+ 
+REV 372 SR 
+PART PROGRAM SPECIFICATION 
+(NUM 1040) 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+===== PAGE 2 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx 
+Page 2 of 63   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Rev. Date Author Description CR 
+0 24.11.09 P. Rebecchi First Emission  
+     
+     
+
+
+===== PAGE 3 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx 
+Page 3 of 63   
+ 
+SUMMARY 
+ 
+1.  INTRODUCTION .................................................................................................. 1.4  
+1.1  Purpose ................................................................................................. 1.4  
+1.2  Scope .................................................................................................... 1.4  
+1.3  Definitions, Acronyms and Abbreviations .............................................. 1.4  
+1.3.1  Definitions .............................................................................................. 1.4  
+1.3.2  Acronyms .............................................................................................. 1.4  
+1.4  References ............................................................................................ 1.4  
+2.  GENERAL DESCRIPTION .................................................................................. 2.5  
+2.1  Axis reference description ..................................................................... 2.5  
+2.1.1  Machine axis origin ................................................................................ 2.5  
+2.1.2  Piece axis origin .................................................................................... 2.6  
+2.2  STRUCTURE OF THE PROGRAM ....................................................... 2.8  
+3.  FUNCTIONAL REQUIREMENTS ........................................................................ 3.9  
+3.1  Monolithic glass (left bottom reference) ................................................. 3.9  
+3.1.1  Common part of all part programs ......................................................... 3.9  
+3.1.2  Straight cuts only ................................................................................. 3.11  
+3.1.3  Straight cuts plus shapes .................................................................... 3.12  
+3.2  LOW-E Glass ...................................................................................... 3.16  
+3.2.1  Introduction .......................................................................................... 3.16  
+3.2.2  LOW-E Paths Block Description .......................................................... 3.19  
+3.2.3  LOW-E Structural Glass ...................................................................... 3.20  
+3.2.4  LOW-E ISO code specification ............................................................ 3.21  
+3.3  Laminated Glass ISO code specification ............................................. 3.24  
+3.3.1  Differences between FRONT and BACK Side ISO code of  a 
+Laminated glass .................................................................................. 3.26  
+3.4  LOW-E on Laminated Glass ................................................................ 3.28  
+3.5  System Reference Point (right bottom reference) ............................... 3.30  
+3.5.1  Differences between Left and Right Reference ISO code ................... 3.34  
+3.6  Sending the cutting program to the Numerical control ......................... 3.40  
+3.7  Displaying a cutting pattern preview .................................................... 3.41  
+4.  ANNEX DOCUMENTATION .............................................................................. 4.42  
+4.1  ANNEX A ............................................................................................. 4.42  
+4.2  ANNEX B ............................................................................................. 4.44  
+4.3  ANNEX C ............................................................................................ 4.46  
+4.4  ANNEX D ............................................................................................ 4.48  
+4.5  ANNEX F ............................................................................................. 4.50  
+4.6  ANNEX G ............................................................................................ 4.53  
+4.7  ANNEX H ............................................................................................ 4.55  
+4.8  ANNEX I .............................................................................................. 4.57  
+4.9  ANNEX J ............................................................................................. 4.59  
+4.10  ANNEX K ............................................................................................. 4.61  
+ 
+
+
+===== PAGE 4 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 4 of 63  
+ 
+1.  INTRODUCTION 
+ 
+ 
+1.1 Purpose 
+The document describes the format of a part program used for straight and shaped cuts. 
+ 
+1.2 Scope 
+The document applies only to cutting table of model “REV 372 SR”. 
+ 
+1.3 Definitions, Acronyms and Abbreviations 
+ 
+1.3.1 Definitions 
+ 
+1.3.2 Acronyms 
+ 
+Acronym/Abbreviation Description 
+  
+  
+ 
+ 
+1.4 References 
+ 
+
+
+===== PAGE 5 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 5 of 63  
+2. GENERAL DESCRIPTION 
+2.1 Axis reference description 
+ 
+The axis reference is relevant for the part program  because the effect of a NC instruction 
+has different effect depending on the orientation of the axis. 
+ 
+2.1.1 Machine axis origin 
+ 
+The zero point for the axis is always in the left b ottom corner of the table likr in the picture 
+below. 
+ 
+  
+X 
+Y 
+C 
+
+
+===== PAGE 6 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 6 of 63  
+2.1.2 Piece axis origin 
+ 
+The glass sheet may be cut in different positions, it is important to note the two side of the 
+glass that are used to detect the piece axis origin  (trusted sides). They can vary according 
+to the operator selection (1,2 .. 4) based on HMI p arameters (EasyCNC). In the picture 
+below it is possible to see the four possible positions and related trusted side. 
+ 
+For each position the ISO code should be generated like for position 1 except for LOWE 
+processing whose differences will be described in  § 
+3.5 . 
+ 
+ 
+ 
+ 
+ 
+ 
+Possible reference positions (part positions): 
+• Pos.1 Zero on bottom left  
+• Pos.2 Zero on bottom right 
+• Pos.3 Zero on top right 
+• Pos.4 Zero on left top. 
+  
+X 
+Y 
+C 
+Pos. 4 Pos. 3 
+Pos. 2 Pos. 1 
+
+
+===== PAGE 7 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 7 of 63  
+ 
+The application code running on machine’s CNC will change the cutting pattern according 
+to the selected part position. It will move primiti ves and trims in the direction of the trusted 
+sides, for a first snapshot of the changes see the following picture where the pattern is 
+changed according to position 1 and 2. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+From position 1 to position 2 
+
+
+===== PAGE 8 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 8 of 63  
+ 
+2.2 STRUCTURE OF THE PROGRAM 
+ 
+The post-processor must generate a text file countering a number of piece programs equal 
+to the number of different schemes to cut.   
+A progressive number (e.g. %3 ) identifies each pro gram in the first line. The number of 
+the piece program must be between 0 and 3000  (0<Pr ogram number<3000). Once the 
+value of 2999 is reached, the counter starts from one. 
+ 
+Each piece program is made up of: 
+• A heading containing geometrical information on th e sheet, the number of sheets to 
+cut, the ones already cut etc.  
+• A call to carry out cuts followed by an upgrading of the counter for glass sheets 
+already cut.  
+• The list of all cuts to carry out 
+ 
+ 
+
+
+===== PAGE 9 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 9 of 63  
+ 
+3. FUNCTIONAL REQUIREMENTS 
+3.1 Monolithic glass (left bottom reference) 
+ 
+ 
+ 
+ 
+3.1.1 Common part of all part programs 
+ 
+3.1.1.1 Header  
+ 
+%1  Number of piece program %n   0<n<3000 
+N1(M0000001_001)  Label N1: 
+Comment of 8 letters followed by progressive number  of 
+the cutting scheme. In this case program 11 is the first 
+cutting scheme of the “Sample1”work order. Use “_” to 
+form the string with fixed length equal to 12 lette rs. This 
+comment is visualized in the Control Number of the 
+Program List page 
+N2E30000=15000E30001=1500E30002=0007  Label N2: 
+E30000= Dimension X of the sheet in decimals of 
+millimeter (5 letters).  
+E30001= Dimension Y of the sheet in millimeter (4 
+letters). 
+E30002= Thickness of the sheet in millimeters (4 letters) 
+N3E30003=0001E30005=0000  Label N3: 
+E30003= Number of sheets to cut (4 letters)  
+E30005= Number of piece program relevant to cutting  the 
+second side of a laminated glass sheet (4 letters) 0000 
+for normal cut. 
+N4E30004=0  Label N4: 
+E30004= Number of sheets already cut. Of course, th ey 
+will be equal to 0 when generating the piece progra m. 
+Use N4E30004=-1 in the piece program relevant to 
+cutting the first side of a laminated glass.  
+Attention : The string  N4E30004=0 (or\1) MUST be 
+followed by 12 SPACEs (ASCII 32) 
+N5(MON             )  Label N5: 
+Code (or description) of the type of material, 16 
+characters. 
+This string is used in the Numerical Control to sel ect the 
+value of cutting pressure. If this code is not in t he NC 
+table, cutting pressure is selected according to th e 
+thickness. 
+(NUM REV 372 SR ) Just a comment string indicating the type of NC for  which 
+the piece program has been generated. 
+
+
+===== PAGE 10 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 10  of 63  
+ 
+E10028=0  Specify if the part program has to be executed for the 
+Vinyl (E10028=0 means no Vinyl; E10028=1 means Viny l 
+present)  
+G77H9100  Running the %9100 macro (program start) 
+M96  Normal sheet or first side of a laminated material. 
+For the second side of a laminated glass use M98 
+G77N10N12  
+or 
+G77N14N16 
+ 
+ 
+ 
+ 
+VAR 
+   [INDEX] 
+   [NLOOP] 
+   [DIS_LOW]=E40094 
+   [DIS_CUT] =E40093 
+ENDV 
+ 
+ 
+ 
+ 
+E30122=1 
+ 
+ 
+ 
+Call to carry out cuts. It is just a jump, with ret urn, to carry 
+out the lines of the program ranging from label N10  to 
+label N12. These labels are always equal to 10 and 12 for 
+a straight-cut program. This line will be different for cutting 
+schemes containing shapes (see § 
+3.1.3 ). 
+ 
+ 
+Declaration of global variables used during all the  ISO 
+processing. While [INDEX] and [NLOOP] are simple 
+integers used as counters, [DIS_LOW] and [DIS_CUT] 
+specify if the ISO has LOWE and/or CUTTING process.  
+These vars are needed to separate and identify clea rly 
+the LOWE paths from the CUTTING ones. 
+E40094 = Enabling Cut execution 
+E40093 = Enabling Lowe execution 
+ 
+ 
+Set type of elaboration : 
+1 
+/barb2right  Only CUT 
+2 /barb2right  Only LOW-E 
+3 /barb2right  CUT and LOW-E process 
+ 
+ 
+  
+  
+G76N4N4  
+ 
+Upgrade the counter for sheets already cut (E30004)  
+(described for label N4) 
+N6G77H9101  
+ 
+Running the %9101 macro (Parking of bridge and 
+possible sheet evacuation). 
+The three lines : 
+   G77H9104 
+   G76N4N4 
+   N6G77H9101 
+are inside the cutting programs of normal sheets or for the 
+second side of laminated material.  
+When cutting the first side of a laminated glass th ese four 
+lines are replaced by only one line:  
+G77H9101 
+N7M02  It is the label that closes the program 
+  
+………   
+  
+  
+ 
+
+
+===== PAGE 11 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 11  of 63  
+ 
+3.1.2 Straight cuts only 
+ 
+3.1.2.1 List of cuts 
+ 
+ 
+ 
+N10 
+ 
+ 
+IF [DIS_CUT] <>1 THEN 
+ 
+ 
+ 
+ 
+Beginning of list of cuts 
+ 
+ 
+Verify if CUTTING process has to be done. If the 
+value is low, then it skips this block. 
+ 
+G59XL170YL171CL172  
+ 
+ 
+EDL172  
+ 
+ 
+L918=0  
+ 
+Declares all LOW-E blocks into macros should not 
+be executed. 
+L6=20L7=3L8=90L13=20L14=1497G77H9030  
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+ 
+ 
+%9030 Macro to carry out a straight cut: 
+L6=X beginning of cut (mm) 
+L7=Y end of cut (mm) 
+L8=angle for head positioning (0,90,180,270) (in 
+degrees) 
+L13=X end of cut (mm) 
+L14=Y end of cut (mm) 
+ED0  
+ 
+ 
+G59XYC  
+ 
+ENDI 
+ 
+ 
+ 
+End of IF block  
+N12   
+ 
+
+
+===== PAGE 12 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 12  of 63  
+3.1.3 Straight cuts plus shapes 
+ 
+When shapes are present in the cutting pattern the geometrical description of the path for 
+each shape will be present just once in the program. A call to the specific shape cutting will 
+be present in the section “lists of cuts”, between the call and the execution of the cutting a 
+reference change will assure to cut the shape in the correct position. 
+ 
+ 
+ 
+ 
+3.1.3.1 List of cuts 
+ 
+N14  
+ 
+ 
+ 
+IF [DIS_CUT] <>1 THEN 
+ 
+ 
+Beginning of list of cuts, the number of the label 
+depends on the number of shapes in the scheme. 
+ 
+ 
+Verify if CUTTING process has to be done. If the 
+value is low, then it skips this block. 
+G59XL170YL171CL172  
+ 
+Perform  a changing of the reference system  
+ 
+EDL172 
+ 
+ 
+ 
+L918=0 
+ 
+ 
+(Header section)  
+……  
+G77N14N16 
+…….. 
+ 
+(Change of shape reference) 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+(Geometry of the shape) 
+N10 
+….. 
+N11 
+ 
+(List of cuts)   
+N14 
+….. 
+….. 
+L6=270L7=520L8=90L13= 10 L14= 11 G77N8N9 
+…. 
+N16 
+ 
+
+
+===== PAGE 13 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 13  of 63  
+ 
+ 
+L6=20L7=3L8=90L13=20L14=1497G77H9030 
+L6=21L7=1270L8=0L13=519L14=1270G77H9030 
+L6=520L7=1497L8=270L13=520L14=21G77H9030 
+L6=21L7=20L8=0L13=1497L14=20G77H9030 
+L6=519L7=1020L8=180L13=21L14=1020G77H9030 
+ 
+ 
+ 
+%9030 Macro to carry out a straight cut: 
+L6=X beginning of cut (mm) 
+L7=Y end of cut (mm) 
+L8=angle for head positioning (0,90,180,270) (in 
+degrees) 
+L13=X end of cut (mm) 
+L14=Y end of cut (mm) 
+ 
+L6=270L7=520L8=90L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ 
+L6=Position X of the shape, referred to the center of 
+the square (mm) 
+L7=Position Y of the shape, referred to the center of 
+the square mm) 
+L8=angle of the shape (0,90,180,270) (in degrees) 
+L13=Value of the label of the block where the 
+description of the shape starts (10 because the 
+shape starts with N10). 
+L14=Value of the label of the block where the 
+description of the shape ends (11 because the 
+shape ends with N11). 
+G77N8N9 When carrying out cuts of the shape, this 
+string remains unchanged for all programs 
+ 
+ED0 
+G59XYC 
+ 
+ 
+Reset of the Cartesian reference system 
+ 
+ENDI 
+ 
+N16 
+ 
+End of IF block 
+ 
+ 
+ 
+3.1.3.2 Change of shape reference 
+ 
+Block N8-N9 inside the programs for shaped cutting concerns rotative shift of the 
+reference system for all shapes in the scheme. This  block remains the same for all 
+programs, it will be slightly different for shaped cut on the second side of a laminated glass 
+sheet.    
+ 
+ 
+N8  
+ 
+ 
+G77H9700  
+ 
+Running the %9700 macro that will change the 
+reference system 
+G77NL13NL14  
+ 
+Carrying out the shape 
+G77H9000  
+ 
+Rise of the head 
+ED0  
+G59XYC 
+Reset of the Cartesian reference system 
+N9   
+ 
+ 
+
+
+===== PAGE 14 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 14  of 63  
+ 
+3.1.3.3 Shape geometry 
+ 
+Each different shape in the cutting scheme is written only once in the piece program.   
+Each shape is contained between two labels starting from N10. 
+So, the first shape will be described between label s N10-N11, the second between N12-
+N13, the third between N14-N15 and so on. 
+In this example only one shape is present (repeated  4 times) therefore, only labels N10 
+and N11 are used.  
+The general rule is: 
+Last label used for the shapes =  (Number of Different Shapes * 2) + 10 - 1 
+ 
+Call (**) G77N12N14  depends on the number of shapes in the scheme     
+  G77NE1NE2 E1=First free label  = (Number of Diffe rent Shapes * 2) + 10 
+  E2=E1+2 
+ 
+• Scheme of straight cut G77N10N12 
+ 
+• Scheme of shaped cut G77N12N14 
+N10-N11 Description of shape 
+ 
+• Cutting scheme with two different shapes G77N14N16  
+N10-N11 Description of shape 1 
+N12-N13 Description of shape 2 
+ 
+The geometrical description of the shape is contain ed between two EG instructions to 
+define the acceleration value to use.  
+ 
+ EG E80010 
+ ........ 
+ path of the shape  
+ ........ 
+ EG 100 
+ 
+The L1  variable contains the value of the radius (in mm) of the element FOLLOWING the 
+element being cut (as definition put L1=10000 in ca se of straight lines). The numerical 
+control uses the value of the radius of the element  to prearrange cutting pressures 
+appropriately.   
+ 
+ 
+The shape can contain only straight lines or arcs, so it is described using only the 
+traditional functions:  
+G01 XendYendFfeed 
+G02 XendYendIxcJycFfeed 
+G03 XendYendIxcJycFfeed 
+The Cartesian reference system is in the middle of the square containing the shape. 
+The head rises and resets when two successive eleme nts are not radiused and of course, 
+when the two elements are not joined together.   
+Generally, two elements are considered radiused whe n the tangent in the final point of the 
+first element and the tangent of the starting point of the second element differ less than 0.3 
+degrees. 
+
+
+===== PAGE 15 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 15  of 63  
+ 
+The shaped used in example 3 is completely radiused  and so only initial positioning of the 
+head is done. The beginning of the head is in the m iddle point of the lower side of the 
+rectangle.  
+ 
+To each geometrical element making up the shape, an d therefore, to each G1/G2/G3 
+instruction, is associated a speed rate according to the table: 
+ 
+E82401 SPEED FOR ARCS WITH RADIUS <=10mm 
+E82403 SPEED FOR ARCS WITH 10mm< RADIUS <=30mm 
+E82405 SPEED FOR ARCS WITH 30mm< RADIUS <=60mm 
+E82407 SPEED FOR ARCS WITH 60mm< RADIUS <=100mm 
+E82409 SPEED FOR ARCS WITH 100mm< RADIUS <=500mm 
+E82410 SPEED FOR ARCS WITH RADIUS>500mm   and for straight elements. 
+ 
+ 
+ 
+N10  
+ 
+ 
+EGE80010  
+ 
+Definition of acceleration for shapes (excluding 
+circles) 
+G77H9000  Rise of the head 
+L2=L1  
+L1=10000L6=-500L7=-250L8=59.0 
+ 
+Positioning of the head  
+L1=10000 the first element to cut after positioning  is 
+a straight line.  
+L6   X initial (mm) 
+L7   Y initial (mm) 
+L8   Initial angle of the head (in degrees) 
+G77H9001  
+ 
+Sub-program for head positioning at L6,L7,L8 
+L2=L1  
+L1=0 
+G01X-200Y250FE82410 
+ 
+L2 contains a Backup of L1 
+L1 contains value of the radius (in mm) of the 
+element FOLLOWING the element being cut 
+G77H9000  
+ 
+Rising the head 
+L2=L1  
+L1=10000L6=-200L7=250L8=324.5 
+G77H9001 
+L2=L1 
+L1=0 
+G01X500Y-250FE82410 
+G77H9000 
+ 
+ 
+Positioning the head 
+Lowering the head 
+EG100  Restoring 100% acceleration 
+N11  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+===== PAGE 16 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 16  of 63  
+3.2  LOW-E Glass 
+ 
+3.2.1 Introduction 
+ 
+ 
+It’s possible identify two kind of LOW-E process: COMPLETE and PARTIAL. 
+In case of a complete process, the result we gain i s a LOW-E path that coincides with 
+the CUTTING one. Otherwise with the partial process  the LOW-E tool makes us 
+minimize the geometrical elements that must be work ed. In this case it’s important to 
+recognize the elements that we don’t need to work. 
+ 
+Below it shows two pictures. On the left side is de scribed the COMPLETE LOW-E 
+process, where the red straight lines are paths on which CUTTING and LOW-E process 
+has to be performed. On the right side is described the PARTIAL LOW-E process where 
+the straight green lines defines the cutting paths,  while the red ones indicates the 
+CUTTING and LOW-E (minimized) paths. 
+ 
+ 
+                 
+COMPLETE       PARTIAL 
+ 
+ 
+As we can see the in PARTIAL case the LOW-E process  is performed only on the shape 
+edges. Only if the entire job was composed by strai ght-cut shapes the partial and the 
+complete cases would be identical. 
+ 
+ 
+ 
+ 
+
+
+
+===== PAGE 17 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 17  of 63  
+Example N.1  
+ 
+Let’s suppose a cutting job like this one showed below need to be done: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+In that case the cutting plane will be composed of two cuts, while the LOW-E plane will 
+must to consider then glass borders too: 
+ 
+                  Cutting plane: dashed lines                         LOW-E plane: red lines 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The job is composed only by straight cut shapes. As  we can see from picture above in this 
+case both COMPLETE and PARTIAL processes coincide. 
+ 
+ 
+Example N. 2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+L6=0L7=0 
+G77H9039 
+L6=1000L7=0L8=1G77H9666 
+L6=1000L7=1000L8=1G77H9666 
+L6=0L7=1000L8=1G77H9666 
+L6=0L7=0L8=1G77H9666 
+G77H9038 
+ 
+ 
+ 
+Suppose now we want to execute the job showed in the picture above: the head of LOW-e 
+tool will never rise during the elaboration (as is possible see on the ISO code beside). 
+Of course, in case of non consecutive paths, the head must rise up, positioning on the next 
+segment and fall down again.  
+Fall down the 
+LOW-E head 
+Rise up the 
+LOW-E head 
+Rectangle 
+Shape 
+
+
+===== PAGE 18 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 18  of 63  
+Example N.3 
+ 
+Suppose now this kind of job showed below: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The cutting plane is made up of only one element, w hile low-e plane has to work a glass 
+border part: 
+ 
+ 
+Cutting plane: dashed lines 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+     PARTIAL  Low-E plane: red lines         COMPLETE  Low-E plane: red lines 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+In this example we can notice the difference between PARTIAL and COMPLETE LOW-E 
+process. In partial case is processed only the shape edges, while in complete is processed 
+also the sheet edges that contain the shape. 
+ 
+ 
+ 
+ 
+  
+
+
+===== PAGE 19 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 19  of 63  
+ 
+3.2.2 LOW-E Paths Block Description 
+ 
+ 
+Below the LOW-E paths block into the ISO code is described: 
+ 
+ 
+ 
+IF [DIS_LOW] <>1 THEN  
+ 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+ 
+[NLOOP]=E30121 
+ 
+ 
+ 
+ 
+ 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+ 
+L918=1 
+ 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ 
+ 
+ 
+ENDF 
+ 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ 
+ 
+ENDI 
+ 
+Defines the starting point of LOW-E paths block. If  
+the DIS_LOW value is high, the LOW-E process is 
+skipped. 
+ 
+ 
+ 
+ 
+ 
+ 
+Here the number of loops is set. Sometimes, for 
+some glass types, is necessary more than one 
+pass to remove the LOW-E layer. With NLOOP 
+we define how many times this process has to be 
+repeated 
+ 
+This portion of code is done NLOOP times. 
+ 
+ 
+  
+ 
+Calling the shape block indicated by L13 L14 
+where is executed the LOW-E process. 
+ 
+ 
+End FOR cycle 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+End IF block 
+ 
+ 
+ 
+
+
+===== PAGE 20 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 20  of 63  
+3.2.3 LOW-E Structural Glass 
+ 
+Usually the width of LOW-E work is the same of the tool width, but in some case it’s 
+necessary to increase THE LOW-E work’s width by multiple paths on the same shape: 
+ 
+ 
+ 
+ 
+This result is achieved automatically from the ISO code generator, once it verifies that the 
+LOW-E thickness path process is greater than the to ol one.  Actually this kind of process 
+can be done only on parametric straight shapes, 
+ 
+ 
+NOTE:  
+ 
+The LOW-E work’s width must be bigger or equal than the LOW-E tool width. 
+It’s possible to have overlapped LOW-E work in order to obtain the desired worked width. 
+  
+
+
+===== PAGE 21 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 21  of 63  
+3.2.4  LOW-E ISO code specification 
+ 
+ 
+ 
+There are some configuration parameters that allow setting the coordinates paths in the 
+LOW-E plane and a deeper customization of the ISO code generated: 
+ 
+ 
+ 
+• LOW-E working overlaps cutting elements but it’s n ecessary to define a distance 
+from border parameter  (DFB) or from crosscuts borders that can be different from 
+the correspondent parameter for the cutting plane. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+            
+ 
+ 
+ 
+ 
+L6= 
+0 L7= 1000  L8=0 L13= 3000  L14= 1000  G77H9030   
+ 
+      
+ 
+  
+ 
+        
+ 
+ 
+ 
+         
+ 
+ 
+  (DFB=5mm)  
+ 
+ 
+ 
+ 
+L6= 
+5 L7= 1000 L10= 0 
+G77H9039 
+L6= 
+2995  L7= 1000  L8=1 G77H9666 
+G77H9038 
+  
+  
+(0,1000 ) (3000,1000 ) 
+(DFB,1000 ) (3000 -DFB,1000 ) 
+
+
+===== PAGE 22 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 22  of 63  
+ 
+• distance from border  (DFB) : LOW-E working overlaps glass border; the coordinates 
+are the same of the border, so during the working the LOW-E tool center overlaps 
+the border. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+L6= 
+0 L7= 5 L10= 90  
+G77H9039 
+L6= 
+0 L7= 1995  L8=1 G77H9666 
+G77H9038 
+ 
+ 
+ 
+ 
+3.2.4.1 ISO LOW’E BLOCKS IDENTIFICATION 
+ 
+ 
+• Elements on Border : In the ISO program we need to mark the geometrica l elements 
+that overlap the glass border by the L18 parameter. 
+Before these elements we need L18=1 and after them L18=0. See the next 
+example: 
+ 
+ 
+ 
+ 
+ 
+               
+ 
+ 
+ 
+ 
+ 
+L6=0  L7=2000 L10=270  
+L18=1  * 
+   G77H9039 * 
+L6=0 L7=0 L8=1 G77H9666 
+G77H9038 
+L6=0 
+ L7=0 L10=0 
+G77H9039 
+L6=800 L7=0 L8=1 G77H9666 
+G77H9038 
+L18=0 
+L6=800  L7=0 L10=90 
+G77H9039 
+ L6=800 L7=500 L8=1 G77H9666 
+G77H9038 
+L6=800 
+ L7=500 L10=0 
+ 
+(0,DFB ) 
+ 
+(0,2000-DFB) 
+DBF  
+2000 - DBF  
+Elements on border  
+
+
+===== PAGE 23 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 23  of 63  
+ 
+ 
+G77H9039 
+L6=2000 L7=500 L8=1 G77H9666 
+         G77H9038 
+L6=2000  L7=500 L10=90 
+G77H9039 
+ L6=2000 L7=2000 L8=1 G77H9666 
+G77H9038 
+ L18=1 
+L6=2000  L7=2000 L10=0 
+G77H9039 
+ L6=3000 L7=2000 L8=1 G77H9666 
+L18=0  
+G77H9038 
+ 
+*  If the low-e head falls down on an element on the g lass border, we need L18=1 before the 
+command of low-e down LOW-E G77H9039    
+ 
+ 
+• Shapes declaration : In the LOW-E plane the elements of a same shape m ust to be 
+marked by the L19 parameter, that is L19 parameter defines a new shape definition 
+inside the ISO: 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    
+ 
+ 
+G77H9039 
+L19=1  * 
+L6=… L7=… L8=… G77H9666 
+L6=… L7=… L8=… G77H9666   
+L6=… L7=… L8=… G77H9666 
+L6=… L7=… L8=… G77H9666 
+L19=0 
+G77H9038 
+  
+G77H9039 
+L19=1  *        
+……  
+L6=… L7=… L8=… G77H9666 
+……  
+L6=… L7=… L8=… G77H9666        
+……  
+L6=… L7=… L8=… G77H9666 
+L19=0 
+G77H9038 
+ 
+ 
+*   The assignment L19=1 should be done after the LOW- E low command /barb2right  G77H9039 
+ 
+1 2 
+SHAPE N.1  
+SHAPE N.2  
+Element on border  
+
+
+===== PAGE 24 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 24  of 63  
+ 
+ 
+3.3  Laminated Glass ISO code specification 
+ 
+As described before, if the ISO file was created fo r a Laminated Glass, we must have, in 
+heading section, an E30005 declaration different fr om 0000 value, which address the 
+application to the ISO file of the back side of the glass. 
+ 
+The job starts with the front side; once finished, it checks calling the macro 
+9101 if it’s a 
+laminated glass. If so, then the ISO file pointed by E30005 is called and then executed. 
+Only when the back side execution is completed, E30004 is increased. 
+ 
+ 
+%42 
+N1(RUN0033_0001) 
+N2E30000=12000E30001=1000E30002=0004 
+N3E30003=0001  
+E30005=0043  
+ 
+ 
+N4E30004=-1            
+ 
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+ 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+ 
+E30122=1 
+E10028=0 
+ 
+G77H9100 
+ 
+M96 
+ 
+G77N12N14 
+ 
+G77H9101 
+ 
+ 
+G79E20002=0N7 
+ 
+M97 
+ 
+ 
+N7M02 
+ 
+ 
+ 
+Front side macro 
+ 
+ 
+Indicates the ISO program  ID of the opposite 
+side of the laminated glass  
+ 
+The number of glasses to do is set to -1 at 
+first. 
+ 
+ 
+Declaration of global variables 
+ 
+ 
+ 
+E40094 = Enabling Cut execution 
+E40093 = Enabling Lowe execution 
+ 
+ 
+Only CUT, Only LOW-E or both. 
+If equal to 0 Vinyl not present. 
+ 
+Start program macro 9100.  
+ 
+Indicates the first side of the laminated 
+ 
+Run the processes 
+ 
+Executes macro for evacuation glass. This 
+macro calls the 2°  side ISO  
+ 
+If is simulation mode go to line N7 
+ 
+On the front side it’s M97, on back side it’s 
+M98. 
+ 
+End program 
+ 
+  
+
+
+===== PAGE 25 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 25  of 63  
+ 
+ 
+ 
+%43 
+N1(RUN0033_0002) 
+ 
+N3E30003=0001E30005=0042 
+ 
+N4E30004=0             
+ 
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+ 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+ 
+ 
+M98 
+ 
+G77N12N14 
+ 
+ 
+ 
+ 
+G79E20002=0N7 
+E30004=E30004+1 
+G76N4N4 
+ 
+N6G77H9101 
+ 
+G79E20002=0N7 
+M99 
+ 
+N7M02 
+ 
+Back side macro 
+ 
+ 
+E30005 points to the program ID of the front side 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+It confirms that it’s the back side of the glass. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+M99 instead of M97 
+ 
+End Program 
+  
+
+
+===== PAGE 26 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 26  of 63  
+3.3.1 Differences between FRONT and BACK Side ISO c ode of a Laminated glass 
+ 
+FRONT 
+ 
+ 
+BACK 
+ 
+ 
+ 
+ 
+%138 
+N1(RUN0098_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005= 
+0139  
+N4E30004= -1            
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+ 
+ 
+ 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+%139 
+N1(RUN0098_0002) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005= 
+0138  
+N4E30004= 0             
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000  
+ED0  
+G59XYC  
+N9  
+N10  
+EGE80010  
+G77H9000  
+Sheets are 
+counted only on 
+side B 
+Identifies a side 
+A program  
+Reference to 
+side A program  
+M98 instead of 
+M96  
+M99 instead of 
+M97  
+
+
+===== PAGE 27 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 27  of 63  
+L1=10000L6=-244.072L7=497.629L8=338.2 
+G77H9001 
+L1=0 
+G01X 
+248 Y300.8FE82410 
+G77H9000 
+L1=10000 
+L6=247.47 L7=295.952L8=23.0 
+G77H9001 
+L1=0 
+G01X 
+-248 Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250 
+L6=-247.874 L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02 X-31.559 Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250 
+L6=32.552 L7=122.874L8=352.5 
+G77H9001 
+L1=0 
+G02 X248 Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20 L7=20L8=90L13=20L14=1999G77H 9030  
+L6=520 L7=2000L8=270L13=520L14=1G77H9030 
+L6=520 L7=20L8=180L13=1L14=20G77H9030 
+L6=20 L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520 L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270 L7=520L8=0L13=10L14=11G77N8N9 
+L6=270 L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+L1=10000L6=244.072L7=497.629L8=201.8 
+ 
+G77H9001  
+L1=0  
+G01X -248 Y300.8FE82410  
+G77H9000  
+L1=10000 L6=-247.47 L7=295.952L8=302  
+G77H9001  
+L1=0  
+G01X 248 Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250 
+L6=247.874 L7=-92.449L8=97.5 
+G77H9001 
+L1=0 
+G03 X31.559 Y123I0.002J-125FE82409 
+G77H9000 
+L1=250 
+L6=-32.552 L7=122.874L8=187.5 
+G77H9001 
+L1=0 
+G03 X-248 Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20 L7=20L8=90L13=-20L14=1999G77H 9031  
+L6=-520 L7=2000L8=270L13=-520L14=1G77H9031 
+L6=-520 L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20 L7=1020L8=180L13=-520L14=1020G77H9031 
+L6=-520 L7=1270L8=0L13=-20L14=1270G77H9031 
+L6=-270 L7=520L8=0L13=10L14=11G77N8N9 
+L6=-270 L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+G03 
+instead of 
+G02 
+9031 instead 
+of 9030 
+Values are 
+flipped in X 
+
+
+===== PAGE 28 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 28  of 63  
+ 
+3.4   LOW-E on Laminated Glass 
+ 
+As can be shown on the code below, the ISO of this job is done by 2 macros (in the 
+example %57 and %58). Each one represents a side of the glass. As described before, the 
+cutting tracks on the two sides are flipped along X direction, and the LOW-E track too. 
+Here is shown a short piece of ISO code of a Laminated Glass LOW-E processed on Front 
+Side: in this example we can see that the LOW-E tra cks are present only on the front side 
+of the glass, while on the back side there’s only the cutting process. 
+ 
+(FRONT SIDE)  
+ 
+%57 
+N1(RUN0047_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0058 
+N4E30004=-1            
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+ 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+ 
+… 
+ 
+G79E20002=0N7 
+M97 
+N7M02 
+ 
+… 
+ 
+N16 
+ 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+     
+ENDI 
+ 
+ 
+ 
+ 
+First Macro 
+ 
+ 
+ 
+Laminated glass front side starts from index -1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+On the front side the LOW-E paths are 
+executed, if DIS_LOW variable is low. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+===== PAGE 29 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 29  of 63  
+ 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=21L8=90L13=20L14=999G77H9030 
+L6=680L7=999L8=270L13=680L14=21G77H9030 
+L6=1144L7=1L8=90L13=1144L14=999G77H9030 
+L6=1143L7=580L8=180L13=681L14=580G77H9030 
+L6=1143L7=20L8=180L13=1L14=20G77H9030 
+L6=21L7=680L8=0L13=679L14=680G77H9030 
+ 
+L6=912L7=300L8=0L13=14L14=15G77N8N9 
+L6=350L7=350L8=0L13=12L14=13G77N8N9 
+ 
+ED0 
+G59XYC 
+     
+ENDI 
+ 
+N18 
+ 
+(BACK SIDE) 
+ 
+%58 
+N1(RUN0047_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0057 
+N4E30004=0             
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+ 
+… 
+ 
+ 
+G79E20002=0N7 
+M99 
+N7M02 
+… 
+ 
+N14 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=21L8=90L13=-20L14=999G77H9031 
+L6=-680L7=999L8=270L13=-680L14=21G77H9031 
+L6=-1144L7=1L8=90L13=-1144L14=999G77H9031 
+L6=-1143L7=580L8=0L13=-681L14=580G77H9031 
+L6=-1143L7=20L8=0L13=-1L14=20G77H9031 
+L6=-21L7=680L8=180L13=-679L14=680G77H9031 
+L6=-912L7=300L8=0L13=12L14=13G77N8N9 
+L6=-350L7=350L8=0L13=10L14=11G77N8N9 
+ 
+ED0 
+G59XYC 
+    
+ENDI 
+ 
+N16 
+The cutting paths of the front side 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Second Macro 
+The second macro is similar to the first one. 
+The differences are due to the absence of 
+DIS_LOW IF-block, the calling of the macro 
+9104 and the mirrored paths definitions. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Here we have only the possibility to perform 
+the cutting paths, because the LOW-E block 
+even exists. 
+  
+
+
+===== PAGE 30 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 30  of 63  
+ 
+3.5 System Reference Point (right bottom reference)  
+ 
+As described in § 
+2.1.2 the operator can chose the reference used to execut e the cutting 
+code. Four possible reference system are available,  for all of them the ISO code is the 
+same except for LOWE processing (edge removal) section. 
+The reason for this difference in LOWE processing is due to the fact that the edge removal 
+path is represented as an unique shape whose refere nce point is the zero on the bottom 
+left. Without the knowledge of the shape center the  machine software cannot handle 
+correctly the rotation/translations related to the chosen reference. 
+ 
+Here after you can find an example of a cutting pla n, in this document we will assume that 
+cutting and LOWE coating removal path have the same  path, (minimal removal option is 
+not considered). 
+ 
+ 
+The four zero positions does not influence the cutt ing section of a part program. In the 
+following examples it is shown how the edge deletio n section must be executed 
+accordingly to the chosen zero position (final movement of the machine). 
+ 
+  
+
+
+
+===== PAGE 31 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 31  of 63  
+ 
+Final result: Edge deletion when reference in position 2 (bottom right) 
+ 
+ 
+Final result: Edge deletion when reference in position 3 (top right) 
+ 
+ 
+Final result: Edge deletion when reference in position 4 (top left) 
+
+
+
+===== PAGE 32 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 32  of 63  
+ 
+To have the correct execution of the edge deletion (LOWE removal) the grinding path must 
+be changed accordingly to the chosen zero position. 
+ 
+ 
+ 
+Edge deletion paths for pos. 1: Cutting and grinding shares the same path. 
+ 
+ 
+ 
+ 
+Edge deletion paths for pos. 2: Straight are equal in cutting and grinding paths. T he ISO 
+code for edge removal has shapes mirrored on Y. 
+ 
+ 
+
+
+
+===== PAGE 33 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 33  of 63  
+ 
+ 
+Edge deletion paths for pos. 3: Straight are equal in cutting and grinding paths. T he ISO 
+code for edge removal has shapes rotated of 180° . 
+ 
+ 
+Edge deletion paths for pos. 4: Straight are equal in cutting and grinding paths. The ISO  
+code for edge removal has shapes mirrored on X. 
+ 
+ 
+ 
+  
+ 
+
+
+
+===== PAGE 34 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 34  of 63  
+ 
+3.5.1 Differences between Left and Right Reference ISO code 
+ 
+The example below describes the ISO of a Left and R ight reference table on a Monolithic glass with LOW -E 
+process. 
+ 
+Pos. 1: left bottom  
+ 
+ 
+Pos. 2: right bottom  
+(in red differences from pos. 1) 
+ 
+  
+ 
+ 
+%25 
+N1(RUN0019_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(LOWE            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+%26 
+N1(RUN0020_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(LOWE            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+
+
+
+===== PAGE 35 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 35  of 63  
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=1999L8=1G77H9666 
+G77H9038 
+L6=520L7=2000 
+G77H9039 
+L6=520L7=1L8=1G77H9666 
+G77H9038 
+L6=520L7=20 
+G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=1020 
+G77H9039 
+L6=520L7=1020L8=1G77H9666 
+G77H9038 
+L6=520L7=1270 
+G77H9039 
+L6=20L7=1270L8=1G77H9666 
+G77H9038 
+L6= 
+24 L7=1018 
+G77H9039 
+L19=1 
+L6= 
+518 L7=771L8=1G77H9666 
+L6= 518 L7=767L8=1G77H9666 
+L6= 22 L7=23L8=1G77H9666 
+L19=0 
+G77H9038 
+L6= 
+22 L7=1051.559 
+G77H9039 
+L19=1 
+L6= 
+238.44 1L7=1268L13=270L14=1020L8= 2G77H9666 
+G77H9038 
+L6= 
+301.56 L7=1268 
+G77H9039 
+L6= 
+518 L7=1051.559L13=270L14=1020L8= 2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=10000L6=-245.106L7=497.553L8=333.4 
+G77H9001 
+L1=0 
+G01X248Y251FE82410 
+G77H9000 
+L1=10000L6=247.445L7=246.168L8=236.3 
+G77H9001 
+L1=0 
+G01X-248Y-497FE82410 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=1999L8=1G77H9666 
+G77H9038 
+L6=520L7=2000 
+G77H9039 
+L6=520L7=1L8=1G77H9666 
+G77H9038 
+L6=520L7=20 
+G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=1020 
+G77H9039 
+L6=520L7=1020L8=1G77H9666 
+G77H9038 
+L6=520L7=1270 
+G77H9039 
+L6=20L7=1270L8=1G77H9666 
+G77H9038 
+L6= 
+516 L7=1018 
+G77H9039 
+L19=1 
+L6= 
+22 L7=771L8=1G77H9666 
+L6= 22 L7=767L8=1G77H9666 
+L6= 518 L7=23L8=1G77H9666 
+L19=0 
+G77H9038 
+L6= 
+518 L7=1051.559 
+G77H9039 
+L19=1 
+L6= 
+301.559 L7=1268L13=270L14=1020L8= 3G77H9666 
+G77H9038 
+L6= 
+238.44 L7=1268 
+G77H9039 
+L6= 
+22 L7=1051.559L13=270L14=1020L8= 3G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=10000L6=-245.106L7=497.553L8=333.4 
+G77H9001 
+L1=0 
+G01X248Y251FE82410 
+G77H9000 
+L1=10000L6=247.445L7=246.168L8=236.3 
+G77H9001 
+L1=0 
+G01X-248Y-497FE82410 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+LOW-E 
+removal 
+section  
+
+
+===== PAGE 36 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 36  of 63  
+ 
+L1=0 
+G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=2000L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270L7=520L8=0L13=12L14=13G77N8N9 
+L6=270L7=1145L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18 
+L1=0 
+G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=2000L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270L7=520L8=0L13=12L14=13G77N8N9 
+L6=270L7=1145L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18 
+ 
+ 
+  
+
+
+===== PAGE 37 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 37  of 63  
+ 
+ 
+  
+Pos. 3: left top 
+(in red differences from pos. 1) 
+ 
+Pos. 2: right top 
+(in red differences from pos. 1) 
+  
+%27 
+N1(RUN0021_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(LOWE            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=1999L8=1G77H9666 
+%28 
+N1(RUN0022_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(LOWE            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=1999L8=1G77H9666 
+
+
+
+===== PAGE 38 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 38  of 63  
+ 
+G77H9038 
+L6=520L7=2000 
+G77H9039 
+L6=520L7=1L8=1G77H9666 
+G77H9038 
+L6=520L7=20 
+G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=1020 
+G77H9039 
+L6=520L7=1020L8=1G77H9666 
+G77H9038 
+L6=520L7=1270 
+G77H9039 
+L6=20L7=1270L8=1G77H9666 
+G77H9038 
+L6= 
+516 L7= 22  
+G77H9039 
+L19=1 
+L6= 
+22 L7= 269 L8=1G77H9666 
+L6= 22 L7= 273 L8=1G77H9666 
+L6= 518 L7= 1017 L8=1G77H9666 
+L19=0 
+G77H9038 
+L6=518L7=1238.441 
+G77H9039 
+L19=1 
+L6= 
+301.559 L7= 1022 L13=270L14= 1270 L8=2G77H9666 
+G77H9038 
+L6= 
+238.44 L7= 1022  
+G77H9039 
+L6= 
+22 L7= 1238.441 L13=270L14= 1270 L8=2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=10000L6=-245.106L7=497.553L8=333.4 
+G77H9001 
+L1=0 
+G01X248Y251FE82410 
+G77H9000 
+L1=10000L6=247.445L7=246.168L8=236.3 
+G77H9001 
+L1=0 
+G01X-248Y-497FE82410 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+L1=0 
+G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+G77H9038 
+L6=520L7=2000 
+G77H9039 
+L6=520L7=1L8=1G77H9666 
+G77H9038 
+L6=520L7=20 
+G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=1020 
+G77H9039 
+L6=520L7=1020L8=1G77H9666 
+G77H9038 
+L6=520L7=1270 
+G77H9039 
+L6=20L7=1270L8=1G77H9666 
+G77H9038 
+L6=24L7= 
+22  
+G77H9039 
+L19=1 
+L6=518L7= 
+269 L8=1G77H9666 
+L6=518L7= 273 L8=1G77H9666 
+L6=22L7= 1017 L8=1G77H9666 
+L19=0 
+G77H9038 
+L6=22L7= 
+1238.441  
+G77H9039 
+L19=1 
+L6=238.441L7= 
+1022 L13=270L14= 1270 L8= 3G77H9666 
+G77H9038 
+L6=301.56L7= 
+1022  
+G77H9039 
+L6=518L7= 
+1238.441 L13=270L14= 1270 L8= 3G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=10000L6=-245.106L7=497.553L8=333.4 
+G77H9001 
+L1=0 
+G01X248Y251FE82410 
+G77H9000 
+L1=10000L6=247.445L7=246.168L8=236.3 
+G77H9001 
+L1=0 
+G01X-248Y-497FE82410 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+L1=0 
+G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+
+
+===== PAGE 39 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 39  of 63  
+ 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=2000L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270L7=520L8=0L13=12L14=13G77N8N9 
+L6=270L7=1145L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18  
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=2000L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270L7=520L8=0L13=12L14=13G77N8N9 
+L6=270L7=1145L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18  
+  
+
+
+===== PAGE 40 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 40  of 63  
+ 
+3.6 Sending the cutting program to the Numerical co ntrol  
+ 
+The piece program is loaded to the Numerical Contro l using a Glaston application – 
+INOUTCNC - that transfer the ISO program from PC to CNC. 
+ 
+From any application is possible to call INOUTCNC p assing file name to transfer to CNC : 
+INOUTCNC will start the transfer of the ISO program  and, at the end of the operation, will 
+show a message about the result. 
+ 
+Next rows show an example to call INOUTCNC application ( using Visual Basic IDE ) : 
+ 
+Dim RetVal as double 
+ 
+Const InOutExe$ ="C:\EASYCAD\INOUTCNC\INOUTCNC.EXE" 
+const NamefileIso$ = "C:\EASYCAD\PIPPO.CUT" 
+ 
+RetVal = Shell(InOutExe$ + chr(32) + NameFileIso$) 
+ 
+ 
+Shell function runs an executable program and retur ns a Variant (Double) representing the 
+program's task ID if successful, otherwise it returns zero. 
+ 
+ 
+ 
+
+
+===== PAGE 41 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 41  of 63  
+3.7 Displaying a cutting pattern preview  
+ 
+The ISO code generator creates a JPEG picture file which contains the preview of the job 
+pattern just elaborated. 
+The CNC application seeks these files into a specific folder in order to preview the job:  
+“ C:\$App_Path\Bin\IsoJpg ” 
+where usually “$App_Path” correspond to “EASYCNC”, the standard installation folder. 
+The file name corresponds to the name labeled into the ISO code description of the job.  
+As an example, the picture file “ RUN0101_0001.gif ” is linked to the ISO code 101.cut 
+where inside it we can read the line: 
+%144 
+N1( 
+RUN0101_0001 ) 
+N2E30000=15000E30001=1500E30002=0004 
+… 
+In case of a laminated glass, the application will create 2 JPEG files: one for the front and 
+the other for the back. Again, as example, we’ll ha ve “ RUN0100_0001.gif ” and 
+“RUN0100_0002.gif ”. The extension 0001 indicates the front, while 00 02 the back. These 
+files are linked to one cut file (100.cut). Inside it we can see: 
+%142   FRONT ISO CODE 
+N1( 
+RUN0100_0001 ) 
+… 
+%143   BACK ISO CODE 
+N1( 
+RUN0100_0002 ) 
+… 
+NOTE : The way in which the preview is handled in EasyCN C may vary according to the 
+selected ISO code generator (Optimizer) 
+ 
+
+
+===== PAGE 42 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 42  of 63  
+ 
+4. ANNEX DOCUMENTATION 
+ 
+4.1  ANNEX A 
+ 
+Example of part program for monolithic glass with zero reference on left bottom 
+with just straight cuts. 
+ 
+ 
+ 
+%124 
+N1(RUN0086_0001) 
+N2E30000=20000E30001=1210E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(FLC4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+
+
+
+===== PAGE 43 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 43  of 63  
+ 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]  <>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1209G77H9030 
+L6=520L7=1209L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=720L8=0L13=520L14=720G77H9030 
+L6=520L7=1020L8=180L13=20L14=1020G77H9030 
+L6=270L7=870L8=0L13=12L14=13G77N8N9 
+L6=270L7=370L8=0L13=10L14=11G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16  
+
+
+===== PAGE 44 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 44  of 63  
+ 
+4.2 ANNEX B 
+ 
+Example of part program for laminated glass with zero reference on right bottom. 
+ 
+ 
+ 
+ 
+%125 
+N1(RUN0087_0001) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0126 
+N4E30004=-1            
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+ 
+ 
+ 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+ 
+ 
+ 
+%126 
+N1(RUN0087_0002) 
+N2E30000=12000E30001=2000E30002=0004 
+N3E30003=0001E30005=0125 
+N4E30004=0             
+N5(LAM4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N14N16 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+ 
+
+
+
+===== PAGE 45 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 45  of 63  
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L1=10000L6=-244.072L7=497.629L8=338.2 
+G77H9001 
+L1=0 
+G01X248Y300.8FE82410 
+G77H9000 
+L1=10000L6=247.47L7=295.952L8=238.0 
+G77H9001 
+L1=0 
+G01X-248Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 
+G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+L1=0 
+G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=2000L8=270L13=520L14=1G77H9030 
+L6=520L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=1020L8=0L13=520L14=1020G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=270L7=520L8=0L13=10L14=11G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+ 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L1=10000L6=244.072L7=497.629L8=201.8 
+G77H9001 
+L1=0 
+G01X-248Y300.8FE82410 
+G77H9000 
+L1=10000L6=-247.47L7=295.952L8=302 
+G77H9001 
+L1=0 
+G01X248Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250L6=247.874L7=-92.449L8=97.5 
+G77H9001 
+L1=0 
+G03X31.559Y123I0.002J-125FE82409 
+G77H9000 
+L1=250L6=-32.552L7=122.874L8=187.5 
+G77H9001 
+L1=0 
+G03X-248Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=1999G77H9031 
+L6=-520L7=2000L8=270L13=-520L14=1G77H9031 
+L6=-520L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=1020L8=180L13=-520L14=1020G77H9031 
+L6=-520L7=1270L8=0L13=-20L14=1270G77H9031 
+L6=-270L7=520L8=0L13=10L14=11G77N8N9 
+L6=-270L7=1145L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+ 
+
+
+===== PAGE 46 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 46  of 63  
+ 
+4.3 ANNEX C 
+ 
+Example of part program for monolithic glass with repeated shapes. Zero reference 
+on left bottom. 
+ 
+ 
+ 
+%127 
+N1(RUN0088_0001) 
+N2E30000=20000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(FLC4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+
+
+
+===== PAGE 47 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 47  of 63  
+L1=10000L6=-244.072L7=497.629L8=338.2 
+G77H9001 
+L1=0 
+G01X248Y300.8FE82410 
+G77H9000 
+L1=10000L6=247.47L7=295.952L8=238.0 
+G77H9001 
+L1=0 
+G01X-248Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+L1=0 G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-92.449L7=247.874L8=352.5 
+G77H9001 
+L1=0 G02X123Y31.559I-125J0.002FE82409 
+G77H9000 
+L1=250L6=122.874L7=-32.552L8=262.5 
+G77H9001 
+L1=0 G02X-93.441Y-248I-124.998J0FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=1999L8=270L13=520L14=20G77H9030 
+L6=770L7=1L8=90L13=770L14=1999G77H9030 
+L6=520L7=1770L8=180L13=20L14=1770G77H9030 
+L6=20L7=1520L8=0L13=520L14=1520G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=20L7=1020L8=0L13=770L14=1020G77H9030 
+L6=770L7=520L8=180L13=520L14=520G77H9030 
+L6=1L7=20L8=0L13=770L14=20G77H9030 
+L6=645L7=270L8=0L13=14L14=15G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+L6=270L7=520L8=0L13=10L14=11G77N8N9 
+L6=270L7=1395L8=0L13=12L14=13G77N8N9 
+L6=270L7=1645L8=0L13=12L14=13G77N8N9 
+L6=645L7=770L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18 
+ 
+SEMICIRCLE 
+SHAPE  
+TRIANGLE 
+SHAPE 
+SEMICIRCLE 
+ROTATED 90°  CLK 
+SHAPE  
+SEMICIRCLE SHAPE BLOCK CALL 
+SEMICIRCLE ROTATED SHAPE BLOCK CALL 
+TRIANGLE SHAPE BLOCK CALL  
+
+
+===== PAGE 48 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 48  of 63  
+ 
+4.4 ANNEX D 
+ 
+Example of part program for monolithic glass with repeated shapes. Zero reference 
+on right bottom. 
+ 
+ 
+%128 
+N1(RUN0089_0001) 
+N2E30000=20000E30001=2000E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(FLC4            ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L1=10000L6=-244.072L7=497.629L8=338.2 
+
+
+
+===== PAGE 49 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 49  of 63  
+ 
+G77H9001 
+L1=0 
+G01X248Y300.8FE82410 
+G77H9000 
+L1=10000L6=247.47L7=295.952L8=238.0 
+G77H9001 
+L1=0 
+G01X-248Y-496.8FE82410 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=250L6=-247.874L7=-92.449L8=82.5 
+G77H9001 
+L1=0 G02X-31.559Y123I-0.002J-125FE82409 
+G77H9000 
+L1=250L6=32.552L7=122.874L8=352.5 
+G77H9001 
+L1=0 G02X248Y-93.441I0J-124.998FE82409 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=250L6=-92.449L7=247.874L8=352.5 
+G77H9001 
+L1=0 G02X123Y31.559I-125J0.002FE82409 
+G77H9000 
+L1=250L6=122.874L7=-32.552L8=262.5 
+G77H9001 
+L1=0 G02X-93.441Y-248I-124.998J0FE82409 
+EG100 
+N15 
+N16 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1999G77H9030 
+L6=520L7=1999L8=270L13=520L14=20G77H9030 
+L6=770L7=1L8=90L13=770L14=1999G77H9030 
+L6=520L7=1770L8=180L13=20L14=1770G77H9030 
+L6=20L7=1520L8=0L13=520L14=1520G77H9030 
+L6=520L7=1270L8=180L13=20L14=1270G77H9030 
+L6=20L7=1020L8=0L13=770L14=1020G77H9030 
+L6=770L7=520L8=180L13=520L14=520G77H9030 
+L6=1L7=20L8=0L13=770L14=20G77H9030 
+L6=645L7=270L8=0L13=14L14=15G77N8N9 
+L6=270L7=1145L8=0L13=12L14=13G77N8N9 
+L6=270L7=520L8=0L13=10L14=11G77N8N9 
+L6=270L7=1395L8=0L13=12L14=13G77N8N9 
+L6=270L7=1645L8=0L13=12L14=13G77N8N9 
+L6=645L7=770L8=0L13=14L14=15G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18 
+  
+
+
+===== PAGE 50 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 50  of 63  
+ 
+4.5 ANNEX F 
+ 
+Example of part program for monolithic glass with LOW-E. Zero reference on left 
+bottom. 
+ 
+ 
+ 
+%144 
+N1(RUN0101_0001) 
+N2E30000=15000E30001=1500E30002=0004 
+N3E30003=0001E30005=0000 
+N4E30004=+1            
+N5(LE4             ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N16N18 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+
+
+
+===== PAGE 51 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 51  of 63  
+ 
+L6=20L7=1499L8=1G77H9666 
+G77H9038 
+L6=680L7=1500 G77H9039 
+L6=680L7=20L8=1G77H9666 
+G77H9038 
+L6=1144L7=1 G77H9039 
+L6=1144L7=1499L8=1G77H9666 
+G77H9038 
+L6=1144L7=1140 G77H9039 
+L6=680L7=1140L8=1G77H9666 
+G77H9038 
+L6=680L7=1340 G77H9039 
+L6=20L7=1340L8=1G77H9666 
+G77H9038 
+L6=680L7=680 G77H9039 
+L6=20L7=680L8=1G77H9666 
+G77H9038 
+L6=1L7=20 G77H9039 
+L6=1144L7=20L8=1G77H9666 
+G77H9038 
+L6=1144L7=580 G77H9039 
+L6=680L7=580L8=1G77H9666 
+G77H9038 
+L6=682L7=548.845 G77H9039 
+L19=1 
+L6=1113.013L7=300L8=1G77H9666 
+L6=1138.013L7=285.566L8=1G77H9666 
+G77H9038 
+L6=1112.513L7=299.711 G77H9039 
+L6=682L7=51.155L8=1G77H9666 
+L19=0 
+G77H9038 
+L6=682L7=1108.845 G77H9039 
+L19=1 
+L6=1113.013L7=860L8=1G77H9666 
+L6=1138.013L7=845.566L8=1G77H9666 
+G77H9038 
+L6=1112.513L7=859.711 G77H9039 
+L6=682L7=611.155L8=1G77H9666 
+L19=0 
+G77H9038 
+L6=50L7=1010 G77H9039 
+L19=1 
+L6=350L7=1310L13=350L14=1010L8=2G77H9666 
+L6=650L7=1010L13=350L14=1010L8=2G77H9666 
+L6=350L7=710L13=350L14=1010L8=2G77H9666 
+L6=50L7=1010L13=350L14=1010L8=2G77H9666 
+L19=0 
+G77H9038 
+L6=50L7=350 G77H9039 
+L19=1 
+L6=350L7=650L13=350L14=350L8=2G77H9666 
+L6=650L7=350L13=350L14=350L8=2G77H9666 
+L6=350L7=50L13=350L14=350L8=2G77H9666 
+L6=50L7=350L13=350L14=350L8=2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+
+
+===== PAGE 52 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 52  of 63  
+ 
+G77H9000 
+L1=300L6=-300L7=1L8=89.8 G77H9001 
+L1=300 G02X0Y300I-0.002J0FE82409 
+L1=300 G02X300Y0I0J0FE82409 
+L1=300.002 G02X0Y-300I0J0FE82409 
+L1=0 G02X-300Y1I0J0.002FE82409 
+EG100 
+N13 
+N14 
+EGE80010 
+G77H9000 
+L1=10000L6=-229.134L7=248.345L8=330 G77H9001 
+L1=10000 G01X201.013Y0FE82410 
+L1=0 G01X226.013Y-14.434FE82410 
+G77H9000 
+L1=10000L6=199.647L7=-0.789L8=210.0 G77H9001 
+L1=0 G01X-230Y-248.845FE82410 
+EG100 
+N15 
+N16 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=1499G77H9030 
+L6=680L7=1500L8=270L13=680L14=20G77H9030 
+L6=1144L7=1L8=90L13=1144L14=1499G77H9030 
+L6=1144L7=1140L8=180L13=680L14=1140G77H9030 
+L6=680L7=1340L8=180L13=20L14=1340G77H9030 
+L6=680L7=680L8=180L13=20L14=680G77H9030 
+L6=1L7=20L8=0L13=1144L14=20G77H9030 
+L6=1144L7=580L8=180L13=680L14=580G77H9030 
+L6=912L7=300L8=0L13=14L14=15G77N8N9 
+L6=912L7=860L8=0L13=14L14=15G77N8N9 
+L6=350L7=1010L8=0L13=12L14=13G77N8N9 
+L6=350L7=350L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N18 
+ 
+
+
+===== PAGE 53 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 53  of 63  
+4.6  ANNEX G 
+ 
+Example of part program for laminated glass with COMPLETE LOW-E on front side.  
+Zero reference on Left bottom. 
+ 
+ 
+FRONT SIDE 
+ 
+%81 
+N1(RUN0059_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0082 
+N4E30004=-1            
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+ 
+BACK SIDE 
+ 
+%82 
+N1(RUN0059_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0081 
+N4E30004=0             
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N12N14 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+N10 
+EGE80010 
+G77H9000 
+LOW-E paths only 
+on front side 
+
+
+===== PAGE 54 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 54  of 63  
+L6=20L7=999L8=1G77H9666 
+G77H9038 
+L6=550L7=1000 G77H9039 
+L6=550L7=1L8=1G77H9666 
+G77H9038 
+L6=550L7=20 G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=550 G77H9039 
+L6=550L7=550L8=1G77H9666 
+G77H9038 
+L6=22L7=519.996 G77H9039 
+L19=1 
+L6=519.996L7=22L13=20L14=20L8=2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=-262L7=234.992L8=359.7 
+G77H9001 
+L1=0 G02X234.996Y-263I-265J-264.999FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=999G77H9030 
+L6=550L7=1000L8=270L13=550L14=1G77H9030 
+L6=550L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=550L8=0L13=550L14=550G77H9030 
+L6=285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+ 
+ 
+L1=500L6=263L7=234.996L8=180.2 
+G77H9001 
+L1=0 
+G03X-234.996Y-263I265J-265FE82410 
+EG100 
+N11 
+ 
+N12 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=999G77H9031 
+L6=-550L7=1000L8=270L13=-550L14=1G77H9031 
+L6=-550L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=550L8=180L13=-550L14=550G77H9031 
+L6=-285L7=285L8=0L13=10L14=11G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N14 
+ 
+Only CUT  
+
+
+===== PAGE 55 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 55  of 63  
+ 
+4.7 ANNEX H 
+ 
+Example of part program for laminated glass with COMPLETE LOW-E on back side.  
+Zero reference on Left bottom. 
+ 
+ 
+FRONT SIDE 
+ 
+%81 
+N1(RUN0059_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0082 
+N4E30004=-1            
+N5( LAMLWE           ) 
+(NUM REV 372 SR ) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=-262L7=234.992L8=359.7 
+G77H9001 
+ 
+BACK SIDE 
+ 
+%82 
+N1(RUN0059_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0081 
+N4E30004=0             
+N5( LAMLWE           ) 
+(NUM REV 372 SR ) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N14N15 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+LOW-E paths only 
+on back side 
+
+
+===== PAGE 56 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 56  of 63  
+L1=0 
+G02X234.996Y-263I-265J-264.999FE82410 
+EG100 
+N13 
+ 
+N14 
+ 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=999G77H9030 
+L6=550L7=1000L8=270L13=550L14=1G77H9030 
+L6=550L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=550L8=0L13=550L14=550G77H9030 
+L6=285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+ 
+ 
+ 
+L6=-20L7=20 
+G77H9039 
+L6=-20L7=999L8=1G77H9666 
+G77H9038 
+L6=-550L7=1000 G77H9039 
+L6=-550L7=1L8=1G77H9666 
+G77H9038 
+L6=-550L7=20 G77H9039 
+L6=-1L7=20L8=1G77H9666 
+G77H9038 
+L6=-20L7=550 G77H9039 
+L6=-550L7=550L8=1G77H9666 
+G77H9038 
+L6=-22L7=519.996 G77H9039 
+L19=1 
+L6=-519.996L7=22L13=-20L14=20L8=3G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=263L7=234.996L8=180.2 
+G77H9001 
+L1=0 
+G03X-234.996Y-263I265J-265FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=999G77H9031 
+L6=-550L7=1000L8=270L13=-550L14=1G77H9031 
+L6=-550L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=550L8=180L13=-550L14=550G77H9031 
+L6=-285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N15 
+ 
+Only CUT  
+
+
+===== PAGE 57 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 57  of 63  
+ 
+4.8 ANNEX I 
+ 
+Example of part program for laminated glass with COMPLETE LOW-E on both sides.  
+Zero reference on Left bottom. 
+ 
+ 
+FRONT SIDE 
+ 
+%81 
+N1(RUN0059_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0082 
+N4E30004=-1            
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=999L8=1G77H9666 
+G77H9038 
+L6=550L7=1000 G77H9039 
+ 
+BACK SIDE 
+ 
+%82 
+N1(RUN0059_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0081 
+N4E30004=0             
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N14N15 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=-20L7=20 G77H9039 
+L6=-20L7=999L8=1G77H9666 
+
+
+
+===== PAGE 58 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 58  of 63  
+L6=550L7=1L8=1G77H9666 
+G77H9038 
+L6=550L7=20 G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=550 G77H9039 
+L6=550L7=550L8=1G77H9666 
+G77H9038 
+L6=22L7=519.996 G77H9039 
+L19=1 
+L6=519.996L7=22L13=20L14=20L8=2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=-262L7=234.992L8=359.7 
+G77H9001 
+L1=0 
+G02X234.996Y-263I-265J-264.999FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=999G77H9030 
+L6=550L7=1000L8=270L13=550L14=1G77H9030 
+L6=550L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=550L8=0L13=550L14=550G77H9030 
+L6=285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N16 
+ 
+G77H9038 
+L6=-550L7=1000 G77H9039 
+L6=-550L7=1L8=1G77H9666 
+G77H9038 
+L6=-550L7=20 G77H9039 
+L6=-1L7=20L8=1G77H9666 
+G77H9038 
+L6=-20L7=550 G77H9039 
+L6=-550L7=550L8=1G77H9666 
+G77H9038 
+L6=-22L7=519.996 G77H9039 
+L19=1 
+L6=-519.996L7=22L13=-20L14=20L8=3G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=263L7=234.996L8=180.2 
+G77H9001 
+L1=0 
+G03X-234.996Y-263I265J-265FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=999G77H9031 
+L6=-550L7=1000L8=270L13=-550L14=1G77H9031 
+L6=-550L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=550L8=180L13=-550L14=550G77H9031 
+L6=-285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N15  
+ 
+LOW-E on 
+both sides 
+
+
+===== PAGE 59 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 59  of 63  
+ 
+4.9 ANNEX J 
+ 
+Example of part program for laminated glass with COMPLETE LOW-E on both sides.  
+Zero reference on Right bottom. 
+ 
+ 
+ 
+%16 
+N1(M0000004_001) 
+N2E30000=12000E30001=1000E30002=0005 
+N3E30003=0001E30005=0017 
+N4E30004=-1            
+N5(LAMY2           ) 
+(NUM REV 372 SR) 
+E10028=0 
+G77H9100 
+M96 
+G77N20N22 
+G77H9101 
+ 
+ 
+ 
+G79E20002=0N7 
+M97 
+N7M02 
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+N10 
+EGE82811 
+G77H9038 
+(ID=1 X=9 Y=9 R=0) 
+L6=9L7=9 
+G77H9039 
+L19=1 
+L6=509L7=9L8=1G77H9666 
+L6=509L7=509L8=1G77H9666 
+L6=9L7=9L13=509L14=9L8=3G77H9666 
+G77H9038 
+EG100 
+ 
+ 
+%17 
+N1(M0000004_001) 
+N2E30000=12000E30001=1000E30002=0005 
+N3E30003=0001E30005=0016 
+N4E30004=0             
+N5(LAMY2           ) 
+(NUM REV 372 SR) 
+E10028=0 
+G77H9100 
+M98 
+G77N20N22 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+ 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+ 
+N10 
+EGE82811 
+G77H9038 
+(ID=1 X=9 Y=9 R=0) 
+L6=691L7=9 
+G77H9039 
+L19=1 
+L6=1191L7=9L8=1G77H9666 
+L6=691L7=509L13=691L14=9L8=3G77H9666 
+L6=691L7=9L8=1G77H9666 
+G77H9038 
+EG100 
+
+
+
+===== PAGE 60 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 60  of 63  
+ 
+N11 
+ 
+N16 
+EGE80010 
+G77H9000 
+L1=500L6=-250L7=250L8=0 
+G77H9001 
+L1=0 
+G02X250Y-250I-250J-250FE82409 
+G77H9000 
+EG100 
+N17 
+ 
+N20 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+M5 
+M157 
+G77H9038 
+G77H9302 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=9L7=3L8=90L13=9L14=997G77H9030 
+L6=10L7=509L8=0L13=508L14=509G77H9030 
+L6=509L7=997L8=270L13=509L14=3G77H9030 
+L6=508L7=9L8=180L13=10L14=9G77H9030 
+ED0 
+G59XYC 
+L918=0 
+G77H9302 
+G77H9300 
+L6=259L7=259L8=0L13=16L14=17G77N8N9 
+ED0 
+G59XYC 
+N22 
+ 
+N11 
+ 
+N16 
+EGE80010 
+G77H9000 
+L1=500L6=250L7=250L8=180 
+G77H9001 
+L1=0 
+G03X-250Y-250I250J-250FE82409 
+G77H9000 
+EG100 
+N17 
+ 
+N20 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+L918=1 
+L6=-1200L7=0L8=0L13=10L14=11G77N8N9 
+M5 
+M157 
+G77H9038 
+G77H9302 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-9L7=3L8=90L13=-9L14=997G77H9031 
+L6=-10L7=509L8=180L13=-508L14=509G77H9031 
+L6=-509L7=997L8=270L13=-509L14=3G77H9031 
+L6=-508L7=9L8=0L13=-10L14=9G77H9031 
+ED0 
+G59XYC 
+L918=0 
+G77H9302 
+G77H9300 
+L6=-259L7=259L8=0L13=16L14=17G77N8N9 
+ED0 
+G59XYC 
+N22 
+ 
+ 
+ 
+
+
+===== PAGE 61 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 61  of 63  
+4.10 ANNEX K 
+ 
+Comparing ISO code for Laminated glass with COMPLETE LOW-E on Front side 
+with a PARTIAL one.  Zero reference on Left bottom. 
+ 
+ 
+FRONT SIDE 
+ 
+COMPLETE LOW-E 
+%142 
+N1(RUN0100_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0143 
+N4E30004=-1            
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+L6=20L7=999L8=1G77H9666 
+ 
+BACK SIDE 
+ 
+PARTIAL LOW-E 
+%140 
+N1(RUN0099_0001) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0141 
+N4E30004=-1            
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=3 
+E10028=0 
+G77H9100 
+M96 
+G77N14N16 
+G77H9101 
+G79E20002=0N7 
+M97 
+N7M02 
+N8 
+G77H9700 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE82811 
+G77H9038 
+L19=1 
+L6=20L7=20 
+G77H9039 
+ 
+Low-e paths 
+NOT  done 
+in partial 
+ISO code 
+
+
+===== PAGE 62 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 62  of 63  
+G77H9038 
+L6=550L7=1000 
+G77H9039 
+L6=550L7=1L8=1G77H9666 
+G77H9038 
+L6=550L7=20 
+G77H9039 
+L6=1L7=20L8=1G77H9666 
+G77H9038 
+L6=20L7=550 
+G77H9039 
+L6=550L7=550L8=1G77H9666 
+G77H9038 
+L6=22L7=519.996 
+G77H9039 
+L19=1 
+L6=519.996L7=22L13=20L14=20L8=2G77H9666 
+L19=0 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=-262L7=234.992L8=359.7 
+G77H9001 
+L1=0 
+G02X234.996Y-263I-265J-264.999FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=999G77H9030 
+L6=550L7=1000L8=270L13=550L14=1G77H9030 
+L6=550L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=550L8=0L13=550L14=550G77H9030 
+L6=285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+ 
+ 
+ 
+L6=520L7=20L8=1G77H9666 
+G77H9038 
+ 
+ 
+ 
+ 
+ 
+ 
+L6=20L7=20 
+G77H9039 
+L6=20L7=520L8=1G77H9666 
+L6=22L7=519.996L8=1G77H9666 
+L6=519.996L7=22L13=20L14=20L8=2G77H9666 
+L6=520L7=20L8=1G77H9666 
+ 
+G77H9038 
+EG100 
+N11 
+N12 
+EGE80010 
+G77H9000 
+L1=500L6=-262L7=234.992L8=359.7 
+G77H9001 
+L1=0 
+G02X234.996Y-263I-265J-264.999FE82410 
+EG100 
+N13 
+N14 
+IF [DIS_LOW]<>1 THEN 
+G77H9036 
+ED0 
+G59XYC 
+G77H9600 
+G77H9302 
+G77H9301 
+[NLOOP]=E30121 
+FOR [INDEX]=1 TO [NLOOP] 
+DO 
+L918=1 
+L6=0L7=0L8=0L13=10L14=11G77N8N9 
+ENDF 
+M5 
+M157 
+G77H9038 
+G77H9302 
+ENDI 
+IF [DIS_CUT]<>1 THEN 
+G77H9300 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=20L7=20L8=90L13=20L14=999G77H9030 
+L6=550L7=1000L8=270L13=550L14=1G77H9030 
+L6=550L7=20L8=180L13=1L14=20G77H9030 
+L6=20L7=550L8=0L13=550L14=550G77H9030 
+L6=285L7=285L8=0L13=12L14=13G77N8N9 
+ED0 
+G59XYC 
+Some Low-E’s 
+paths is NOT  
+done in partial 
+ISO code  
+
+
+===== PAGE 63 =====
+ 
+PRODUCT 
+ 
+REV 372 SR 
+CODE 
+ 
+9.2.004.PPS.E  
+REVISION  
+ 
+000 
+ 
+ 
+92004ppse000.docx  
+Page 63  of 63  
+ 
+ENDI 
+N16 
+%143 
+N1(RUN0100_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0142 
+N4E30004=0             
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N12N14 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L1=500L6=263L7=234.996L8=180.2 
+G77H9001 
+L1=0 
+G03X-234.996Y-263I265J-265FE82410 
+EG100 
+N11 
+N12 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=999G77H9031 
+L6=-550L7=1000L8=270L13=-550L14=1G77H9031 
+ 
+L6=-550L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=550L8=180L13=-550L14=550G77H9031 
+ 
+L6=-285L7=285L8=0L13=10L14=11G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N14 
+ENDI 
+N16 
+%141 
+N1(RUN0099_0002) 
+N2E30000=12000E30001=1000E30002=0008 
+N3E30003=0001E30005=0140 
+N4E30004=0             
+N5(LAMLWE          ) 
+(NUM REV 372 SR) 
+VAR 
+[INDEX] 
+[NLOOP] 
+[DIS_LOW]=E40094 
+[DIS_CUT]=E40093 
+ENDV 
+E30122=1 
+E10028=0 
+G77H9100 
+M98 
+G77N12N14 
+G79E20002=0N6 
+E30004=E30004+1 
+G76N4N4 
+N6G77H9101 
+G79E20002=0N7 
+M99 
+N7M02 
+N8 
+G77H9702 
+G77NL13NL14 
+G77H9000 
+ED0 
+G59XYC 
+N9 
+N10 
+EGE80010 
+G77H9000 
+L1=500L6=262L7=234.992L8=180.3 
+G77H9001 
+L1=0 
+G03X-234.996Y-263I265J-264.999FE82410 
+EG100 
+N11 
+N12 
+IF [DIS_CUT]<>1 THEN 
+G59XL170YL171CL172 
+EDL172 
+L918=0 
+L6=-20L7=20L8=90L13=-20L14=999G77H9031 
+L6=-550L7=1000L8=270L13=-
+550L14=1G77H9031 
+L6=-550L7=20L8=0L13=-1L14=20G77H9031 
+L6=-20L7=550L8=180L13=-
+550L14=550G77H9031 
+L6=-285L7=285L8=0L13=10L14=11G77N8N9 
+ED0 
+G59XYC 
+ENDI 
+N14  
+ 

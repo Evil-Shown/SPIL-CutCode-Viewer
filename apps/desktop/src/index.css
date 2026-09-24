@@ -35,7 +35,7 @@ body {
 }
 .hud-tl { top: 14px; left: 14px; }
 .hud-tr { top: 14px; right: 14px; font-size: 12px; }
-.hud-bl { bottom: 92px; left: 14px; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 180px; }
+.hud-bl { bottom: 52px; left: 14px; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 180px; }
 .hud-bc { bottom: 14px; left: 50%; transform: translateX(-50%); padding: 8px 10px; }
 .hud-kicker { font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #6b6863; }
 .hud-strong { font-family: "Archivo", sans-serif; font-weight: 700; font-size: 15px; }
@@ -88,6 +88,94 @@ body {
   gap: 8px;
   font: 11px "JetBrains Mono", monospace;
   color: #0b2545;
+}
+
+.sim-console {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 14px 9px;
+  border-top: 1px solid #c9bfa9;
+  background: #fcf9ef;
+  color: #0b2545;
+  font-family: "Space Grotesk", sans-serif;
+}
+.sim-console-transport {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.sim-console-transport button {
+  border: 1px solid #0b2545;
+  background: #fcf9ef;
+  color: #0b2545;
+  min-width: 32px;
+  height: 30px;
+  padding: 0 10px;
+  font: 600 11px "Space Grotesk", sans-serif;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+.sim-console-transport button:hover:not(:disabled) { background: #0b2545; color: #f5eedc; }
+.sim-console-transport button.is-active { background: #d75c2a; border-color: #d75c2a; color: #fcf9ef; }
+.sim-console-transport button:disabled,
+.sim-console.is-empty input[type="range"] { opacity: .38; cursor: default; }
+.sim-console-transport input[type="range"] {
+  flex: 1;
+  min-width: 80px;
+  accent-color: #d75c2a;
+  cursor: pointer;
+}
+.sim-phase {
+  flex-shrink: 0;
+  min-width: 64px;
+  padding: 4px 8px;
+  border: 1px solid #0b2545;
+  font: 700 10px "JetBrains Mono", monospace;
+  letter-spacing: .12em;
+  text-align: center;
+}
+.sim-phase-ready { background: #e7f3ea; color: #2a7553; border-color: #2a7553; }
+.sim-phase-rapid { background: #0b2545; color: #f5eedc; }
+.sim-phase-score { background: #d75c2a; color: #fcf9ef; border-color: #d75c2a; }
+.sim-phase-down, .sim-phase-up { background: #f5eedc; color: #0b2545; }
+.sim-console-telemetry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  font: 11px "JetBrains Mono", monospace;
+  color: rgba(11,37,69,.78);
+}
+.sim-console-time { color: #0b2545; font-weight: 600; }
+
+.machine-specs {
+  flex-shrink: 0;
+  padding: 10px 15px 12px;
+  border-bottom: 1px solid #d8cdb8;
+  background: #fcf9ef;
+  color: #0b2545;
+}
+.machine-specs dl { margin: 0; display: grid; gap: 4px; }
+.machine-specs dl > div { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.machine-specs dt {
+  font: 10px "JetBrains Mono", monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(11,37,69,.55);
+}
+.machine-specs dd { margin: 0; font: 600 11px "Space Grotesk", sans-serif; text-align: right; }
+.machine-specs .is-ok { color: #2a7553; }
+.machine-specs .is-warn { color: #d75c2a; }
+.machine-specs-warn {
+  margin: 8px 0 0;
+  padding: 6px 8px;
+  border: 1px solid #d75c2a;
+  background: #f5eedc;
+  color: #a8421a;
+  font: 10px/1.35 "JetBrains Mono", monospace;
 }
 
 .landing {
@@ -314,10 +402,10 @@ body {
 
 .workbench { display: grid; grid-template-columns: 235px minmax(0,1fr) 290px; min-height: 0; flex: 1; }
 .workbench-left,.workbench-right { min-width: 0; overflow: hidden; background: #fcf9ef; }
-.workbench-left { border-right: 1px solid #c9bfa9; }
+.workbench-left { display: flex; flex-direction: column; border-right: 1px solid #c9bfa9; }
 .workbench-right { border-left: 1px solid #c9bfa9; }
 .workbench-canvas { position: relative; min-width: 0; background: #f5eedc; }
-.panel-machine { padding: 15px; border-bottom: 1px solid #d8cdb8; background: #f5eedc; display: flex; flex-direction: column; gap: 4px; color: #0b2545; }
+.panel-machine { flex-shrink: 0; padding: 15px; border-bottom: 1px solid #d8cdb8; background: #f5eedc; display: flex; flex-direction: column; gap: 4px; color: #0b2545; }
 .panel-machine span,.panel-heading span { font: 10px "JetBrains Mono",monospace; letter-spacing: .1em; color: #d75c2a; text-transform: uppercase; }
 .panel-machine strong { font: 650 16px "Space Grotesk",sans-serif; }
 .panel-machine small { font: 10px "JetBrains Mono",monospace; color: rgba(11,37,69,.56); }

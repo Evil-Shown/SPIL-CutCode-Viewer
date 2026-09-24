@@ -45,24 +45,12 @@ function prefixPolyline(pts: Point[], t: number): Point[] {
   return out;
 }
 
-function formatSimTime(s: number): string {
-  const t = Number.isFinite(s) && s > 0 ? s : 0;
-  const m = Math.floor(t / 60);
-  const rem = t - m * 60;
-  const sec = rem.toFixed(1).padStart(4, "0");
-  return `${String(m).padStart(2, "0")}:${sec}`;
-}
-
 export function CutStage3D({ sheet, machine }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
   const camModeRef = useRef<CamMode>("perspective");
   const [camMode, setCamMode] = useState<CamMode>("perspective");
   const [progress, setProgress] = useState(-1);
-  const [sim, setSim] = useState({ timeS: 0, totalS: 0, cutM: 0, rapidM: 0 });
   const seqPlaying = useAppStore((s) => s.seqPlaying);
-  const seqSpeed = useAppStore((s) => s.seqSpeed);
-  const setSeqPlaying = useAppStore((s) => s.setSeqPlaying);
-  const cycleSeqSpeed = useAppStore((s) => s.cycleSeqSpeed);
   const sw = sheet.sheet.width;
   const sh = sheet.sheet.height;
 
@@ -73,13 +61,6 @@ export function CutStage3D({ sheet, machine }: Props) {
       if (now - last < 40 && seqClock.progress >= 0) return;
       last = now;
       setProgress(seqClock.progress);
-      const tl = seqClock.timeline;
-      setSim({
-        timeS: seqClock.timeS < 0 ? 0 : seqClock.timeS,
-        totalS: tl?.totalS ?? 0,
-        cutM: (tl?.cuttingLengthMm ?? 0) / 1000,
-        rapidM: (tl?.rapidLengthMm ?? 0) / 1000,
-      });
     };
     pull();
     return seqClock.subscribe(pull);
@@ -271,6 +252,7 @@ export function CutStage3D({ sheet, machine }: Props) {
     }
 
     const scoreMat = new THREE.LineBasicMaterial({ color: 0xc75d3f });
+    const loweMat = new THREE.LineBasicMaterial({ color: 0xdc2626 });
     const activeMat = new THREE.LineBasicMaterial({ color: 0xf97316 });
     const scoreGroup = new THREE.Group();
     scene.add(scoreGroup);
@@ -380,7 +362,7 @@ export function CutStage3D({ sheet, machine }: Props) {
         const drawPts = active && h ? prefixPolyline(poly, h.cutProgress) : poly;
         if (drawPts.length < 2) return;
         const geo = new THREE.BufferGeometry().setFromPoints(drawPts.map((p) => toWorld(p)));
-        scoreGroup.add(new THREE.Line(geo, active ? activeMat : scoreMat));
+        scoreGroup.add(new THREE.Line(geo, active ? activeMat : cut.stageLabel === "Low-E" ? loweMat : scoreMat));
       });
       let headPt: Point;
       if (h) {
@@ -410,7 +392,6 @@ export function CutStage3D({ sheet, machine }: Props) {
 
   const scored = progress < 0 ? sheet.cuts.length : Math.min(sheet.cuts.length, Math.floor(progress) + 1);
   const pct = sheet.cuts.length ? Math.round((scored / sheet.cuts.length) * 100) : 0;
-  const canPlay = sim.totalS > 0 || sheet.cuts.length > 0;
 
   const chooseCam = (mode: CamMode) => {
     camModeRef.current = mode;
@@ -442,49 +423,15 @@ export function CutStage3D({ sheet, machine }: Props) {
         <div className="hud-count">{scored}<span> / {sheet.cuts.length || 0}</span></div>
         <div className="meter"><div className="meter-fill" style={{ width: `${pct}%` }} /></div>
       </div>
-      <div className="hud hud-bc sim-bar" onPointerDown={(e) => e.stopPropagation()}>
-        <div className="sim-bar-row">
-          <div className="view-toggle">
-            <button type="button" className={camMode === "perspective" ? "active" : ""} onClick={() => chooseCam("perspective")}>
-              3D
-            </button>
-            <button type="button" className={camMode === "top" ? "active" : ""} onClick={() => chooseCam("top")}>
-              Top
-            </button>
-          </div>
-          {canPlay && (
-            <div className="sim-controls">
-              <button type="button" title="Step back" onClick={() => seqClock.stepCut(-1)}>⏮</button>
-              <button
-                type="button"
-                title={seqPlaying ? "Pause" : "Play"}
-                onClick={() => setSeqPlaying(!seqPlaying)}
-              >
-                {seqPlaying ? "⏸" : "▶"}
-              </button>
-              <button type="button" title="Step forward" onClick={() => seqClock.stepCut(1)}>⏭</button>
-              <button type="button" title="Playback speed" onClick={cycleSeqSpeed}>{seqSpeed}×</button>
-              <input
-                type="range"
-                min={0}
-                max={Math.max(sim.totalS, 0.001)}
-                step={0.01}
-                value={Math.min(sim.timeS, sim.totalS)}
-                onChange={(e) => seqClock.seek(Number(e.target.value))}
-                aria-label="Cycle time"
-              />
-            </div>
-          )}
+      <div className="hud hud-bc" onPointerDown={(e) => e.stopPropagation()}>
+        <div className="view-toggle">
+          <button type="button" className={camMode === "perspective" ? "active" : ""} onClick={() => chooseCam("perspective")}>
+            3D
+          </button>
+          <button type="button" className={camMode === "top" ? "active" : ""} onClick={() => chooseCam("top")}>
+            Top
+          </button>
         </div>
-        {canPlay && (
-          <div className="sim-readouts">
-            <span className="hud-mono">{formatSimTime(sim.timeS)} / {formatSimTime(sim.totalS)}</span>
-            <span className="hud-dim">·</span>
-            <span>cut {sim.cutM.toFixed(2)} m</span>
-            <span className="hud-dim">·</span>
-            <span>rapid {sim.rapidM.toFixed(2)} m</span>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -96,8 +96,19 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
     };
   }
 
-  // Intermac Genius ISO program (.CUT / .CNI): % header, E30000 sheet, G77 macros
+  // NUM ISO (.CUT / .CNI): Bavelloni REV/SYNCRO/Flexium, Glaston UC, Intermac Genius
   if (/^%\d*/.test(trimmed) && (/E30000\s*=/.test(head) || /G77H9\d{3}/i.test(head))) {
+    const nc = content.match(/\(\s*(NUM\s+[A-Z0-9][A-Z0-9 ._+-]*)\s*\)/i)?.[1]?.trim();
+    const upper = (nc ?? "").toUpperCase();
+    if (/SYNCRO|REV\s*372|REV372|FLEXIUM|LOWE/.test(upper) || /NUM SYNCRO|NUM REV|NUM Flexium/i.test(head)) {
+      const vendor = /LOWE|SYNCRO_LOWE/.test(upper) ? "Glaston" : "Bavelloni";
+      return {
+        vendor,
+        formatId: "bavelloni-cut",
+        confidence: "high",
+        matchedSignal: nc ?? "% / E30000 / G77",
+      };
+    }
     return {
       vendor: "Intermac",
       formatId: "intermac-cut",
@@ -116,6 +127,10 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
   }
 
   if (ext === "cut" || ext === "cni") {
+    const nc = content.match(/\(\s*(NUM\s+[A-Z0-9][A-Z0-9 ._+-]*)\s*\)/i)?.[1]?.trim() ?? "";
+    if (/SYNCRO|REV|FLEXIUM|LOWE/i.test(nc)) {
+      return { vendor: /LOWE/i.test(nc) ? "Glaston" : "Bavelloni", formatId: "bavelloni-cut", confidence: "medium", matchedSignal: `extension.${ext}` };
+    }
     return { vendor: "Intermac", formatId: "intermac-cut", confidence: "medium", matchedSignal: `extension.${ext}` };
   }
   if (ext === "otd") {

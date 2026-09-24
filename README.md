@@ -36,8 +36,8 @@ files are read as bytes and decoded before parsing.
   pane dimensions
 - **Arcs & shapes**: Intermac `[Shape]` arcs (L= radius / C= side) render as
   true curves on canvas, minimap, PNG and SVG
-- **Cut-sequence playback**: animated play-through with speed control
-  (1×/2×/4×/8×), loops until paused
+- **Cut-sequence playback**: sim console with play/pause, cut stepping, scrubber, cycle time, yield/waste, and head phase
+  (1×/2×/4×/8×/16×), loops until paused. `Space` play · `[` `]` step · `Home` reset
 - **Measure tool**: click two points for live distance in mm
 - **Laser marks**: Lisec `[LASER]` / `[RLASER]` marks render on the sheet
 - **Validation panel**: zero-length cuts, out-of-bounds (±0.5 mm),
@@ -51,7 +51,7 @@ files are read as bytes and decoded before parsing.
 - **Theme**: light (default) + dark, persisted
 - Drag & drop file open, recent files, bundled sample fixtures
   (work in browser dev mode and in the packaged app)
-- Keyboard: `F` fit · `+`/`−` zoom · `Esc` deselect
+- Keyboard: `Space` play/pause · `[`/`]` or arrows step cut · `Home` reset · `F` fit · `+`/`−` zoom · `Esc` deselect
 
 ## Development
 
