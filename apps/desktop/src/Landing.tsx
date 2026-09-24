@@ -36,10 +36,13 @@ export function Landing({ onSelect }: Props) {
   return (
     <div className="landing">
       <nav className="landing-nav">
-        <span>SPIL CutCode</span>
-        <a href="#library">Machine library</a>
+        <div className="landing-nav-inner">
+          <span className="landing-logo">SPIL CutCode</span>
+          <a href="#library">Machine library</a>
+        </div>
       </nav>
       <section className="poster">
+        <div className="poster-hero">
         <div className="poster-grid">
           <div className="poster-copy">
             <p className="poster-kicker">Glass cutting simulator</p>
@@ -99,6 +102,7 @@ export function Landing({ onSelect }: Props) {
             </div>
           </div>
         </div>
+        </div>
 
         <footer className="poster-foot">
           <span>© 2026 SPIL</span>
@@ -110,7 +114,11 @@ export function Landing({ onSelect }: Props) {
         </footer>
       </section>
 
-      <section className="poster-steps">
+      <section className="poster-steps" aria-label="How it works">
+        <header className="steps-head">
+          <p>How it works</p>
+          <span>Three steps from table to playback</span>
+        </header>
         <article>
           <span>01</span>
           <h3>Pick the table</h3>
@@ -128,11 +136,12 @@ export function Landing({ onSelect }: Props) {
         </article>
       </section>
 
-      <div className="landing-tools" id="library">
+      <section className="landing-library" id="library">
         <header className="poster-bar">
           <span>The tables</span>
           <span>Every system in the library</span>
         </header>
+        <div className="library-toolbar">
         <div className="filter-row">
           <input
             value={query}
@@ -144,7 +153,8 @@ export function Landing({ onSelect }: Props) {
             Import ready
           </button>
         </div>
-      </div>
+        </div>
+      </section>
 
       <div className="machine-grid">
         {machines.map((m) => (
