@@ -18,9 +18,9 @@ import { renderPng, renderSvg, dataUrlToBytes, downloadBytes, triggerPrint } fro
 const CutStage3D = lazy(() => import("./CutStage3D").then((m) => ({ default: m.CutStage3D })));
 
 const TOOL_BTN =
-  "rounded-md border px-2 py-1.5 text-xs shadow-sm border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700";
+  "rounded-[10px] border border-[#d8cdb8] bg-[#f5eedc] px-2.5 py-1.5 text-xs font-semibold text-[#0b2545] hover:border-[#0b2545]";
 const TOOL_BTN_ACTIVE =
-  "rounded-md border px-2 py-1.5 text-xs shadow-sm border-blue-300 bg-blue-50 text-blue-800 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200";
+  "rounded-[10px] border border-[#d75c2a] bg-[#d75c2a] px-2.5 py-1.5 text-xs font-semibold text-white";
 
 type Toast = { kind: "error" | "info"; message: string };
 
@@ -205,7 +205,7 @@ export default function App() {
 
   return (
     <div
-      className="flex h-screen w-screen flex-col overflow-hidden bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100"
+      className="flex h-screen w-screen flex-col overflow-hidden bg-[#f4f0e8] text-[#0b2545]"
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
     >
