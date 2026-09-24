@@ -78,9 +78,10 @@ export function CutStage3D({ sheet, machine }: Props) {
     scene.background = new THREE.Color(0xf5f1ea);
     if (full) scene.fog = new THREE.Fog(0xf5f1ea, 14, 32);
 
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.05, 80);
-    const perspectivePos = new THREE.Vector3(4.8, 4.8, 5.8);
-    const topPos = new THREE.Vector3(0, 9.5, 0.02);
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 80);
+    const span = Math.max(sw, sh) / 1000;
+    const perspectivePos = new THREE.Vector3(span * 0.72, span * 0.62, span * 0.86);
+    const topPos = new THREE.Vector3(0, span * 1.35, 0.02);
     camera.position.copy(perspectivePos);
 
     const renderer = new THREE.WebGLRenderer({
@@ -98,8 +99,8 @@ export function CutStage3D({ sheet, machine }: Props) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.minDistance = 1.6;
-    controls.maxDistance = 16;
+    controls.minDistance = span * 0.45;
+    controls.maxDistance = span * 2.4;
     controls.maxPolarAngle = Math.PI * 0.49;
     controls.target.set(0, 0.15, 0);
 
@@ -127,7 +128,7 @@ export function CutStage3D({ sheet, machine }: Props) {
     const visual = machineVisual(machine);
 
     const floor = new THREE.Mesh(
-      new THREE.CircleGeometry(9, full ? 48 : 32),
+      new THREE.CircleGeometry(span * 1.35, full ? 64 : 40),
       new THREE.MeshStandardMaterial({ color: 0xe8dfd0, roughness: 0.95 })
     );
     floor.rotation.x = -Math.PI / 2;
@@ -185,12 +186,9 @@ export function CutStage3D({ sheet, machine }: Props) {
       scene.add(second);
     }
     if (visual.loadingArms) {
-      for (const x of [-w * 0.34, 0, w * 0.34]) {
-        const arm = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.07, d * 0.72), frameMat);
-        arm.position.set(x, -0.03, -(d * 0.72));
-        arm.rotation.x = -0.18;
-        arm.castShadow = true;
-        scene.add(arm);
+      for (const x of [-w * 0.28, 0, w * 0.28]) {
+        box(0.025, 0.42, 0.025, steelDark, x, 0.24, -(d / 2 + 0.02));
+        box(0.08, 0.012, 0.08, steel, x, 0.46, -(d / 2 + 0.02));
       }
     }
 
