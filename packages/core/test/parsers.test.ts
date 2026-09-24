@@ -268,6 +268,36 @@ describe("parsers", () => {
     expect(r.error).toContain("family configuration");
   });
 
+  it("parses Intermac ISO .CUT programs (sheet, scores, shaped piece)", () => {
+    const c = readFileSync(join(fixtures, "intermac/2_01.CUT"), "utf8");
+    const d = detectFormat(c, "2_01.CUT");
+    expect(d.formatId).toBe("intermac-cut");
+    expect(d.confidence).toBe("high");
+
+    const r = parseAndNormalize(c, "2_01.CUT");
+    expect(r.status).toBe("ok");
+    const s = sheet(r.document);
+    expect(s?.sheet.width).toBe(3660);
+    expect(s?.sheet.height).toBe(2440);
+    expect(r.document?.metadata.glassThickness).toBe(12);
+    expect(r.document?.metadata.glassType).toContain("CLR");
+
+    const scores = s?.cuts.filter((cut) => cut.stage === 1 || cut.stage === 2) ?? [];
+    expect(scores.length).toBe(2);
+    const vertical = scores.find((cut) => cut.stage === 1);
+    expect(vertical?.points.every((p) => p.x === 640)).toBe(true);
+
+    const pane = s?.panes[0];
+    expect(pane?.polygon?.length).toBeGreaterThan(4);
+    expect(s?.cuts.some((cut) => cut.type === "arc")).toBe(true);
+    for (const p of pane?.polygon ?? []) {
+      expect(p.x).toBeGreaterThanOrEqual(-0.5);
+      expect(p.y).toBeGreaterThanOrEqual(-0.5);
+      expect(p.x).toBeLessThanOrEqual(3660.5);
+      expect(p.y).toBeLessThanOrEqual(2440.5);
+    }
+  });
+
   it("reports encrypted .ot5 archives clearly", () => {
     const r = parseAndNormalize("binary garbage \x00\x01\x02", "archive.OT5");
     expect(r.status).toBe("failed");

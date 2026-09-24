@@ -1,14 +1,23 @@
 import { useAppStore } from "./store";
 import { fixtureSamples } from "./fixtures";
 import { isTauri, readCutcodeFile } from "./fileIO";
+import type { Machine } from "./machines";
 
 type Props = {
+  machine: Machine;
   onOpenResult: (path: string, resultPromise: Promise<import("@spil/cutcode-core").ParseResult>) => void;
 };
 
-export function Sidebar({ onOpenResult }: Props) {
+export function Sidebar({ machine, onOpenResult }: Props) {
   const recents = useAppStore((s) => s.recents);
   const filePath = useAppStore((s) => s.filePath);
+  const samples = fixtureSamples.filter((s) => {
+    const vendor = s.vendor.toLowerCase();
+    const brand = machine.brand.toLowerCase();
+    if (brand === "cad") return vendor === "dxf";
+    if (brand === "macotec") return vendor === "macotech";
+    return vendor === brand;
+  });
 
   return (
     <div className="flex h-full flex-col overflow-y-auto bg-white text-sm dark:bg-slate-900">
@@ -16,10 +25,10 @@ export function Sidebar({ onOpenResult }: Props) {
         <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Samples</h2>
       </div>
       <div className="p-2">
-        {fixtureSamples.length === 0 && (
-          <p className="px-2 text-xs text-slate-400">No bundled samples found.</p>
+        {samples.length === 0 && (
+          <p className="px-2 text-xs text-slate-400">No bundled samples for {machine.brand}.</p>
         )}
-        {fixtureSamples.map((s) => (
+        {samples.map((s) => (
           <button
             key={s.url}
             type="button"

@@ -10,7 +10,7 @@ export interface FixtureSample {
   url: string;
 }
 
-const modules = import.meta.glob("../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,dxf,OTD,DAT,EDI,DXF}", {
+const modules = import.meta.glob("../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,dxf,cut,cni,OTD,DAT,EDI,DXF,CUT}", {
   query: "?url",
   import: "default",
   eager: true,

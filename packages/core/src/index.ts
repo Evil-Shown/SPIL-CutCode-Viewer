@@ -9,6 +9,9 @@ export { detectFormat } from "./detect/formatDetector.js";
 export { decodeCutcodeBytes } from "./decode/encoding.js";
 export { normalizeCutDocument, CANONICAL_SEMANTICS } from "./normalize/coordinates.js";
 export { arcCenter, arcAngles, sampleArc } from "./geometry/arc.js";
+export { validateCutDocument, groupIssues } from "./validation/validate.js";
+export type { ValidationIssue, IssueCode, Severity, IssueGroup } from "./validation/validate.js";
+export { dialectFor } from "./validation/dialects.js";
 export { parseCutcode } from "./parsers/index.js";
 
 export function parseAndNormalize(content: string, sourcePath = ""): ParseResult {

@@ -36,6 +36,8 @@ interface AppState {
   seqPlaying: boolean;
   seqSpeed: number;
   measureMode: boolean;
+  machineId: string | null;
+  viewMode: "2d" | "3d";
 
   fitRequest: number;
   focusTarget: FocusTarget | null;
@@ -56,6 +58,8 @@ interface AppState {
   setSeqPlaying: (playing: boolean) => void;
   cycleSeqSpeed: () => void;
   toggleMeasure: () => void;
+  setMachine: (id: string | null) => void;
+  setViewMode: (mode: "2d" | "3d") => void;
 }
 
 function loadStored<T>(key: string, fallback: T): T {
@@ -92,6 +96,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   seqPlaying: false,
   seqSpeed: 1,
   measureMode: false,
+  machineId: null,
+  viewMode: "3d",
 
   fitRequest: 0,
   focusTarget: null,
@@ -152,4 +158,18 @@ export const useAppStore = create<AppState>((set, get) => ({
     }),
 
   toggleMeasure: () => set((s) => ({ measureMode: !s.measureMode })),
+
+  setMachine: (id) =>
+    set({
+      machineId: id,
+      document: null,
+      parseResult: null,
+      filePath: null,
+      loadError: null,
+      seqPlaying: false,
+      viewMode: "3d",
+      activeSheetIndex: 0,
+    }),
+
+  setViewMode: (mode) => set({ viewMode: mode }),
 }));

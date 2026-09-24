@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import type { Cut, CutPlan, Point } from "@spil/cutcode-core";
 import { sampleArc } from "@spil/cutcode-core";
+import { seqClock } from "./seqClock";
 import { useAppStore } from "./store";
 import { THEMES, STAGE_COLORS } from "./theme";
 
@@ -41,7 +42,6 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
   const sizeRef = useRef({ w: 0, h: 0 });
   const panState = useRef<{ panning: boolean; lastX: number; lastY: number; moved: boolean }>({ panning: false, lastX: 0, lastY: 0, moved: false });
   const hoverRef = useRef<{ type: "cut" | "pane"; index: number } | null>(null);
-  const progressRef = useRef<number>(-1); // cut-sequence playback position (< 0 = inactive)
   const measurePts = useRef<Point[]>([]);
 
   const layers = useAppStore((s) => s.layers);
@@ -50,7 +50,6 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
   const selectedPaneId = useAppStore((s) => s.selectedPaneId);
   const fitRequest = useAppStore((s) => s.fitRequest);
   const focusTarget = useAppStore((s) => s.focusTarget);
-  const seqPlaying = useAppStore((s) => s.seqPlaying);
   const seqSpeed = useAppStore((s) => s.seqSpeed);
   const measureMode = useAppStore((s) => s.measureMode);
   const selectCut = useAppStore((s) => s.selectCut);
@@ -184,7 +183,7 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     sheet.cuts.forEach((cut, i) => {
       const isSelected = selectedCutIndex === i;
       const isHover = hoverRef.current?.type === "cut" && hoverRef.current.index === i;
-      const seqPos = progressRef.current;
+      const seqPos = seqClock.progress;
       const dimmed = seqPos >= 0 && cut.sequenceIndex > seqPos;
       ctx.strokeStyle = isSelected
         ? theme.cutSelected
@@ -278,13 +277,13 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     }
 
     /* ---------- playback progress readout ---------- */
-    if (progressRef.current >= 0) {
+    if (seqClock.progress >= 0) {
       const maxSeq = sheet.cuts.length - 1;
       ctx.fillStyle = theme.panel;
       ctx.fillRect(RULER_SIZE + 8, h - 28, 130, 20);
       ctx.fillStyle = theme.text;
       ctx.font = "11px system-ui, sans-serif";
-      ctx.fillText(`cut ${Math.round(Math.min(progressRef.current, maxSeq))}/${maxSeq} · ${seqSpeed}×`, RULER_SIZE + 14, h - 14);
+      ctx.fillText(`cut ${Math.round(Math.min(seqClock.progress, maxSeq))}/${maxSeq} · ${seqSpeed}×`, RULER_SIZE + 14, h - 14);
     }
 
     /* ---------- laser marks ---------- */
@@ -459,27 +458,7 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
     draw();
   }, [draw]);
 
-  /* ---------- cut-sequence playback (loop until paused) ---------- */
-  useEffect(() => {
-    if (!seqPlaying) {
-      progressRef.current = -1;
-      draw();
-      return;
-    }
-    let raf = 0;
-    let last = performance.now();
-    const tick = (now: number) => {
-      const dt = (now - last) / 1000;
-      last = now;
-      const maxSeq = Math.max(1, sheet.cuts.length - 1);
-      progressRef.current += dt * 6 * seqSpeed; // ~6 cuts/sec at 1x
-      if (progressRef.current > maxSeq) progressRef.current = 0; // loop
-      draw();
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [seqPlaying, seqSpeed, sheet, draw]);
+  useEffect(() => seqClock.subscribe(() => draw()), [draw]);
 
   /* ---------- keyboard ---------- */
   useEffect(() => {

@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ParseResult } from "@spil/cutcode-core";
 import { CutCanvas } from "./CutCanvas";
+import { CutStage3D } from "./CutStage3D";
 import { Inspector } from "./Inspector";
+import { Landing } from "./Landing";
+import { PlaybackDriver } from "./PlaybackDriver";
 import { Sidebar } from "./Sidebar";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { machineAccepts, machineById } from "./machines";
 import { useAppStore, type LayerToggles } from "./store";
 import { isTauri, openFileDialog, openFileFromBrowser, saveDialog, writeBinaryFile } from "./fileIO";
 import { renderPng, renderSvg, dataUrlToBytes, downloadBytes, triggerPrint } from "./exporters";
@@ -27,6 +31,8 @@ export default function App() {
   const seqPlaying = useAppStore((s) => s.seqPlaying);
   const seqSpeed = useAppStore((s) => s.seqSpeed);
   const measureMode = useAppStore((s) => s.measureMode);
+  const machineId = useAppStore((s) => s.machineId);
+  const viewMode = useAppStore((s) => s.viewMode);
   const setSeqPlaying = useAppStore((s) => s.setSeqPlaying);
   const cycleSeqSpeed = useAppStore((s) => s.cycleSeqSpeed);
   const toggleMeasure = useAppStore((s) => s.toggleMeasure);
@@ -36,6 +42,9 @@ export default function App() {
   const toggleLayer = useAppStore((s) => s.toggleLayer);
   const setTheme = useAppStore((s) => s.setTheme);
   const requestFit = useAppStore((s) => s.requestFit);
+  const setMachine = useAppStore((s) => s.setMachine);
+  const setViewMode = useAppStore((s) => s.setViewMode);
+  const machine = machineById(machineId);
 
   const [toast, setToast] = useState<Toast | null>(null);
   const toastTimer = useRef<number | null>(null);
@@ -55,6 +64,14 @@ export default function App() {
     async (path: string, resultPromise: Promise<ParseResult>) => {
       try {
         const result = await resultPromise;
+        const selected = machineById(useAppStore.getState().machineId);
+        if (selected?.importReady && result.detected.formatId !== "unknown" && !machineAccepts(selected, result.detected.formatId)) {
+          const accepted = selected.extensions.map((ext) => `.${ext.toUpperCase()}`).join(", ");
+          const message = `This file is ${result.detected.vendor} (${result.detected.formatId}). ${selected.brand} ${selected.model} accepts ${accepted}.`;
+          setLoadError(message);
+          showToast("error", message);
+          return;
+        }
         setFromParse(path, result);
         if (result.status === "failed") {
           showToast("error", result.error ?? "Parse failed");
@@ -100,6 +117,17 @@ export default function App() {
 
   const sheet = doc?.sheets[activeSheetIndex];
   const baseName = (filePath ?? "cutplan").replace(/\.[^.]+$/, "");
+  const accept = machine?.extensions.length
+    ? machine.extensions.map((ext) => `.${ext}`).join(",")
+    : ".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.xml,.cut,.cni,.json";
+
+  if (!machine) {
+    return (
+      <div className="h-screen w-screen overflow-hidden bg-slate-950 text-slate-100">
+        <Landing onSelect={(m) => setMachine(m.id)} />
+      </div>
+    );
+  }
 
   const handleExportPng = async () => {
     if (!sheet) return;
@@ -138,33 +166,40 @@ export default function App() {
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
     >
-      {/* Toolbar */}
-      <header className="flex shrink-0 flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-        <span className="mr-1 hidden text-sm font-semibold tracking-tight md:block">
-          SPIL <span className="text-blue-600 dark:text-blue-400">CutCode</span> Viewer
-        </span>
+      <PlaybackDriver />
+      <header className="workbench-header">
+        <button type="button" onClick={() => setMachine(null)} className="machine-back" title="Choose another machine">
+          ← Machines
+        </button>
+        <div className="machine-identity">
+          <span>{machine.brand}</span><strong>{machine.model}</strong><small>{machine.kind}</small>
+        </div>
 
-        {isTauri ? (
-          <button
-            type="button"
-            onClick={handleOpen}
-            className="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-          >
-            Open file…
-          </button>
-        ) : (
-          <label className="cursor-pointer rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
-            Open file…
-            <input
-              type="file"
-              className="hidden"
-              accept=".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.ot5,.xml,.cut,.json"
-              onChange={handleBrowserFile}
-            />
-          </label>
-        )}
+        <div className="import-wrap">
+          {isTauri ? (
+            <button
+              type="button"
+              onClick={handleOpen}
+              className="import-primary"
+            >
+              ＋ Import cutcode
+            </button>
+          ) : (
+            <label className="import-primary">
+              ＋ Import cutcode
+              <input type="file" className="hidden" accept={accept} onChange={handleBrowserFile} />
+            </label>
+          )
+          }
+          <small>{machine.extensions.length ? machine.extensions.map((e) => `.${e.toUpperCase()}`).join(" · ") : "Auto-detect supported formats"}</small>
+        </div>
 
-        <span className="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
+        <span className="toolbar-divider" />
+
+        <div className="mode-switch">
+          <button type="button" onClick={() => setViewMode("3d")} className={viewMode === "3d" ? "active" : ""}>◇ 3D simulation</button>
+          <button type="button" onClick={() => setViewMode("2d")} className={viewMode === "2d" ? "active" : ""}>▦ Cut plan</button>
+        </div>
 
         <button type="button" onClick={requestFit} className={TOOL_BTN} title="Fit sheet (F)">
           Fit
@@ -267,14 +302,32 @@ export default function App() {
       )}
 
       {/* Main area */}
-      <div className="flex min-h-0 flex-1">
-        <aside className="w-56 shrink-0 border-r border-slate-200 dark:border-slate-700">
-          <Sidebar onOpenResult={openResult} />
+      <div className="workbench">
+        <aside className="workbench-left">
+          <div className="panel-machine">
+            <span>01 · Selected system</span>
+            <strong>{machine.brand} {machine.model}</strong>
+            <small>{machine.bed.width} × {machine.bed.height} mm work area</small>
+          </div>
+          <Sidebar machine={machine} onOpenResult={openResult} />
         </aside>
 
-        <main className="relative min-w-0 flex-1 bg-slate-100 dark:bg-slate-900">
+        <main className="workbench-canvas">
           <ErrorBoundary>
-            {sheet ? (
+            {viewMode === "3d" ? (
+              <CutStage3D
+                machine={machine}
+                sheet={
+                  sheet ?? {
+                    id: "bed",
+                    sheet: { width: machine.bed.width, height: machine.bed.height },
+                    panes: [],
+                    cuts: [],
+                    coordinateSemantics: { origin: "top-left", xAxis: "right", units: "mm" },
+                  }
+                }
+              />
+            ) : sheet ? (
               <CutCanvas sheet={sheet} />
             ) : loadError ? (
               <div className="flex h-full items-center justify-center p-8">
@@ -289,14 +342,34 @@ export default function App() {
                   <rect x="3" y="5" width="18" height="14" rx="1" />
                   <path d="M3 12h18M12 5v14" />
                 </svg>
-                <p className="text-sm">Open a cutcode file or pick a sample from the sidebar</p>
+                <p className="text-sm">Import a {machine.brand} cutcode file, or switch to 3D cut</p>
                 <p className="text-xs opacity-70">You can also drag &amp; drop a file anywhere</p>
+              </div>
+            )}
+            {loadError && viewMode === "3d" && (
+              <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 shadow-lg dark:border-red-900 dark:bg-red-950 dark:text-red-100">
+                {loadError}
+              </div>
+            )}
+            {!doc && viewMode === "3d" && !loadError && (
+              <div className="import-empty">
+                <span>01</span>
+                <div>
+                  <strong>Load a production file</strong>
+                  <p>Place the real sheet, scores and cutting sequence on this machine.</p>
+                </div>
+                {isTauri ? (
+                  <button type="button" onClick={handleOpen}>Choose file →</button>
+                ) : (
+                  <label>Choose file →<input type="file" className="hidden" accept={accept} onChange={handleBrowserFile} /></label>
+                )}
               </div>
             )}
           </ErrorBoundary>
         </main>
 
-        <aside className="w-72 shrink-0 border-l border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+        <aside className="workbench-right">
+          <div className="panel-heading"><span>02</span><strong>Job inspector</strong></div>
           <Inspector />
         </aside>
       </div>

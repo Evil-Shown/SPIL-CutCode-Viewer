@@ -96,6 +96,16 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
     };
   }
 
+  // Intermac Genius ISO program (.CUT / .CNI): % header, E30000 sheet, G77 macros
+  if (/^%\d*/.test(trimmed) && (/E30000\s*=/.test(head) || /G77H9\d{3}/i.test(head))) {
+    return {
+      vendor: "Intermac",
+      formatId: "intermac-cut",
+      confidence: "high",
+      matchedSignal: "% / E30000 / G77",
+    };
+  }
+
   if (BOTTERO_LINE.test(trimmed) || BOTTERO_TOKEN.test(head)) {
     return {
       vendor: "Bottero",
@@ -105,6 +115,9 @@ export function detectFormat(content: string, filePath = ""): DetectResult {
     };
   }
 
+  if (ext === "cut" || ext === "cni") {
+    return { vendor: "Intermac", formatId: "intermac-cut", confidence: "medium", matchedSignal: `extension.${ext}` };
+  }
   if (ext === "otd") {
     return { vendor: "Intermac", formatId: "intermac-otd", confidence: "medium", matchedSignal: "extension.otd" };
   }
