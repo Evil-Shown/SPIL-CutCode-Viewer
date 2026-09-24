@@ -135,45 +135,44 @@ export function CutStage3D({ sheet, machine }: Props) {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    const bed = new THREE.Mesh(
-      new THREE.BoxGeometry(w + 0.45, tableT, d + 0.45),
-      new THREE.MeshStandardMaterial({ color: visual.bed, roughness: 0.86, metalness: 0.04 })
-    );
-    bed.position.y = tableT / 2 - 0.02;
-    bed.castShadow = true;
-    bed.receiveShadow = true;
-    scene.add(bed);
+    const steel = new THREE.MeshStandardMaterial({ color: 0xd5dadd, roughness: 0.46, metalness: 0.22 });
+    const steelDark = new THREE.MeshStandardMaterial({ color: 0x9aa3a8, roughness: 0.38, metalness: 0.48 });
+    const feltMat = new THREE.MeshStandardMaterial({ color: 0x17191b, roughness: 0.94, metalness: 0 });
+    const frameMat = steel;
+    const railMat = steelDark;
+    const box = (sx: number, sy: number, sz: number, mat: THREE.Material, x: number, y: number, z: number, parent: THREE.Object3D = scene) => {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), mat);
+      mesh.position.set(x, y, z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    };
 
-    const railMat = new THREE.MeshStandardMaterial({ color: visual.gantry, roughness: 0.4, metalness: 0.65 });
-    const frameMat = new THREE.MeshStandardMaterial({ color: visual.frame, roughness: 0.48, metalness: 0.28 });
-    for (const z of [-(d / 2 + 0.2), d / 2 + 0.2]) {
-      const rail = new THREE.Mesh(new THREE.BoxGeometry(w + 0.7, 0.06, 0.06), railMat);
-      rail.position.set(0, tableT + 0.02, z);
-      rail.castShadow = true;
-      scene.add(rail);
-    }
-
-    // Manufacturer-specific chassis: perimeter, legs, split beds and loading arms.
-    const perimeter = [
-      [w + 0.5, 0.12, 0.1, 0, -0.1, -(d / 2 + 0.2)],
-      [w + 0.5, 0.12, 0.1, 0, -0.1, d / 2 + 0.2],
-      [0.1, 0.12, d + 0.5, -(w / 2 + 0.2), -0.1, 0],
-      [0.1, 0.12, d + 0.5, w / 2 + 0.2, -0.1, 0],
-    ];
-    perimeter.forEach(([x, y, z, px, py, pz]) => {
-      const part = new THREE.Mesh(new THREE.BoxGeometry(x, y, z), frameMat);
-      part.position.set(px, py, pz);
-      part.castShadow = true;
-      scene.add(part);
-    });
-    for (const x of [-w / 2, 0, w / 2]) {
-      for (const z of [-d / 2, d / 2]) {
-        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.34, 0.1), railMat);
-        leg.position.set(x, -0.17, z);
-        leg.castShadow = true;
-        scene.add(leg);
+    box(w + 0.22, 0.05, d + 0.16, steel, 0, 0.0, 0);
+    const cols = 6;
+    const rows = 4;
+    for (let ix = 0; ix < cols; ix++) {
+      for (let iz = 0; iz < rows; iz++) {
+        const pw = (w - 0.08) / cols;
+        const pd = (d - 0.08) / rows;
+        box(pw - 0.012, 0.014, pd - 0.012, feltMat, -w / 2 + 0.04 + pw * (ix + 0.5), 0.032, -d / 2 + 0.04 + pd * (iz + 0.5));
       }
     }
+    for (const z of [-(d / 2 + 0.12), d / 2 + 0.12]) {
+      box(w + 0.55, 0.035, 0.045, railMat, 0, 0.07, z);
+    }
+    box(w + 0.36, 0.04, 0.035, frameMat, 0, -0.01, -(d / 2 + 0.14));
+    box(w + 0.36, 0.04, 0.035, frameMat, 0, -0.01, d / 2 + 0.14);
+    box(0.035, 0.04, d + 0.32, frameMat, -(w / 2 + 0.16), -0.01, 0);
+    box(0.035, 0.04, d + 0.32, frameMat, w / 2 + 0.16, -0.01, 0);
+    for (const x of [-w / 2, 0, w / 2]) {
+      for (const z of [-d / 2, d / 2]) {
+        box(0.06, 0.22, 0.06, frameMat, x, -0.12, z);
+        box(0.1, 0.018, 0.1, railMat, x, -0.22, z);
+      }
+    }
+    box(0.42, 0.16, 0.28, steelDark, -w / 2 + 0.35, -0.1, d / 2 - 0.2);
     if (visual.layout === "split") {
       const split = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.025, d + 0.25), frameMat);
       split.position.y = tableT + 0.01;
@@ -197,17 +196,16 @@ export function CutStage3D({ sheet, machine }: Props) {
 
     // Freestanding operator console, common on commercial cutting tables.
     const consoleGroup = new THREE.Group();
-    const console = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.5, 0.2), frameMat);
-    console.position.y = 0.25;
-    console.castShadow = true;
-    consoleGroup.add(console);
+    box(0.22, 0.62, 0.16, frameMat, 0, 0.2, 0, consoleGroup);
+    box(0.26, 0.03, 0.2, railMat, 0, -0.1, 0, consoleGroup);
     const screen = new THREE.Mesh(
-      new THREE.BoxGeometry(0.19, 0.14, 0.018),
-      new THREE.MeshStandardMaterial({ color: 0x132832, emissive: 0x163d4e, emissiveIntensity: 0.5 })
+      new THREE.BoxGeometry(0.16, 0.11, 0.012),
+      new THREE.MeshStandardMaterial({ color: 0x163848, emissive: 0x1d4e63, emissiveIntensity: 0.45, roughness: 0.25 })
     );
-    screen.position.set(0, 0.34, -0.11);
+    screen.position.set(0, 0.38, -0.09);
+    screen.rotation.x = -0.18;
     consoleGroup.add(screen);
-    consoleGroup.position.set(visual.pedestal === "left" ? -w / 2 - 0.42 : w / 2 + 0.42, -0.12, d / 2 + 0.06);
+    consoleGroup.position.set(visual.pedestal === "left" ? -w / 2 - 0.55 : w / 2 + 0.55, -0.08, d * 0.15);
     scene.add(consoleGroup);
 
     const glass = new THREE.Mesh(
@@ -230,14 +228,13 @@ export function CutStage3D({ sheet, machine }: Props) {
             opacity: 0.86,
           })
     );
-    glass.position.y = tableT + glassT / 2;
+    glass.position.y = 0.062;
     glass.castShadow = true;
     glass.receiveShadow = true;
     scene.add(glass);
 
-    const accent = new THREE.Color(machine.accent);
     const paneMat = new THREE.MeshStandardMaterial({
-      color: accent,
+      color: 0xc5d4dc,
       transparent: true,
       opacity: 0.18,
       roughness: 0.4,
@@ -262,7 +259,7 @@ export function CutStage3D({ sheet, machine }: Props) {
       const geo = new THREE.ShapeGeometry(shape);
       geo.rotateX(-Math.PI / 2);
       const mesh = new THREE.Mesh(geo, paneMat);
-      mesh.position.y = tableT + glassT + 0.004;
+      mesh.position.y = 0.072;
       scene.add(mesh);
     }
 
@@ -273,33 +270,24 @@ export function CutStage3D({ sheet, machine }: Props) {
     scene.add(scoreGroup);
 
     const gantry = new THREE.Group();
-    const beam = new THREE.Mesh(new THREE.BoxGeometry(w + 0.55, 0.07, 0.1), railMat);
-    beam.castShadow = true;
-    gantry.add(beam);
-    for (const x of [-(w / 2 + 0.2), w / 2 + 0.2]) {
-      const carriage = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.2, 0.18), frameMat);
-      carriage.position.set(x, -0.08, 0);
-      carriage.castShadow = true;
-      gantry.add(carriage);
+    box(w + 0.62, 0.045, 0.07, railMat, 0, 0.04, 0, gantry);
+    box(w + 0.5, 0.02, 0.11, frameMat, 0, 0, 0, gantry);
+    for (const x of [-(w / 2 + 0.22), w / 2 + 0.22]) {
+      box(0.1, 0.14, 0.12, frameMat, x, -0.04, 0, gantry);
     }
-    const head = new THREE.Mesh(
-      new THREE.BoxGeometry(0.09, 0.07, 0.09),
-      new THREE.MeshStandardMaterial({ color: accent, roughness: 0.4, metalness: 0.2 })
-    );
-    head.position.y = -0.08;
-    head.castShadow = true;
-    gantry.add(head);
+    const head = box(0.08, 0.12, 0.08, steelDark, 0, -0.04, 0, gantry);
     const wheel = new THREE.Mesh(
-      new THREE.SphereGeometry(0.018, full ? 12 : 10, full ? 12 : 10),
-      new THREE.MeshStandardMaterial({ color: 0xfff5e0, emissive: 0xc75d3f, emissiveIntensity: 0.8 })
+      new THREE.CylinderGeometry(0.012, 0.012, 0.004, full ? 16 : 10),
+      new THREE.MeshStandardMaterial({ color: 0xf4efe4, emissive: 0xc75d3f, emissiveIntensity: 0.35, metalness: 0.4, roughness: 0.25 })
     );
-    wheel.position.y = -0.14;
+    wheel.rotation.x = Math.PI / 2;
+    wheel.position.y = -0.11;
     gantry.add(wheel);
-    gantry.position.y = tableT + glassT + 0.22;
+    gantry.position.y = 0.16;
     scene.add(gantry);
 
     const toWorld = (p: Point, yOff = 0.006) =>
-      new THREE.Vector3(p.x / MM - w / 2, tableT + glassT + yOff, p.y / MM - d / 2);
+      new THREE.Vector3(p.x / MM - w / 2, 0.07 + yOff, p.y / MM - d / 2);
 
     const rapidMat = new THREE.LineDashedMaterial({
       color: 0x2a7553,
