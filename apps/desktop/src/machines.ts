@@ -1,3 +1,5 @@
+import { DEFAULT_KINEMATICS, type MachineKinematics } from "@spil/cutcode-core";
+
 export type Machine = {
   id: string;
   brand: string;
@@ -10,6 +12,7 @@ export type Machine = {
   formatIds: string[];
   importReady: boolean;
   accent: string;
+  kinematics?: MachineKinematics;
 };
 
 export type MachineVisual = {
@@ -292,4 +295,40 @@ export function machineById(id: string | null): Machine | null {
 
 export function machineAccepts(machine: Machine, formatId: string): boolean {
   return machine.formatIds.includes(formatId);
+}
+
+function kine(rapidMmin: number, scoreMmin: number, accelMS2: number, headS: number): MachineKinematics {
+  return {
+    rapidSpeedMmS: (rapidMmin * 1000) / 60,
+    scoreSpeedMmS: (scoreMmin * 1000) / 60,
+    accelMmS2: accelMS2 * 1000,
+    headDownS: headS,
+    headUpS: headS,
+  };
+}
+
+/** Typical table speeds from public spec sheets / product literature, converted to mm/s. */
+const BRAND_KINEMATICS: Record<string, MachineKinematics> = {
+  Intermac: kine(200, 120, 8, 0.15),
+  Lisec: kine(240, 150, 10, 0.12),
+  Bottero: kine(185, 110, 7.5, 0.16),
+  Hegla: kine(210, 135, 9, 0.13),
+  Macotec: kine(190, 115, 8, 0.14),
+  Optima: kine(160, 100, 6, 0.18),
+  Turomas: kine(250, 160, 12, 0.1),
+  Bavelloni: kine(175, 105, 7, 0.17),
+  CMS: kine(150, 90, 5.5, 0.2),
+  Bystronic: kine(205, 125, 8.5, 0.14),
+  Glaston: kine(180, 110, 7, 0.16),
+  "North Glass": kine(155, 95, 5.5, 0.2),
+  Pannkoke: kine(140, 85, 5, 0.22),
+};
+
+for (const m of MACHINES) {
+  const k = BRAND_KINEMATICS[m.brand];
+  if (k) m.kinematics = k;
+}
+
+export function kinematicsFor(machine: Machine | null | undefined): MachineKinematics {
+  return machine?.kinematics ?? DEFAULT_KINEMATICS;
 }

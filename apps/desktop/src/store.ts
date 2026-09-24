@@ -152,7 +152,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   cycleSeqSpeed: () =>
     set((s) => {
-      const speeds = [1, 2, 4, 8];
+      const speeds = [1, 2, 4, 8, 16];
       const idx = speeds.indexOf(s.seqSpeed);
       return { seqSpeed: speeds[(idx + 1) % speeds.length] ?? 1 };
     }),

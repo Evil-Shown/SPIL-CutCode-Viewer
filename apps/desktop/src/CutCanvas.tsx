@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import type { Cut, CutPlan, Point } from "@spil/cutcode-core";
-import { sampleArc } from "@spil/cutcode-core";
+import { headAt, sampleArc } from "@spil/cutcode-core";
 import { seqClock } from "./seqClock";
 import { useAppStore } from "./store";
 import { THEMES, STAGE_COLORS } from "./theme";
@@ -227,6 +227,38 @@ export function CutCanvas({ sheet }: { sheet: CutPlan }) {
       }
     });
     ctx.globalAlpha = 1;
+
+    /* ---------- rapid travel + cutting head ---------- */
+    if (seqClock.timeline) {
+      ctx.save();
+      ctx.strokeStyle = "#2a7553";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 4]);
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      for (const seg of seqClock.timeline.segments) {
+        if (seg.kind !== "rapid") continue;
+        const [x0, y0] = w2s(seg.from.x, seg.from.y);
+        const [x1, y1] = w2s(seg.to.x, seg.to.y);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+      if (seqClock.timeS >= 0) {
+        const h = headAt(seqClock.timeline, seqClock.timeS);
+        const [hx, hy] = w2s(h.pos.x, h.pos.y);
+        ctx.fillStyle = "#d75c2a";
+        ctx.strokeStyle = "#fcf9ef";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(hx, hy, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
 
     /* ---------- pane dimension annotations ---------- */
     if (layers.dimensions) {

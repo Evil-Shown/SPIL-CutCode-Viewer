@@ -13,6 +13,10 @@ export { validateCutDocument, groupIssues } from "./validation/validate.js";
 export type { ValidationIssue, IssueCode, Severity, IssueGroup } from "./validation/validate.js";
 export { dialectFor } from "./validation/dialects.js";
 export { parseCutcode } from "./parsers/index.js";
+export { DEFAULT_KINEMATICS, moveTimeS, moveDisplacementMm } from "./sim/kinematics.js";
+export type { MachineKinematics } from "./sim/kinematics.js";
+export { buildTimeline, headAt, cutPathPoints, polylineLength, pointAlongPolyline } from "./sim/timeline.js";
+export type { CutTimeline, TimelineSegment, HeadState } from "./sim/timeline.js";
 
 export function parseAndNormalize(content: string, sourcePath = ""): ParseResult {
   const result = parseCutcode(content, sourcePath);

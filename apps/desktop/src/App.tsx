@@ -213,7 +213,7 @@ export default function App() {
 
         <span className="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700" />
 
-        {sheet && sheet.cuts.length > 1 && (
+        {sheet && sheet.cuts.length > 0 && (
           <>
             <button
               type="button"
