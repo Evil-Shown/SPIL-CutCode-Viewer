@@ -1,0 +1,70 @@
+P001 - sheet index
+/Ott. OPTURU  by Perfect Cut - RO - kind of comment which can be used to signify our product
+N01
+H2440.00 - height
+L3660.00 - width
+T 6.00 - thickness
+R 00 - ambiguous
+
+G - start of line
+G1 - end of line
+
+G X 30.00 Y 1.00 - examined (left most border)
+G1 X 30.00 Y 2439.00
+
+G X 31.00 Y 2230.00 - examined (top most border)
+G1 X 2529.00 Y 2230.00
+
+G X 2530.00 Y 2439.00 - examined(5 right of, 12,13,14,15 left of)
+G1 X 2530.00 Y 31.00
+
+G X 3529.00 Y 530.00 - examined(12 top of)
+G1 X 2531.00 Y 530.00
+
+G X 1830.00 Y 1031.00 - examined(8 right of)
+G1 X 1830.00 Y 1629.00
+
+G X 1630.00 Y 1631.00 - examined(11 right of)
+G1 X 1630.00 Y 2229.00
+
+G X 1629.00 Y 2130.00 - examined(11 top of)
+G1 X 631.00 Y 2130.00
+
+G X 630.00 Y 2229.00 - examined(6, 10 right of)
+G1 X 630.00 Y 1031.00
+
+G X 530.00 Y 1029.00 - examined(1 right of)
+G1 X 530.00 Y 31.00
+
+G X 1030.00 Y 31.00 - examined(2 right of)
+G1 X 1030.00 Y 1029.00
+
+G X 1230.00 Y 1031.00 - examined(7 right of)
+G1 X 1230.00 Y 1629.00
+
+G X 1530.00 Y 1029.00 - examined(3 right of)
+G1 X 1530.00 Y 31.00
+
+G X 2030.00 Y 31.00 - examined(4 right of)
+G1 X 2030.00 Y 1029.00
+
+G X 2430.00 Y 1031.00 - examined(9 right of)
+G1 X 2430.00 Y 1629.00
+
+G X 2531.00 Y 1530.00 - examined(14 top of)
+G1 X 3529.00 Y 1530.00
+
+G X 3529.00 Y 1030.00 - examined(1,2,3,4,5,13 top of)
+G1 X 31.00 Y 1030.00
+
+G X 31.00 Y 1630.00 - examined(6,7,8,9 top of)
+G1 X 2529.00 Y 1630.00
+
+G X 2531.00 Y 2030.00 - examined(15 top of)
+G1 X 3529.00 Y 2030.00
+
+G X 3530.00 Y 2439.00 - examined(right most border)
+G1 X 3530.00 Y 1.00
+
+G X 3529.00 Y 30.00 - examined (bottom most border)
+G1 X 31.00 Y 30.00

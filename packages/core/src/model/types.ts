@@ -28,6 +28,8 @@ export type Pane = {
   glassInfo?: string;
   label?: string;
   rotated?: boolean;
+  /** Rack / pallet destination as written by the optimizer (B, IB2501, Rack=…). */
+  rackCode?: string;
 };
 
 export type Cut = {
@@ -46,6 +48,14 @@ export type Cut = {
   paneRefs?: string[];
   bockCode?: string;
   rackCode?: string;
+  /**
+   * Work process that produced the cut, when the format publishes one
+   * (Turomas V40 `workProcessesTrack[].process`, e.g. `CUT` or `LE`).
+   * A pane can carry both a cutting outline and a Low-E deletion track that
+   * deliberately overlaps it, so validators must not treat crossings between
+   * different processes on the same pane as errors.
+   */
+  process?: string;
 };
 
 export type LaserMark = {
@@ -94,6 +104,8 @@ export type DetectResult = {
   confidence: "high" | "medium" | "low" | "unknown";
   matchedSignal?: string;
   version?: string;
+  /** Format ids tried by the parser retry chain, when more than one ran. */
+  attempts?: string;
 };
 
 export type ParseResult = {
@@ -115,6 +127,13 @@ export const STAGE_LABELS: Record<string, string[]> = {
   HEGLA: ["X", "Y", "Z", "V", "W"],
   STRON: ["X", "Y", "Z", "V", "W"],
   LISEC: ["X", "Y", "Z", "W"],
+  TUROMAS: ["X", "Y", "Z", "V", "W", "Q", "R", "S", "T", "U"],
+  "PERFECT CUT": ["X", "Y", "Z", "V", "W", "Q", "R", "S", "T", "U"],
+  DISAI: ["X", "Y", "Z", "U", "V", "W", "R", "S", "T"],
+  CHAOYANG: ["X", "Y", "Z", "U", "V", "W", "R", "S", "T"],
+  BYSTRONIC: ["X", "Y", "Z", "V", "W"],
+  VETROMAC: ["X", "Y", "Z", "W"],
+  EAGLE: ["X", "Y", "Z", "W"],
 };
 
 export function stageLabel(vendor: string, stage: number): string | undefined {

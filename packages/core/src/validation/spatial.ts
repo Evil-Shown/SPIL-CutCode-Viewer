@@ -1,5 +1,5 @@
 import type { Point, Cut } from "../model/types.js";
-import { sampleArc } from "../geometry/arc.js";
+import { cutPathPoints } from "../sim/timeline.js";
 
 /**
  * Spatial hash + segment geometry for validation broad-phase.
@@ -14,10 +14,7 @@ export interface Seg {
 }
 
 export function cutToSegments(cut: Cut): Seg[] {
-  const pts =
-    cut.type === "arc" && cut.center && cut.radius
-      ? sampleArc({ start: cut.points[0], end: cut.points[1] ?? cut.points[0], radius: cut.radius, side: cut.ccw ? -1 : 1 }, 16)
-      : cut.points;
+  const pts = cutPathPoints(cut);
   const out: Seg[] = [];
   for (let i = 0; i < pts.length - 1; i++) {
     out.push({ a: pts[i], b: pts[i + 1], len: Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y) });
@@ -29,13 +26,6 @@ export function cutToSegments(cut: Cut): Seg[] {
 
 function orient(p: Point, q: Point, r: Point): number {
   return (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-}
-
-function onSegment(p: Point, q: Point, r: Point): boolean {
-  return (
-    q.x <= Math.max(p.x, r.x) + 1e-9 && q.x >= Math.min(p.x, r.x) - 1e-9 &&
-    q.y <= Math.max(p.y, r.y) + 1e-9 && q.y >= Math.min(p.y, r.y) - 1e-9
-  );
 }
 
 /**
@@ -131,10 +121,11 @@ export function hashSegs(segs: IndexedSeg[], cellSize: number): Map<string, Inde
 }
 
 /**
- * Candidate pairs whose bboxes are within `maxDist` of each other.
- * Each unordered pair yielded once.
+ * Candidate pairs: every unordered pair of segments that share at least one grid
+ * cell. Pairs that only share a cell can still be far apart, so callers must
+ * apply the real distance / angle tests afterwards.
  */
-export function* candidatePairs(grid: Map<string, IndexedSeg[]>, segs: IndexedSeg[]): Generator<[IndexedSeg, IndexedSeg]> {
+export function* candidatePairs(grid: Map<string, IndexedSeg[]>): Generator<[IndexedSeg, IndexedSeg]> {
   const seen = new Set<string>();
   for (const list of grid.values()) {
     for (let i = 0; i < list.length; i++) {
@@ -151,5 +142,4 @@ export function* candidatePairs(grid: Map<string, IndexedSeg[]>, segs: IndexedSe
       }
     }
   }
-  void segs;
 }

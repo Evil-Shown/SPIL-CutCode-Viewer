@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
-import { analyzeYield, buildTimeline } from "@spil/cutcode-core";
+import { analyzeYield, buildSchedule, buildTimeline } from "@spil/cutcode-core";
 import { useAppStore } from "./store";
+import { STAGE_COLORS } from "./theme";
 import { validateDocument, type ValidationIssue } from "./validation";
+import { groupIssues } from "@spil/cutcode-core";
 import { kinematicsFor, machineById } from "./machines";
 import { seqClock } from "./seqClock";
 import { formatSimTime, useSeqClock } from "./useSeqClock";
@@ -23,13 +25,17 @@ function Section({ title, children, defaultOpen = true }: { title: string; child
   );
 }
 
+const GROUP_TINT: Record<string, string> = {
+  error: "text-red-600 dark:text-red-400",
+  warning: "text-amber-600 dark:text-amber-400",
+  info: "text-sky-600 dark:text-sky-400",
+};
+
 function IssuesPanel({ issues }: { issues: ValidationIssue[] }) {
   const setActiveSheet = useAppStore((s) => s.setActiveSheet);
   const focusOn = useAppStore((s) => s.focusOn);
   const selectCut = useAppStore((s) => s.selectCut);
-
-  const errors = issues.filter((i) => i.severity === "error");
-  const warnings = issues.filter((i) => i.severity === "warning");
+  const selectPane = useAppStore((s) => s.selectPane);
 
   if (issues.length === 0) {
     return (
@@ -39,37 +45,34 @@ function IssuesPanel({ issues }: { issues: ValidationIssue[] }) {
     );
   }
 
-  const group = (label: string, list: ValidationIssue[], color: string) =>
-    list.length > 0 && (
-      <div className="mb-2">
-        <div className={`mb-1 text-xs font-semibold ${color}`}>
-          {label} ({list.length})
-        </div>
-        <div className="max-h-44 space-y-1 overflow-y-auto">
-          {list.slice(0, 20).map((issue, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => {
-                setActiveSheet(issue.sheetIndex);
-                selectCut(issue.cutIndex ?? null);
-                requestAnimationFrame(() => focusOn(issue.focus));
-              }}
-              className="block w-full rounded px-2 py-1 text-left text-[11px] text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-              title="Click to zoom to this issue"
-            >
-              {issue.message}
-            </button>
-          ))}
-          {list.length > 20 && <div className="px-2 text-[11px] text-slate-400">…and {list.length - 20} more</div>}
-        </div>
-      </div>
-    );
-
   return (
     <div>
-      {group("Errors", errors, "text-red-600 dark:text-red-400")}
-      {group("Warnings", warnings, "text-amber-600 dark:text-amber-400")}
+      {groupIssues(issues).map((g) => (
+        <div key={`${g.severity}:${g.code}`} className="mb-2">
+          <div className={`mb-1 text-xs font-semibold ${GROUP_TINT[g.severity]}`}>
+            {g.severity === "error" ? "Error" : g.severity === "warning" ? "Warning" : "Info"} · {g.code} ({g.count})
+          </div>
+          <div className="max-h-44 space-y-1 overflow-y-auto">
+            {g.issues.slice(0, 20).map((issue, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  setActiveSheet(issue.sheetIndex);
+                  if (issue.paneId) selectPane(issue.paneId);
+                  else selectCut(issue.cutIndex ?? null);
+                  requestAnimationFrame(() => focusOn(issue.focus));
+                }}
+                className="block w-full rounded px-2 py-1 text-left text-[11px] text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                title="Click to zoom to this issue"
+              >
+                {issue.message}
+              </button>
+            ))}
+            {g.count > 20 && <div className="px-2 text-[11px] text-slate-400">…and {g.count - 20} more</div>}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -107,6 +110,7 @@ export function Inspector() {
     : sheet.panes;
   const yieldReport = analyzeYield(sheet);
   const cycle = seqClock.timeline ?? buildTimeline(sheet, kinematicsFor(machineById(machineId)));
+  const stageReport = useMemo(() => (document ? buildSchedule(document).stages : []), [document]);
 
   return (
     <div className="flex h-full flex-col overflow-y-auto text-sm">
@@ -211,6 +215,37 @@ export function Inspector() {
               <dd className="font-medium">{yieldReport.paneCount}</dd>
             </div>
           </dl>
+        </Section>
+      )}
+
+      {stageReport.length > 0 && (
+        <Section title="Cut stages" defaultOpen={false}>
+          <table className="w-full text-[11px]">
+            <thead>
+              <tr className="text-left text-slate-400 dark:text-slate-500">
+                <th className="pb-1 font-normal">Stage</th>
+                <th className="pb-1 text-right font-normal">Cuts</th>
+                <th className="pb-1 text-right font-normal">Length</th>
+                <th className="pb-1 text-right font-normal">Share</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stageReport.map((s) => (
+                <tr key={s.stage} className="border-t border-slate-100 dark:border-slate-800">
+                  <td className="py-0.5">
+                    <span
+                      className="mr-1 inline-block h-2 w-2 rounded-full align-middle"
+                      style={{ background: STAGE_COLORS[(Math.max(1, s.stage) - 1) % STAGE_COLORS.length] }}
+                    />
+                    {s.label}
+                  </td>
+                  <td className="py-0.5 text-right text-slate-500 dark:text-slate-400">{s.cuts}</td>
+                  <td className="py-0.5 text-right text-slate-500 dark:text-slate-400">{(s.lengthMm / 1000).toFixed(2)} m</td>
+                  <td className="py-0.5 text-right text-slate-500 dark:text-slate-400">{s.lengthPct.toFixed(1)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </Section>
       )}
 

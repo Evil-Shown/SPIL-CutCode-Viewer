@@ -1,0 +1,1585 @@
+{
+  "name": "FERIA_5.R01",
+  "metadata": {
+	"version": "1.0",
+    "creator": "Turomas",
+    "units": "dmm"
+  },
+  "pieces": [
+    {
+      "id": 1,
+      "Xsize": 5320,
+      "Ysize": 9900,
+      "workProcessesTrack": [],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F1",
+      "customFields": {
+        "note": "  ",
+        "optId": "2"
+      }
+    },
+    {
+      "id": 2,
+      "Xsize": 9900,
+      "Ysize": 9900,
+      "workProcessesTrack": [],
+      "customer": "TUROMAS CLIENT 1",
+      "order": "ORDER 1",
+      "rack": "RACK 1",
+      "customFields": {
+        "note": "Piece to grind edges",
+        "optId": "001"
+      }
+    },
+    {
+      "id": 3,
+      "Xsize": 9900,
+      "Ysize": 9900,
+      "workProcessesTrack": [],
+      "customer": "TUROMAS CLIENT 1",
+      "order": "ORDER 1",
+      "rack": "RACK 1",
+      "customFields": {
+        "note": "Piece to grind edges",
+        "optId": "002"
+      }
+    },
+    {
+      "id": 4,
+      "Xsize": 9200,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 9000,
+              "y": 0
+            },
+            {
+              "type": "G1",
+              "x": 5938.1,
+              "y": 9900
+            },
+            {
+              "type": "G0",
+              "x": 6000,
+              "y": 9700
+            },
+            {
+              "type": "G1",
+              "x": 0,
+              "y": 9700
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS CLIENT 2",
+      "order": "ORDER 2",
+      "rack": "RACK 2",
+      "customFields": {
+        "note": "Piece to Climalit-Type",
+        "optId": "003"
+      }
+    },
+    {
+      "id": 5,
+      "Xsize": 9200,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 0,
+              "y": 400
+            },
+            {
+              "type": "G1",
+              "x": 4250,
+              "y": 400
+            },
+            {
+              "type": "G3",
+              "x": 4250,
+              "y": 9500,
+              "i": 4250,
+              "j": 4950,
+              "r": 4550
+            },
+            {
+              "type": "G1",
+              "x": 0,
+              "y": 9500
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS CLIENT 2",
+      "order": "ORDER 2",
+      "rack": "RACK 2",
+      "customFields": {
+        "note": "Piece to Climalit-Type",
+        "optId": "004"
+      }
+    },
+    {
+      "id": 6,
+      "Xsize": 4950,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 0,
+              "y": 400
+            },
+            {
+              "type": "G3",
+              "x": 4550,
+              "y": 4950,
+              "i": 0,
+              "j": 4950,
+              "r": 4550
+            },
+            {
+              "type": "G3",
+              "x": 0,
+              "y": 9500,
+              "i": 0,
+              "j": 4950,
+              "r": 4550
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS CLIENT 3",
+      "order": "ORDER 3",
+      "rack": "RACK 3",
+      "customFields": {
+        "note": "Piece to grind edges",
+        "optId": "005"
+      }
+    },
+    {
+      "id": 7,
+      "Xsize": 4950,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 0,
+              "y": 400
+            },
+            {
+              "type": "G3",
+              "x": 4550,
+              "y": 4950,
+              "i": 0,
+              "j": 4950,
+              "r": 4550
+            },
+            {
+              "type": "G3",
+              "x": 0,
+              "y": 9500,
+              "i": 0,
+              "j": 4950,
+              "r": 4550
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS CLIENT 3",
+      "order": "ORDER 3",
+      "rack": "RACK 3",
+      "customFields": {
+        "note": "Piece to grind edges",
+        "optId": "006"
+      }
+    },
+    {
+      "id": 8,
+      "Xsize": 7850,
+      "Ysize": 9900,
+      "workProcessesTrack": [],
+      "customer": "TUROMAS CLIENT 4",
+      "order": "ORDER 4",
+      "rack": "RACK 4",
+      "customFields": {
+        "note": "Piece to make holes",
+        "optId": "007"
+      }
+    },
+    {
+      "id": 9,
+      "Xsize": 7850,
+      "Ysize": 9900,
+      "workProcessesTrack": [],
+      "customer": "TUROMAS CLIENT 4",
+      "order": "ORDER 4",
+      "rack": "RACK 4",
+      "customFields": {
+        "note": "Piece to make holes",
+        "optId": "008"
+      }
+    },
+    {
+      "id": 10,
+      "Xsize": 6000,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "LE",
+          "track": [
+            {
+              "type": "G0",
+              "x": 100,
+              "y": 0
+            },
+            {
+              "type": "G1",
+              "x": 100,
+              "y": 10100
+            },
+            {
+              "type": "G0",
+              "x": 250,
+              "y": 10100
+            },
+            {
+              "type": "G1",
+              "x": 250,
+              "y": 0
+            },
+            {
+              "type": "G0",
+              "x": 400,
+              "y": 0
+            },
+            {
+              "type": "G1",
+              "x": 400,
+              "y": 10100
+            },
+            {
+              "type": "G0",
+              "x": 5900,
+              "y": 10100
+            },
+            {
+              "type": "G1",
+              "x": 5900,
+              "y": 0
+            },
+            {
+              "type": "G0",
+              "x": 6000,
+              "y": 100
+            },
+            {
+              "type": "G1",
+              "x": 0,
+              "y": 100
+            }
+          ]
+        }
+      ],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "  ",
+      "customFields": {
+        "note": "  ",
+        "optId": "1"
+      }
+    },
+    {
+      "id": 11,
+      "Xsize": 9900,
+      "Ysize": 9900,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 9900,
+              "y": 5000
+            },
+            {
+              "type": "G1",
+              "x": 5000,
+              "y": 9900
+            }
+          ]
+        }
+      ],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "  ",
+      "customFields": {
+        "note": "  ",
+        "optId": "3"
+      }
+    },
+    {
+      "id": 12,
+      "Xsize": 19800,
+      "Ysize": 6200,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 19800,
+              "y": 0
+            },
+            {
+              "type": "G3",
+              "x": 19797,
+              "y": 157,
+              "i": 16089,
+              "j": 0,
+              "r": 3711
+            },
+            {
+              "type": "G3",
+              "x": 19787,
+              "y": 314,
+              "i": 16072,
+              "j": -1,
+              "r": 3728
+            },
+            {
+              "type": "G3",
+              "x": 19450,
+              "y": 1594,
+              "i": 15947,
+              "j": -11,
+              "r": 3854
+            },
+            {
+              "type": "G3",
+              "x": 18743,
+              "y": 2724,
+              "i": 14764,
+              "j": -553,
+              "r": 5155
+            },
+            {
+              "type": "G3",
+              "x": 17399,
+              "y": 3956,
+              "i": 13694,
+              "j": -1435,
+              "r": 6542
+            },
+            {
+              "type": "G3",
+              "x": 15802,
+              "y": 4854,
+              "i": 11618,
+              "j": -4455,
+              "r": 10205
+            },
+            {
+              "type": "G3",
+              "x": 13015,
+              "y": 5728,
+              "i": 10730,
+              "j": -6431,
+              "r": 12372
+            },
+            {
+              "type": "G3",
+              "x": 7185,
+              "y": 5728,
+              "i": 10100,
+              "j": -9783,
+              "r": 15783
+            },
+            {
+              "type": "G3",
+              "x": 4398,
+              "y": 4854,
+              "i": 9470,
+              "j": -6431,
+              "r": 12372
+            },
+            {
+              "type": "G3",
+              "x": 2801,
+              "y": 3956,
+              "i": 8582,
+              "j": -4455,
+              "r": 10205
+            },
+            {
+              "type": "G3",
+              "x": 1457,
+              "y": 2724,
+              "i": 6506,
+              "j": -1435,
+              "r": 6542
+            },
+            {
+              "type": "G3",
+              "x": 750,
+              "y": 1594,
+              "i": 5436,
+              "j": -553,
+              "r": 5155
+            },
+            {
+              "type": "G3",
+              "x": 413,
+              "y": 314,
+              "i": 4253,
+              "j": -11,
+              "r": 3854
+            },
+            {
+              "type": "G3",
+              "x": 403,
+              "y": 157,
+              "i": 4128,
+              "j": -1,
+              "r": 3728
+            },
+            {
+              "type": "G3",
+              "x": 400,
+              "y": 0,
+              "i": 4111,
+              "j": 0,
+              "r": 3711
+            }
+          ]
+        },
+        {
+          "process": "LE",
+          "track": [
+            {
+              "type": "G0",
+              "x": 600,
+              "y": 0
+            },
+            {
+              "type": "G2",
+              "x": 603,
+              "y": 140,
+              "i": 3911,
+              "j": 0,
+              "r": 3311
+            },
+            {
+              "type": "G2",
+              "x": 612,
+              "y": 280,
+              "i": 3928,
+              "j": -1,
+              "r": 3328
+            },
+            {
+              "type": "G2",
+              "x": 914,
+              "y": 1428,
+              "i": 4053,
+              "j": -11,
+              "r": 3454
+            },
+            {
+              "type": "G2",
+              "x": 1566,
+              "y": 2470,
+              "i": 5236,
+              "j": 553,
+              "r": 4755
+            },
+            {
+              "type": "G2",
+              "x": 2827,
+              "y": 3626,
+              "i": 6306,
+              "j": -1435,
+              "r": 6142
+            },
+            {
+              "type": "G2",
+              "x": 4362,
+              "y": 4489,
+              "i": 8382,
+              "j": -4455,
+              "r": 9805
+            },
+            {
+              "type": "G2",
+              "x": 7059,
+              "y": 5335,
+              "i": 9270,
+              "j": -6431,
+              "r": 11972
+            },
+            {
+              "type": "G2",
+              "x": 12741,
+              "y": 5335,
+              "i": 9900,
+              "j": -9783,
+              "r": 15383
+            },
+            {
+              "type": "G2",
+              "x": 15438,
+              "y": 4489,
+              "i": 10530,
+              "j": -6431,
+              "r": 11972
+            },
+            {
+              "type": "G2",
+              "x": 16973,
+              "y": 3626,
+              "i": 11418,
+              "j": -4455,
+              "r": 9805
+            },
+            {
+              "type": "G2",
+              "x": 18234,
+              "y": 2470,
+              "i": 13494,
+              "j": -1435,
+              "r": 6142
+            },
+            {
+              "type": "G2",
+              "x": 18886,
+              "y": 1428,
+              "i": 14564,
+              "j": -553,
+              "r": 4755
+            },
+            {
+              "type": "G2",
+              "x": 19188,
+              "y": 280,
+              "i": 15747,
+              "j": -11,
+              "r": 3454
+            },
+            {
+              "type": "G2",
+              "x": 19197,
+              "y": 140,
+              "i": 15872,
+              "j": -1,
+              "r": 3328
+            },
+            {
+              "type": "G2",
+              "x": 19200,
+              "y": 0,
+              "i": 15889,
+              "j": 0,
+              "r": 3311
+            },
+            {
+              "type": "G0",
+              "x": 19350,
+              "y": 0
+            },
+            {
+              "type": "G3",
+              "x": 19347,
+              "y": 147,
+              "i": 15889,
+              "j": 0,
+              "r": 3461
+            },
+            {
+              "type": "G3",
+              "x": 19338,
+              "y": 293,
+              "i": 15872,
+              "j": -1,
+              "r": 3478
+            },
+            {
+              "type": "G3",
+              "x": 19023,
+              "y": 1490,
+              "i": 15747,
+              "j": -11,
+              "r": 3604
+            },
+            {
+              "type": "G3",
+              "x": 18350,
+              "y": 2565,
+              "i": 14564,
+              "j": -553,
+              "r": 4905
+            },
+            {
+              "type": "G3",
+              "x": 17058,
+              "y": 3750,
+              "i": 13494,
+              "j": -1435,
+              "r": 6292
+            },
+            {
+              "type": "G3",
+              "x": 15499,
+              "y": 4626,
+              "i": 11418,
+              "j": -4455,
+              "r": 9955
+            },
+            {
+              "type": "G3",
+              "x": 12769,
+              "y": 5483,
+              "i": 10530,
+              "j": -6431,
+              "r": 12122
+            },
+            {
+              "type": "G3",
+              "x": 7031,
+              "y": 5483,
+              "i": 9900,
+              "j": -9783,
+              "r": 15533
+            },
+            {
+              "type": "G3",
+              "x": 4301,
+              "y": 4626,
+              "i": 9270,
+              "j": -6431,
+              "r": 12122
+            },
+            {
+              "type": "G3",
+              "x": 2742,
+              "y": 3750,
+              "i": 8382,
+              "j": -4455,
+              "r": 9955
+            },
+            {
+              "type": "G3",
+              "x": 1450,
+              "y": 2565,
+              "i": 6306,
+              "j": -1435,
+              "r": 6292
+            },
+            {
+              "type": "G3",
+              "x": 777,
+              "y": 1490,
+              "i": 5236,
+              "j": -553,
+              "r": 4905
+            },
+            {
+              "type": "G3",
+              "x": 462,
+              "y": 293,
+              "i": 4053,
+              "j": -11,
+              "r": 3604
+            },
+            {
+              "type": "G3",
+              "x": 453,
+              "y": 147,
+              "i": 3928,
+              "j": 1,
+              "r": 3478
+            },
+            {
+              "type": "G3",
+              "x": 450,
+              "y": 0,
+              "i": 3911,
+              "j": 0,
+              "r": 3461
+            },
+            {
+              "type": "G0",
+              "x": 300,
+              "y": 0
+            },
+            {
+              "type": "G2",
+              "x": 303,
+              "y": 153,
+              "i": 3911,
+              "j": 0,
+              "r": 3611
+            },
+            {
+              "type": "G2",
+              "x": 313,
+              "y": 306,
+              "i": 3928,
+              "j": -1,
+              "r": 3628
+            },
+            {
+              "type": "G2",
+              "x": 641,
+              "y": 1553,
+              "i": 4053,
+              "j": -11,
+              "r": 3754
+            },
+            {
+              "type": "G2",
+              "x": 1334,
+              "y": 2660,
+              "i": 5236,
+              "j": -553,
+              "r": 5055
+            },
+            {
+              "type": "G2",
+              "x": 2657,
+              "y": 3873,
+              "i": 6306,
+              "j": -1435,
+              "r": 6442
+            },
+            {
+              "type": "G2",
+              "x": 4239,
+              "y": 4763,
+              "i": 8382,
+              "j": -4455,
+              "r": 10105
+            },
+            {
+              "type": "G2",
+              "x": 7003,
+              "y": 5630,
+              "i": 9270,
+              "j": -6431,
+              "r": 12272
+            },
+            {
+              "type": "G2",
+              "x": 12797,
+              "y": 5630,
+              "i": 9900,
+              "j": -9783,
+              "r": 15683
+            },
+            {
+              "type": "G2",
+              "x": 15561,
+              "y": 4763,
+              "i": 10530,
+              "j": -6431,
+              "r": 12272
+            },
+            {
+              "type": "G2",
+              "x": 17143,
+              "y": 3873,
+              "i": 11418,
+              "j": -4455,
+              "r": 10105
+            },
+            {
+              "type": "G2",
+              "x": 18466,
+              "y": 2660,
+              "i": 13494,
+              "j": -1435,
+              "r": 6442
+            },
+            {
+              "type": "G2",
+              "x": 19159,
+              "y": 1553,
+              "i": 14564,
+              "j": -553,
+              "r": 5055
+            },
+            {
+              "type": "G2",
+              "x": 19487,
+              "y": 306,
+              "i": 15747,
+              "j": 11,
+              "r": 3754
+            },
+            {
+              "type": "G2",
+              "x": 19497,
+              "y": 153,
+              "i": 15872,
+              "j": -1,
+              "r": 3628
+            },
+            {
+              "type": "G2",
+              "x": 19500,
+              "y": 0,
+              "i": 15889,
+              "j": 0,
+              "r": 3611
+            },
+            {
+              "type": "G0",
+              "x": 19599,
+              "y": 100
+            },
+            {
+              "type": "G1",
+              "x": 201,
+              "y": 100
+            }
+          ]
+        }
+      ],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "  ",
+      "customFields": {
+        "note": "  ",
+        "optId": "4"
+      }
+    },
+    {
+      "id": 17,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "workProcessesTrack": [],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F1",
+      "customFields": {
+        "note": "  ",
+        "optId": "2"
+      }
+    },
+    {
+      "id": 22,
+      "Xsize": 10000,
+      "Ysize": 19500,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 10000,
+              "y": 14500
+            },
+            {
+              "type": "G1",
+              "x": 5000,
+              "y": 19500
+            }
+          ]
+        }
+      ],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F1",
+      "customFields": {
+        "note": "  ",
+        "optId": "2"
+      }
+    },
+    {
+      "id": 23,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "workProcessesTrack": [],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F0",
+      "customFields": {
+        "note": "  ",
+        "optId": "3"
+      }
+    },
+    {
+      "id": 28,
+      "Xsize": 32100,
+      "Ysize": 600,
+      "workProcessesTrack": [],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F2",
+      "customFields": {
+        "note": "  ",
+        "optId": "3"
+      }
+    },
+    {
+      "id": 29,
+      "Xsize": 9900,
+      "Ysize": 10000,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 9900,
+              "y": 8000
+            },
+            {
+              "type": "G1",
+              "x": 0,
+              "y": 4000
+            }
+          ]
+        }
+      ],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F0",
+      "customFields": {
+        "note": "  ",
+        "optId": "4"
+      }
+    },
+    {
+      "id": 30,
+      "Xsize": 9900,
+      "Ysize": 2800,
+      "workProcessesTrack": [],
+      "customer": "  ",
+      "order": "  ",
+      "rack": "F4",
+      "customFields": {
+        "note": "  ",
+        "optId": "5"
+      }
+    }
+  ],
+  "remnants": [
+    {
+      "id": 13,
+      "Xsize": 6000,
+      "Ysize": 9900,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 14,
+      "Xsize": 9900,
+      "Ysize": 9900,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 15,
+      "Xsize": 6000,
+      "Ysize": 9900,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 16,
+      "Xsize": 3800,
+      "Ysize": 19800,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 18,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 19,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 20,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 21,
+      "Xsize": 2100,
+      "Ysize": 20000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 24,
+      "Xsize": 10000,
+      "Ysize": 500,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 25,
+      "Xsize": 10000,
+      "Ysize": 500,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 26,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 27,
+      "Xsize": 2100,
+      "Ysize": 20000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 31,
+      "Xsize": 2400,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 32,
+      "Xsize": 2400,
+      "Ysize": 2800,
+      "isReusable": false,
+      "customFields": {}
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 40,
+      "materialCode": "FL_04",
+      "workProcesses": [
+        "CUT"
+      ],
+      "Xtrim": 200,
+      "Ytrim": 200,
+      "placement": [
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 200,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 200,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 5520,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 5520,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 10840,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 10840,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 16160,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 16160,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 21480,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 21480,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 26800,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 26800,
+          "y": 10100,
+          "rotation": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 40,
+      "materialCode": "FL_04_ET",
+      "workProcesses": [
+        "CUT"
+      ],
+      "Xtrim": 200,
+      "Ytrim": 200,
+      "placement": [
+        {
+          "id": 2,
+          "type": "piece",
+          "x": 200,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 3,
+          "type": "piece",
+          "x": 200,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 4,
+          "type": "piece",
+          "x": 10100,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 5,
+          "type": "piece",
+          "x": 10100,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 6,
+          "type": "piece",
+          "x": 19300,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 7,
+          "type": "piece",
+          "x": 19300,
+          "y": 10100,
+          "rotation": 0
+        },
+        {
+          "id": 8,
+          "type": "piece",
+          "x": 24250,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 9,
+          "type": "piece",
+          "x": 24250,
+          "y": 10100,
+          "rotation": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 40,
+      "materialCode": "BE_04",
+      "workProcesses": [
+        "CUT",
+        "LE"
+      ],
+      "Xtrim": 200,
+      "Ytrim": 200,
+      "placement": [
+        {
+          "id": 10,
+          "type": "piece",
+          "x": 200,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 11,
+          "type": "piece",
+          "x": 6200,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 12,
+          "type": "piece",
+          "x": 16100,
+          "y": 200,
+          "rotation": 90
+        },
+        {
+          "id": 10,
+          "type": "piece",
+          "x": 22300,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 13,
+          "type": "remnant",
+          "x": 200,
+          "y": 10100
+        },
+        {
+          "id": 14,
+          "type": "remnant",
+          "x": 6200,
+          "y": 10100
+        },
+        {
+          "id": 15,
+          "type": "remnant",
+          "x": 22300,
+          "y": 10100
+        },
+        {
+          "id": 16,
+          "type": "remnant",
+          "x": 28300,
+          "y": 200
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 40,
+      "materialCode": "TPF_04",
+      "workProcesses": [
+        "CUT"
+      ],
+      "Xtrim": 0,
+      "Ytrim": 0,
+      "placement": [
+        {
+          "id": 17,
+          "type": "piece",
+          "x": 0,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 17,
+          "type": "piece",
+          "x": 10000,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 17,
+          "type": "piece",
+          "x": 20000,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 18,
+          "type": "remnant",
+          "x": 0,
+          "y": 10000
+        },
+        {
+          "id": 19,
+          "type": "remnant",
+          "x": 10000,
+          "y": 10000
+        },
+        {
+          "id": 20,
+          "type": "remnant",
+          "x": 20000,
+          "y": 10000
+        },
+        {
+          "id": 21,
+          "type": "remnant",
+          "x": 30000,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 60,
+      "materialCode": "EP_06",
+      "workProcesses": [
+        "CUT"
+      ],
+      "Xtrim": 0,
+      "Ytrim": 0,
+      "placement": [
+        {
+          "id": 22,
+          "type": "piece",
+          "x": 0,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 22,
+          "type": "piece",
+          "x": 10000,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 23,
+          "type": "piece",
+          "x": 20000,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 24,
+          "type": "remnant",
+          "x": 0,
+          "y": 19500
+        },
+        {
+          "id": 25,
+          "type": "remnant",
+          "x": 10000,
+          "y": 19500
+        },
+        {
+          "id": 26,
+          "type": "remnant",
+          "x": 20000,
+          "y": 10000
+        },
+        {
+          "id": 27,
+          "type": "remnant",
+          "x": 30000,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "Xsize": 32100,
+      "Ysize": 20000,
+      "thickness": 190,
+      "materialCode": "FL_19",
+      "workProcesses": [
+        "CUT"
+      ],
+      "Xtrim": 0,
+      "Ytrim": 0,
+      "placement": [
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 600,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 1200,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 1800,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 2400,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 3000,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 3600,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 4200,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 4800,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 5400,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 6000,
+          "rotation": 0
+        },
+        {
+          "id": 28,
+          "type": "piece",
+          "x": 0,
+          "y": 6600,
+          "rotation": 0
+        },
+        {
+          "id": 29,
+          "type": "piece",
+          "x": 0,
+          "y": 7200,
+          "rotation": 0
+        },
+        {
+          "id": 29,
+          "type": "piece",
+          "x": 9900,
+          "y": 7200,
+          "rotation": 0
+        },
+        {
+          "id": 29,
+          "type": "piece",
+          "x": 19800,
+          "y": 7200,
+          "rotation": 0
+        },
+        {
+          "id": 30,
+          "type": "piece",
+          "x": 0,
+          "y": 17200,
+          "rotation": 0
+        },
+        {
+          "id": 30,
+          "type": "piece",
+          "x": 9900,
+          "y": 17200,
+          "rotation": 0
+        },
+        {
+          "id": 30,
+          "type": "piece",
+          "x": 19800,
+          "y": 17200,
+          "rotation": 0
+        },
+        {
+          "id": 31,
+          "type": "remnant",
+          "x": 29700,
+          "y": 7200
+        },
+        {
+          "id": 32,
+          "type": "remnant",
+          "x": 29700,
+          "y": 17200
+        }
+      ]
+    }
+  ]
+}

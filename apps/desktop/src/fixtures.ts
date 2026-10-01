@@ -10,20 +10,31 @@ export interface FixtureSample {
   url: string;
 }
 
-const modules = import.meta.glob("../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,dxf,cut,cni,OTD,DAT,EDI,DXF,CUT}", {
-  query: "?url",
-  import: "default",
-  eager: true,
-}) as Record<string, string>;
+const modules = import.meta.glob(
+  "../../../fixtures/**/*.{otd,dat,opt,r01,imp,edi,otv,dxf,cut,cni,xml,json,xyz,pgm,lst,dst,sum,src,iso,OTD,DAT,EDI,DXF,CUT,ISO,PGM,R01,XYZ,DST}",
+  {
+    query: "?url",
+    import: "default",
+    eager: true,
+  }
+) as Record<string, string>;
 
 const VENDOR_BY_DIR: Record<string, string> = {
   bottero: "Bottero",
+  bystronic: "Bystronic",
+  chaoyang: "Chaoyang",
+  disai: "Disai",
+  eagle: "Eagle",
   hegla: "Hegla",
   intermac: "Intermac",
   bavelloni: "Bavelloni",
+  lampo: "Lampo",
   lisec: "Lisec",
   macotech: "Macotech",
   optima: "Optima",
+  perfectcut: "Perfect Cut",
+  turomas: "Turomas",
+  vetromac: "Vetromac",
   dxf: "DXF",
 };
 

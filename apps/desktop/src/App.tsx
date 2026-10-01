@@ -1,4 +1,13 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef } from "react";
+import {
+  buildSchedule,
+  buildTimeline,
+  documentToDxf,
+  panesToCsv,
+  scheduleToCsv,
+  stagesToCsv,
+} from "@spil/cutcode-core";
 import type { ParseResult } from "@spil/cutcode-core";
 import { CutCanvas } from "./CutCanvas";
 import { Inspector } from "./Inspector";
@@ -9,11 +18,18 @@ import { Sidebar } from "./Sidebar";
 import { SimConsole } from "./SimConsole";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { prefetchStage3D } from "./graphicsProfile";
-import { machineAccepts, machineById } from "./machines";
+import { machineAccepts, machineById, kinematicsFor } from "./machines";
 import { seqClock } from "./seqClock";
 import { useAppStore, type LayerToggles } from "./store";
 import { isTauri, openFileDialog, openFileFromBrowser, saveDialog, writeBinaryFile } from "./fileIO";
-import { renderPng, renderSvg, dataUrlToBytes, downloadBytes, triggerPrint } from "./exporters";
+import {
+  renderPng,
+  renderSvg,
+  dataUrlToBytes,
+  downloadBytes,
+  triggerPrint,
+  textToBytes,
+} from "./exporters";
 
 const CutStage3D = lazy(() => import("./CutStage3D").then((m) => ({ default: m.CutStage3D })));
 
@@ -23,6 +39,19 @@ const TOOL_BTN_ACTIVE =
   "rounded-[10px] border border-[#d75c2a] bg-[#d75c2a] px-2.5 py-1.5 text-xs font-semibold text-white";
 
 type Toast = { kind: "error" | "info"; message: string };
+
+/** Write text to a user-chosen file, falling back to a browser download. */
+async function saveText(text: string, filename: string, mime: string, onDone: (msg: string) => void) {
+  const bytes = textToBytes(text);
+  const savedPath = await saveDialog(filename);
+  if (savedPath) {
+    await writeBinaryFile(savedPath, bytes);
+    onDone(`Saved ${savedPath}`);
+  } else {
+    downloadBytes(bytes, filename, mime);
+    onDone(`Downloaded ${filename}`);
+  }
+}
 
 export default function App() {
   const doc = useAppStore((s) => s.document);
@@ -51,6 +80,8 @@ export default function App() {
 
   const [toast, setToast] = useState<Toast | null>(null);
   const toastTimer = useRef<number | null>(null);
+  const [exportOpen, setExportOpen] = useState(false);
+  const exportWrapRef = useRef<HTMLDivElement | null>(null);
 
   const showToast = useCallback((kind: Toast["kind"], message: string) => {
     setToast({ kind, message });
@@ -63,6 +94,23 @@ export default function App() {
     document.documentElement.classList.remove("dark");
     prefetchStage3D();
   }, []);
+
+  // Close the export dropdown on outside click or Escape.
+  useEffect(() => {
+    if (!exportOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (!exportWrapRef.current?.contains(e.target as Node)) setExportOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExportOpen(false);
+    };
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [exportOpen]);
 
   useEffect(() => {
     const typing = (t: EventTarget | null) =>
@@ -160,9 +208,16 @@ export default function App() {
 
   const sheet = doc?.sheets[activeSheetIndex];
   const baseName = (filePath ?? "cutplan").replace(/\.[^.]+$/, "");
+
+  const schedule = useMemo(() => (doc ? buildSchedule(doc) : null), [doc]);
+  const cycle = useMemo(
+    () => (sheet ? buildTimeline(sheet, kinematicsFor(machine)) : null),
+    [sheet, machine]
+  );
+
   const accept = machine?.extensions.length
     ? machine.extensions.map((ext) => `.${ext}`).join(",")
-    : ".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.xml,.cut,.cni,.json";
+    : ".otd,.dat,.opt,.r01,.imp,.edi,.otv,.dxf,.xml,.cut,.cni,.json,.xyz,.pgm,.lst,.dst,.prjx,.sum,.src,.iso";
 
   if (!machine) {
     return (
@@ -181,20 +236,60 @@ export default function App() {
       showToast("info", `Saved ${savedPath}`);
     } else {
       downloadBytes(dataUrlToBytes(dataUrl), `${baseName}.png`, "image/png");
+      showToast("info", `Downloaded ${baseName}.png`);
     }
   };
 
   const handleExportSvg = async () => {
     if (!sheet) return;
-    const svg = renderSvg(sheet);
-    const bytes = new TextEncoder().encode(svg);
-    const savedPath = await saveDialog(`${baseName}.svg`);
-    if (savedPath) {
-      await writeBinaryFile(savedPath, bytes);
-      showToast("info", `Saved ${savedPath}`);
-    } else {
-      downloadBytes(bytes, `${baseName}.svg`, "image/svg+xml");
-    }
+    await saveText(renderSvg(sheet), `${baseName}.svg`, "image/svg+xml", showToast.bind(null, "info"));
+  };
+
+  const handleExportDxf = async () => {
+    if (!doc) return;
+    const dxf = documentToDxf(doc);
+    await saveText(dxf, `${baseName}.dxf`, "image/vnd.dxf", (m) => showToast("info", m));
+  };
+
+  const handleExportSchedule = async () => {
+    if (!doc || !schedule) return;
+    await saveText(scheduleToCsv(schedule), `${baseName}-cuts.csv`, "text/csv", (m) => showToast("info", m));
+  };
+
+  const handleExportPanes = async () => {
+    if (!doc) return;
+    await saveText(panesToCsv(doc), `${baseName}-panes.csv`, "text/csv", (m) => showToast("info", m));
+  };
+
+  const handleExportStages = async () => {
+    if (!schedule) return;
+    await saveText(stagesToCsv(schedule), `${baseName}-stages.csv`, "text/csv", (m) => showToast("info", m));
+  };
+
+  const handleExportJson = async () => {
+    if (!doc) return;
+    const payload = {
+      metadata: doc.metadata,
+      schedule: schedule
+        ? {
+            totals: schedule.totals,
+            stages: schedule.stages,
+            cuts: schedule.rows,
+          }
+        : undefined,
+      sheets: doc.sheets,
+    };
+    await saveText(JSON.stringify(payload, null, 2), `${baseName}.json`, "application/json", (m) => showToast("info", m));
+  };
+
+  const handlePrint = () => {
+    if (!sheet) return;
+    triggerPrint(sheet, baseName, {
+      vendor: doc?.metadata.vendor,
+      format: parseResult?.detected.formatId,
+      cycleTimeS: cycle?.totalS,
+      scoreMetres: cycle ? cycle.cuttingLengthMm / 1000 : undefined,
+    });
   };
 
   const layerBtn = (key: keyof LayerToggles, label: string) => (
@@ -284,15 +379,39 @@ export default function App() {
 
         {sheet && (
           <>
-            <button type="button" onClick={handleExportPng} className={TOOL_BTN}>
+            <button type="button" onClick={handleExportPng} className={TOOL_BTN} title="Raster image of the cut plan (stages coloured)">
               PNG
             </button>
-            <button type="button" onClick={handleExportSvg} className={TOOL_BTN}>
+            <button type="button" onClick={handleExportSvg} className={TOOL_BTN} title="Vector image of the cut plan">
               SVG
             </button>
-            <button type="button" onClick={() => triggerPrint(sheet, baseName)} className={TOOL_BTN}>
+            <button type="button" onClick={handlePrint} className={TOOL_BTN} title="Printable sheet report with pane list">
               Print
             </button>
+            <div className="export-wrap" ref={exportWrapRef}>
+            <button type="button" onClick={() => setExportOpen((v) => !v)} className={exportOpen ? TOOL_BTN_ACTIVE : TOOL_BTN} title="Export data for downstream tools">
+              Export ▾
+            </button>
+            {exportOpen && (
+              <div className="export-menu" role="menu">
+                <button type="button" role="menuitem" onClick={() => { setExportOpen(false); handleExportDxf(); }}>
+                  DXF <span>R12 · CAD / CAM / nesting</span>
+                </button>
+                <button type="button" role="menuitem" onClick={() => { setExportOpen(false); handleExportSchedule(); }}>
+                  Cut schedule CSV <span>one row per cut, in order</span>
+                </button>
+                <button type="button" role="menuitem" onClick={() => { setExportOpen(false); handleExportPanes(); }}>
+                  Pane list CSV <span>id, size, position, area</span>
+                </button>
+                <button type="button" role="menuitem" onClick={() => { setExportOpen(false); handleExportStages(); }}>
+                  Stage breakdown CSV <span>cuts and metres per stage</span>
+                </button>
+                <button type="button" role="menuitem" onClick={() => { setExportOpen(false); handleExportJson(); }}>
+                  JSON <span>full document + schedule</span>
+                </button>
+              </div>
+            )}
+          </div>
           </>
         )}
 

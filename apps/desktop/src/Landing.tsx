@@ -5,12 +5,21 @@ type Props = {
   onSelect: (machine: Machine) => void;
 };
 
-function MachineThumb({ machine }: { machine: Machine }) {
+function MachineThumb({ machine, alt }: { machine: Machine; alt?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className="machine-thumb machine-thumb-fallback" aria-label={`${machine.brand} ${machine.model}`}>
+        {machine.brand.slice(0, 2).toUpperCase()}
+      </div>
+    );
+  }
   return (
     <img
       className="machine-thumb"
       src={`/machines/${machine.id}.png`}
-      alt={`${machine.brand} ${machine.model}`}
+      alt={alt ?? `${machine.brand} ${machine.model}`}
+      onError={() => setFailed(true)}
     />
   );
 }
@@ -29,7 +38,7 @@ export function Landing({ onSelect }: Props) {
   }, [query, onlyReady]);
 
   const readyCount = MACHINES.filter((m) => m.importReady).length;
-  const featured = MACHINES.find((m) => m.id === "bottero-bcs") ?? MACHINES[0];
+  const featured = MACHINES.find((m) => m.id === "bottero-bcs") ?? MACHINES[0]!;
   const rail = MACHINES.filter((m) => m.id !== featured.id).slice(0, 4);
   const brands = [...new Set(MACHINES.map((m) => m.brand))];
 
@@ -78,7 +87,7 @@ export function Landing({ onSelect }: Props) {
 
           <div className="poster-stage">
             <button type="button" className="poster-frame" onClick={() => onSelect(featured)}>
-              <img src={`/machines/${featured.id}.png`} alt={`${featured.brand} ${featured.model}`} />
+              <MachineThumb machine={featured} />
               <span className="frame-cap">
                 <em>On the floor</em>
                 <strong>
@@ -92,7 +101,7 @@ export function Landing({ onSelect }: Props) {
             <div className="poster-rail">
               {rail.map((m) => (
                 <button key={m.id} type="button" onClick={() => onSelect(m)}>
-                  <img src={`/machines/${m.id}.png`} alt="" />
+                  <MachineThumb machine={m} />
                   <span>
                     {m.brand}
                     <small>{m.model}</small>
@@ -142,7 +151,6 @@ export function Landing({ onSelect }: Props) {
           <span>Every system in the library</span>
         </header>
         <div className="library-toolbar">
-        <div className="filter-row">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -152,7 +160,6 @@ export function Landing({ onSelect }: Props) {
           <button type="button" className={onlyReady ? "chip on" : "chip"} onClick={() => setOnlyReady((v) => !v)}>
             Import ready
           </button>
-        </div>
         </div>
       </section>
 

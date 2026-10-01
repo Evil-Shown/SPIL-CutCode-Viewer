@@ -44,7 +44,7 @@ function decodeUtf16(bytes: Uint8Array, littleEndian: boolean): string {
  * file almost never contains NUL bytes, while UTF-16 text contains one per
  * character for ASCII content.
  */
-function looksUtf16Le(b: Uint8Array): boolean {
+function looksUtf16(b: Uint8Array): 0 | 1 | 2 | false {
   const n = Math.min(b.length, 4096);
   if (n < 4) return false;
   let odd = 0;
@@ -52,8 +52,9 @@ function looksUtf16Le(b: Uint8Array): boolean {
   for (let i = 0; i < n; i++) {
     if (b[i] === 0) (i % 2 === 1 ? odd++ : even++);
   }
-  // UTF-16LE of ASCII text: NULs at odd indexes only.
-  return odd > n / 8 && even === 0;
+  if (odd > n / 8 && even === 0) return 1;
+  if (even > n / 8 && odd === 0) return 2;
+  return false;
 }
 
 /** Decode raw cutcode bytes to text: BOM sniff → heuristic → UTF-8 → cp1252. */
@@ -65,7 +66,10 @@ export function decodeCutcodeBytes(bytes: Uint8Array): string {
   if (hasUtf8Bom(bytes)) {
     return new TextDecoder("utf-8").decode(bytes.subarray(3));
   }
-  if (looksUtf16Le(bytes)) return decodeUtf16(bytes, true);
+  // BOM-less UTF-16: ASCII text leaves one NUL per character, on the high byte
+  // of each code unit (LE) or the low byte (BE).
+  const utf16 = looksUtf16(bytes);
+  if (utf16) return decodeUtf16(bytes, utf16 === 1);
 
   // Strict UTF-8 first: valid multi-byte sequences mean real UTF-8.
   try {

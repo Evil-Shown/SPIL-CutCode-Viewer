@@ -20,6 +20,13 @@ const DIALECTS: Record<string, MachineDialect> = {
   MACOTEC: { kerfMinDistanceMm: 3 },
   MACOTECH: { kerfMinDistanceMm: 3 },
   "PERFECT CUT": { kerfMinDistanceMm: 3 },
+  TUROMAS: { kerfMinDistanceMm: 3 },
+  BYSTRONIC: { kerfMinDistanceMm: 3 },
+  VETROMAC: { kerfMinDistanceMm: 3 },
+  EAGLE: { kerfMinDistanceMm: 2.5 },
+  DISAI: { kerfMinDistanceMm: 3 },
+  CHAOYANG: { kerfMinDistanceMm: 3 },
+  LAMPO: { kerfMinDistanceMm: 3 },
   DXF: { kerfMinDistanceMm: 2 },
 };
 

@@ -1,4 +1,4 @@
-import { sampleArc } from "../geometry/arc.js";
+import { sampleArc, sampleArcAbout } from "../geometry/arc.js";
 import type { Cut, CutPlan, Point } from "../model/types.js";
 import {
   moveDisplacementMm,
@@ -37,6 +37,11 @@ export function cutPathPoints(cut: Cut): Point[] {
     const start = cut.points[0]!;
     const end = cut.points[1]!;
     if (Math.hypot(end.x - start.x, end.y - start.y) < 1e-9) return [clonePt(start)];
+    // A parser that supplied the centre has already resolved which side of the
+    // chord the arc bulges to; re-deriving it would trace the mirror solution.
+    if (cut.center) {
+      return sampleArcAbout(cut.center, start, end, cut.radius, cut.ccw === true, 32).map(clonePt);
+    }
     return sampleArc(
       { start, end, radius: cut.radius, side: cut.ccw ? -1 : 1 },
       32

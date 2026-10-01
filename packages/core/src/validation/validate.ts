@@ -183,7 +183,10 @@ function validateSheet(
 
   /* ---- duplicate detection (exact-ish keys) ---- */
   const segKey = (cut: CutPlan["cuts"][number]): string => {
-    if (cut.points.length !== 2) return `poly:${cut.points.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(";")}`;
+    // Deletion tracks (Low-E, seal, print) legitimately retrace the outline of
+    // the pane they belong to, so they are keyed by process too.
+    const proc = cut.process ? `#${cut.process}` : "";
+    if (cut.points.length !== 2) return `poly:${proc}${cut.points.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(";")}`;
     const a = cut.points[0];
     const b = cut.points[1];
     const k1 = `${a.x.toFixed(2)},${a.y.toFixed(2)}|${b.x.toFixed(2)},${b.y.toFixed(2)}`;
@@ -220,7 +223,18 @@ function validateSheet(
   const grid = hashSegs(segs, Math.max(kerfMin * 4, 20));
   const flaggedKerf = new Set<string>();
 
-  for (const [A, B] of candidatePairs(grid, segs)) {
+/**
+   * Two cuts from *different work processes* overlap by design: a Low-E or
+   * seal/deletion track is derived from the cutting outline it runs along, so
+   * it necessarily crosses it. An untagged cut counts as the plain `CUT`
+   * process, which is what the parsers emit for a cutting outline.
+   */
+  const processOf = (cutIndex: number): string => sheet.cuts[cutIndex]?.process ?? "CUT";
+  const differentProcess = (a: number, b: number): boolean => processOf(a) !== processOf(b);
+
+  for (const [A, B] of candidatePairs(grid)) {
+    if (differentProcess(A.cutIndex, B.cutIndex)) continue;
+
     // crossing cuts (proper interior intersections)
     if (segmentsCrossProperly(A.seg, B.seg)) {
       issues.push({

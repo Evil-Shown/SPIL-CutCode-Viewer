@@ -1,0 +1,152 @@
+%
+{strNomeProgetto="M:\Projects\190723-010CFL.OT5"}
+{strFamiglia="010CFL"}
+{wNumeroSchema=3}
+{:COMMENT=010CFL}
+{:BOX=2106;599;1053;300;16;Jimboomba Glass;313138 - 4;}
+{:BOX=2102;891;1051;1045;36;Glass Projects;313175 - 1;}
+{:BOX=2098;884;1049;1932;26;Glass Projects;313204 - 1;}
+{:BOX=874;1154;2583;577;25;Jimboomba Glass;312935 - 3;}
+{:BOX=869;1154;2581;1731;24;Jimboomba Glass;312935 - 4;}
+{:BOX=221;2155;3171;1078;5;Glass Projects;313198 - 1;}
+{:BOX=333;2097;3448;1049;35;Skeleton Industries;313214 - 2;}
+{ RESET TRANSL. }
+G59 X0 Y0		    { reset traslazioni origine }
+L INITANG				{ Load macro inizializzazione }
+R4081=3660				{ LX lastra }
+R4082=2440				{ LY lastra }
+R4083=10				{ spessore }
+
+M6T1                 { Lavorazione con testina }
+F60000
+R5056=700       { pressione testa millibar }
+L ROTOTRSON			{ Load  macro per individuare la posizione della lastra e calcola i parametri di rotrotraslazione }
+L BLCLCH				{ Load macro dopo L ROTOTRSON }
+M1011				  	{  F.A. subroutine per alzare testina }
+L BLCLCH				{  Load macro dopo M1011 }
+G00 X2102.0 Y600.0 C(90.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X2102.0 Y1489.1 
+M1011
+L BLCLCH
+G00 X2098.0 Y1491.1 C(90.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X2098.0 Y2373.1 
+M1011
+L BLCLCH
+G00 X2147.0 Y2308.0 C(0.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X3059.0 Y2308.0 
+M1011
+L BLCLCH
+G00 X3015.0 Y2307.0 C(270.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X3015.0 Y1155.0 
+M1011
+L BLCLCH
+G00 X3020.0 Y1153.0 C(270.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X3020.0 Y1.0 
+M1011
+L BLCLCH
+G00 X3060.0 Y1.0 C(90.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X3060.0 Y2439.0 
+M1011
+L BLCLCH
+G00 X3281.0 Y2439.0 C(270.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X3281.0 Y1.0 
+M1011
+L BLCLCH
+G00 X3614.1 Y1.0 C(90.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X3614.1 Y2439.0 
+M1011
+L BLCLCH
+G00 X3613.1 Y2097.1 C(180.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X3282.0 Y2097.1 
+M1011
+L BLCLCH
+G00 X3280.0 Y2155.0 C(180.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X3061.0 Y2155.0 
+M1011
+L BLCLCH
+G00 X3059.0 Y1154.0 C(180.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X2147.0 Y1154.0 
+M1011
+L BLCLCH
+G00 X2145.0 Y1490.1 C(180.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X1.0 Y1490.1 
+M1011
+L BLCLCH
+G00 X1.0 Y2374.1 C(0.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X2145.0 Y2374.1 
+M1011
+L BLCLCH
+G00 X2146.0 Y2439.0 C(270.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X2146.0 Y1.0 
+M1011
+L BLCLCH
+G00 X2106.0 Y1.0 C(90.00+R1199)  { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010			  		{ F.A. subroutine per abbassare la testina }
+G01 X2106.0 Y598.0 
+M1011
+L BLCLCH
+G00 X2145.0 Y599.0 C(180.00+R1199)   { movimento rapido ..C(posizione teorica+R1199) R1199 calcolata dalla macro ROTOTRSON }
+L BLCLCH				{ Load macro prima  M1010 }
+M1010					  { F.A. subroutine per abbassare la testina }
+G01 X1.0 Y599.0 
+M1011
+L BLCLCH
+
+{ Shape L01 }
+
+R5056=500       { pressione testa millibar }
+G00 X2101.000 Y1445.998 C(179.89+R1199)
+L BLCLCH
+M1010
+G01 X1.000 Y1450.002 F40000
+M1011
+L BLCLCH
+
+{ Shape L17 }
+
+R5056=500       { pressione testa millibar }
+G00 X3321.099 Y1.000 C(89.92+R1199)
+L BLCLCH
+M1010
+G01 X3324.103 Y2053.979 F40000
+M1011
+L BLCLCH
+G00 X3324.103 Y2053.979 C(0.60+R1199)
+L BLCLCH
+M1010
+G01 X3613.100 Y2057.011 F40000
+M1011
+L BLCLCH
+L ROTOTRSOFF					{ load macro a fine sheet }
+M1015         { F.A. subroutine di cambio lastra }
+M02           { F.A.  di fine programma }
+{END}

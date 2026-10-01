@@ -1,0 +1,388 @@
+{
+  "name": "LE",
+  "metadata": {
+    "version": "1.0",
+    "creator": "Turomas",
+    "units": "dmm"
+  },
+  "pieces": [
+    {
+      "id": 1,
+      "Xsize": 9400,
+      "Ysize": 9400,
+      "workProcessesTrack": [],
+      "customer": "TUROMAS",
+      "order": "PEDIDO",
+      "rack": "F2",
+      "customFields": {
+        "note": "  ",
+        "optId": "2"
+      }
+    },
+    {
+      "id": 2,
+      "Xsize": 9400,
+      "Ysize": 9400,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 4700,
+              "y": 200
+            },
+            {
+              "type": "G3",
+              "x": 9200,
+              "y": 4700,
+              "i": 4700,
+              "j": 4700,
+              "r": 4500
+            },
+            {
+              "type": "G3",
+              "x": 4700,
+              "y": 9200,
+              "i": 4700,
+              "j": 4700,
+              "r": 4500
+            },
+            {
+              "type": "G3",
+              "x": 200,
+              "y": 4700,
+              "i": 4700,
+              "j": 4700,
+              "r": 4500
+            },
+            {
+              "type": "G3",
+              "x": 4700,
+              "y": 200,
+              "i": 4700,
+              "j": 4700,
+              "r": 4500
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS",
+      "order": "PEDIDO",
+      "rack": "F3",
+      "customFields": {
+        "note": "  ",
+        "optId": "3"
+      }
+    },
+    {
+      "id": 3,
+      "Xsize": 8000,
+      "Ysize": 8000,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 8000,
+              "y": 8000
+            },
+            {
+              "type": "G1",
+              "x": 0,
+              "y": 6000
+            }
+          ]
+        },
+        {
+          "process": "LE",
+          "track": [
+            {
+              "type": "G0",
+              "x": 110,
+              "y": 300
+            },
+            {
+              "type": "G1",
+              "x": 7890,
+              "y": 300
+            },
+            {
+              "type": "G0",
+              "x": 7890,
+              "y": 120
+            },
+            {
+              "type": "G1",
+              "x": 110,
+              "y": 120
+            },
+            {
+              "type": "G0",
+              "x": 7700,
+              "y": 110
+            },
+            {
+              "type": "G1",
+              "x": 7700,
+              "y": 7837
+            },
+            {
+              "type": "G0",
+              "x": 7880,
+              "y": 7864
+            },
+            {
+              "type": "G1",
+              "x": 7880,
+              "y": 110
+            },
+            {
+              "type": "G0",
+              "x": 7915,
+              "y": 7669
+            },
+            {
+              "type": "G1",
+              "x": 85,
+              "y": 5712
+            },
+            {
+              "type": "G0",
+              "x": 85,
+              "y": 5897
+            },
+            {
+              "type": "G1",
+              "x": 7898,
+              "y": 7851
+            },
+            {
+              "type": "G0",
+              "x": 300,
+              "y": 5987
+            },
+            {
+              "type": "G1",
+              "x": 300,
+              "y": 110
+            },
+            {
+              "type": "G0",
+              "x": 120,
+              "y": 110
+            },
+            {
+              "type": "G1",
+              "x": 120,
+              "y": 5942
+            }
+          ]
+        }
+      ],
+      "customer": "TUROMAS",
+      "order": "PEDIDO",
+      "rack": "F1",
+      "customFields": {
+        "note": "  ",
+        "optId": "1"
+      }
+    },
+    {
+      "id": 4,
+      "Xsize": 3500,
+      "Ysize": 9540,
+      "workProcessesTrack": [
+        {
+          "process": "CUT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 0,
+              "y": 0.6
+            },
+            {
+              "type": "G3",
+              "x": 3500,
+              "y": 4770.3,
+              "i": -1500,
+              "j": 4770.3,
+              "r": 5000
+            },
+            {
+              "type": "G3",
+              "x": 0,
+              "y": 9540,
+              "i": -1500,
+              "j": 4770.3,
+              "r": 5000
+            }
+          ]
+        },
+        {
+          "process": "LE",
+          "track": [
+            {
+              "type": "G0",
+              "x": 500,
+              "y": 9300
+            },
+            {
+              "type": "G1",
+              "x": 500,
+              "y": 241
+            },
+            {
+              "type": "G0",
+              "x": 320,
+              "y": 184
+            },
+            {
+              "type": "G1",
+              "x": 320,
+              "y": 9356
+            },
+            {
+              "type": "G0",
+              "x": 140,
+              "y": 9397
+            },
+            {
+              "type": "G1",
+              "x": 140,
+              "y": 143
+            }
+		  ]
+		}
+      ],
+      "customer": "TUROMAS",
+      "order": "PEDIDO",
+      "rack": "F4",
+      "customFields": {
+        "note": "  ",
+        "optId": "4"
+      }
+    }
+  ],
+  "remnants": [
+    {
+      "id": 5,
+      "Xsize": 9400,
+      "Ysize": 1000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 6,
+      "Xsize": 9400,
+      "Ysize": 2400,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 7,
+      "Xsize": 1400,
+      "Ysize": 8000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 8,
+      "Xsize": 3500,
+      "Ysize": 10260,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 9,
+      "Xsize": 7500,
+      "Ysize": 19800,
+      "isReusable": false,
+      "customFields": {}
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "Xsize": 30000,
+      "Ysize": 20000,
+      "thickness": 40,
+      "materialCode": "LE_04",
+      "workProcesses": [
+        "CUT",
+        "LE"
+      ],
+      "Xtrim": 200,
+      "Ytrim": 200,
+      "grindingToolWidth": 200,
+      "placement": [
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 200,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 2,
+          "type": "piece",
+          "x": 200,
+          "y": 9600,
+          "rotation": 0
+        },
+        {
+          "id": 2,
+          "type": "piece",
+          "x": 9600,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 3,
+          "type": "piece",
+          "x": 9600,
+          "y": 9600,
+          "rotation": 0
+        },
+        {
+          "id": 4,
+          "type": "piece",
+          "x": 19000,
+          "y": 200,
+          "rotation": 0
+        },
+        {
+          "id": 5,
+          "type": "remnant",
+          "x": 200,
+          "y": 19000
+        },
+        {
+          "id": 6,
+          "type": "remnant",
+          "x": 9600,
+          "y": 17600
+        },
+        {
+          "id": 7,
+          "type": "remnant",
+          "x": 17600,
+          "y": 9600
+        },
+        {
+          "id": 8,
+          "type": "remnant",
+          "x": 19000,
+          "y": 9740
+        },
+        {
+          "id": 9,
+          "type": "remnant",
+          "x": 22500,
+          "y": 200
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "name": "LPSOPT",
+  "metadata": {
+    "version": "1.0",
+    "creator": "Turomas",
+    "units": "dmm"
+  },
+  "pieces": [
+    {
+      "id": 1,
+      "Xsize": 5000,
+      "Ysize": 5000,
+      "workProcessesTrack": [
+        {
+          "process": "LAB-PRINT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 2500,
+              "y": 2500
+            }
+          ]
+        }
+      ],
+      "customer": "VAR_CAMPO1",
+      "order": "VAR_CAMPO2",
+      "rack": "VAR_CAMPO3",
+      "customFields": {
+        "note": "VAR_CAMPO5",
+        "optId": "VAR_CAMPO4"
+      }
+    },
+    {
+      "id": 2,
+      "Xsize": 5000,
+      "Ysize": 3000,
+      "workProcessesTrack": [
+        {
+          "process": "LAB-PRINT",
+          "track": [
+            {
+              "type": "G0",
+              "x": 2500,
+              "y": 6500
+            }
+          ]
+        }
+      ],
+      "customer": "VAR_CAMPO1",
+      "order": "VAR_CAMPO2",
+      "rack": "VAR_CAMPO3",
+      "customFields": {
+        "note": "VAR_CAMPO5",
+        "optId": "VAR_CAMPO4"
+      }
+    }
+  ],
+  "remnants": [
+    {
+      "id": 3,
+      "Xsize": 5000,
+      "Ysize": 2000,
+      "isReusable": false,
+      "customFields": {}
+    },
+    {
+      "id": 4,
+      "Xsize": 5000,
+      "Ysize": 10000,
+      "isReusable": false,
+      "customFields": {}
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "Xsize": 10000,
+      "Ysize": 10000,
+      "thickness": 40,
+      "materialCode": "FL4",
+      "workProcesses": [
+        "CUT",
+        "LAB-PRINT"
+      ],
+      "Xtrim": 0,
+      "Ytrim": 0,
+      "placement": [
+        {
+          "id": 1,
+          "type": "piece",
+          "x": 0,
+          "y": 0,
+          "rotation": 0
+        },
+        {
+          "id": 2,
+          "type": "piece",
+          "x": 0,
+          "y": 5000,
+          "rotation": 0
+        },
+        {
+          "id": 3,
+          "type": "remnant",
+          "x": 0,
+          "y": 8000
+        },
+        {
+          "id": 4,
+          "type": "remnant",
+          "x": 5000,
+          "y": 0
+        }
+      ]
+    }
+  ]
+}

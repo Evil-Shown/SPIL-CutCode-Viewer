@@ -3,5 +3,8 @@ dist/
 target/
 *.tsbuildinfo
 report.json
+report-new.json
 *-report.json
 .vite/
+.zcode/
+tmp-*/

@@ -18,6 +18,21 @@ function utf16le(s: string): Uint8Array {
   return out;
 }
 
+function utf16be(s: string, bom = true): Uint8Array {
+  const start = bom ? 2 : 0;
+  const out = new Uint8Array(s.length * 2 + start);
+  if (bom) {
+    out[0] = 0xfe;
+    out[1] = 0xff;
+  }
+  for (let i = 0; i < s.length; i++) {
+    const code = s.charCodeAt(i);
+    out[start + i * 2] = code >> 8;
+    out[start + i * 2 + 1] = code & 0xff;
+  }
+  return out;
+}
+
 describe("decodeCutcodeBytes", () => {
   it("decodes plain ASCII/UTF-8", () => {
     expect(decodeCutcodeBytes(ascii("[Pattern]\r\nWidth=600\r\n"))).toBe("[Pattern]\r\nWidth=600\r\n");
@@ -36,6 +51,22 @@ describe("decodeCutcodeBytes", () => {
     const withBom = utf16le("[Pattern]\r\nWidth=225\r\nHeight=321");
     const noBom = withBom.subarray(2); // strip BOM
     expect(decodeCutcodeBytes(noBom)).toBe("[Pattern]\r\nWidth=225\r\nHeight=321");
+  });
+
+  it("decodes UTF-16BE with BOM", () => {
+    expect(decodeCutcodeBytes(utf16be("[FAMILY1]\r\nNAME=CLR10"))).toBe("[FAMILY1]\r\nNAME=CLR10");
+  });
+
+  it("decodes BOM-less UTF-16BE via NUL heuristic", () => {
+    const bytes = utf16be("[Pattern]\r\nWidth=225\r\nHeight=321", false);
+    expect(decodeCutcodeBytes(bytes)).toBe("[Pattern]\r\nWidth=225\r\nHeight=321");
+  });
+
+  it("does not mistake UTF-16LE for UTF-16BE", () => {
+    const le = utf16le("[Pattern]\r\nWidth=225").subarray(2);
+    const be = utf16be("[Pattern]\r\nWidth=225", false);
+    expect(decodeCutcodeBytes(le)).toBe("[Pattern]\r\nWidth=225");
+    expect(decodeCutcodeBytes(be)).toBe("[Pattern]\r\nWidth=225");
   });
 
   it("falls back to windows-1252 for legacy ANSI bytes", () => {

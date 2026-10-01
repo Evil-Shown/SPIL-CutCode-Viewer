@@ -36,6 +36,12 @@ export function machineVisual(machine: Machine): MachineVisual {
   if (brand === "hegla") return { frame: "#1b78b5", bed: "#253638", gantry: "#d8dcdb", layout: machine.kind.includes("Laminated") ? "laminated" : "single", loadingArms: true, pedestal: "left" };
   if (brand === "macotec") return { frame: "#e39b22", bed: "#233234", gantry: "#c8cece", layout: "single", loadingArms: true, pedestal: "right" };
   if (brand === "optima") return { frame: "#356ca8", bed: "#273538", gantry: "#d4d8d8", layout: "single", loadingArms: false, pedestal: "right" };
+  if (brand === "bystronic") return { frame: "#8aa0a6", bed: "#1f2f33", gantry: "#cdd6d8", layout: "single", loadingArms: true, pedestal: "left" };
+  if (brand === "vetromac") return { frame: "#7c8b90", bed: "#21302f", gantry: "#b6c2c0", layout: "single", loadingArms: true, pedestal: "left" };
+  if (brand === "eagle" || brand === "linghua") return { frame: "#c1443f", bed: "#282a2c", gantry: "#cfd3d4", layout: "single", loadingArms: true, pedestal: "right" };
+  if (brand === "disai") return { frame: "#2f7f9e", bed: "#1d2b30", gantry: "#c2cdd1", layout: "single", loadingArms: false, pedestal: "left" };
+  if (brand === "chaoyang") return { frame: "#4b6d3f", bed: "#232a24", gantry: "#c8d2c6", layout: "single", loadingArms: true, pedestal: "left" };
+  if (brand === "lampo") return { frame: "#d08b2c", bed: "#28241c", gantry: "#d6cbb4", layout: "single", loadingArms: false, pedestal: "right" };
   return { frame: machine.accent, bed: "#263638", gantry: "#c9cece", layout: "single", loadingArms: false, pedestal: "right" };
 }
 
@@ -242,10 +248,11 @@ export const MACHINES: Machine[] = [
     kind: "Cutting table",
     origin: "Spain",
     bed: { width: 6100, height: 3300 },
-    summary: "Turomas RUBI monolithic tables. Native cutcode import is not available yet.",
-    extensions: [],
-    formatIds: [],
-    importReady: false,
+    summary:
+      "Turomas File Format V30 (.R01) and V40 (JSON). Ten-level guillotine X/Y/Z/V/W/Q/R/S/T/U, DS shape blocks placed by CS<n>Q<1|2>, SC score track and LE low-E deletion track.",
+    extensions: ["r01", "json"],
+    formatIds: ["turomas-r01", "turomas-v40"],
+    importReady: true,
     accent: "#fb923c",
   },
   {
@@ -264,15 +271,86 @@ export const MACHINES: Machine[] = [
   {
     id: "bystronic-glass",
     brand: "Bystronic",
-    model: "glass cutting",
+    model: "SMF / VGS / Smart'cut",
     kind: "Cutting line",
     origin: "Switzerland",
     bed: { width: 6000, height: 3300 },
-    summary: "Bystronic glass lines. Cutcode import is not available yet.",
-    extensions: [],
-    formatIds: [],
-    importReady: false,
+    summary:
+      "PROG.XYZ v6.0 cutting plans: ( … ) envelope, M<x>/<y> raw-material size, X subplates / Y primitives / Z·V·W after-cuts, F1…F98 catalogue models and the F99 free-shape S records.",
+    extensions: ["xyz"],
+    formatIds: ["bystronic-xyz"],
+    importReady: true,
     accent: "#4ade80",
+  },
+  {
+    id: "vetromac-evo",
+    brand: "Vetromac",
+    model: "EVO / EXC",
+    kind: "Cutting table",
+    origin: "Italy",
+    bed: { width: 6000, height: 3300 },
+    summary:
+      "Vetromac macro ISO (.ISO). VN210/211/212 give sheet number and size, G201 L39…L17 open and close shape blocks, M3/M5 gate the cutting wheel and G0/G1/G2/G3 carry the scores and ground contours.",
+    extensions: ["iso"],
+    formatIds: ["vetromac-iso"],
+    importReady: true,
+    accent: "#94a3b8",
+  },
+  {
+    id: "eagle-isac",
+    brand: "Eagle",
+    model: "Linghua ISAC",
+    kind: "Cutting table",
+    origin: "China",
+    bed: { width: 3700, height: 2600 },
+    summary:
+      "Linghua ISAC ISO driven by Perfect Cut. R4081/R4082 are the sheet size, R4083 the thickness, M1010/M1011 lower and raise the head and every G01 between them is a score.",
+    extensions: ["iso"],
+    formatIds: ["eagle-isac-iso"],
+    importReady: true,
+    accent: "#f87171",
+  },
+  {
+    id: "disai-hbt",
+    brand: "Disai",
+    model: "HBT Studio PRJX",
+    kind: "Cutting line",
+    origin: "China",
+    bed: { width: 3660, height: 2440 },
+    summary:
+      "PRJX machine code: a .sum stock summary plus one .dst per pattern with [PATTERN], [SCHEME] levels X/Y/Z/U/V/W/R/S/T, [BREAKLN] cut lines, [DBn] shapes and [IBn] piece blocks.",
+    extensions: ["dst", "sum", "prjx"],
+    formatIds: ["disai-prjx"],
+    importReady: true,
+    accent: "#2f7f9e",
+  },
+  {
+    id: "chaoyang-src",
+    brand: "Chaoyang",
+    model: "SCR NC",
+    kind: "Cutting line",
+    origin: "China",
+    bed: { width: 3660, height: 2440 },
+    summary:
+      "Chaoyang SCR NC (.src): LIMITS gives the sheet size, #RECT the enclosing rectangles, #REM the nominal sizes and customer/order, LINE the straight scores and ARC2C/ARC3C the circles.",
+    extensions: ["src"],
+    formatIds: ["chaoyang-src"],
+    importReady: true,
+    accent: "#4b6d3f",
+  },
+  {
+    id: "lampo-csm",
+    brand: "Lampo",
+    model: "CSM",
+    kind: "Cutting table",
+    origin: "Italy",
+    bed: { width: 3660, height: 2440 },
+    summary:
+      "Perfect Cut RO cutcode (.PGM) plus its .LST index. G/G1 pairs are the absolute score path, DS blocks the shapes and CS<n> X Y A<0|90> the placements.",
+    extensions: ["pgm", "lst"],
+    formatIds: ["perfectcut-pgm", "perfectcut-pgm-index"],
+    importReady: true,
+    accent: "#d08b2c",
   },
   {
     id: "glaston",
@@ -346,6 +424,11 @@ const BRAND_KINEMATICS: Record<string, MachineKinematics> = {
   Bavelloni: kine(175, 105, 7, 0.17),
   CMS: kine(150, 90, 5.5, 0.2),
   Bystronic: kine(205, 125, 8.5, 0.14),
+  Vetromac: kine(195, 120, 8, 0.15),
+  Eagle: kine(165, 100, 6.5, 0.18),
+  Disai: kine(160, 100, 6, 0.18),
+  Chaoyang: kine(150, 95, 5.5, 0.2),
+  Lampo: kine(145, 90, 5, 0.2),
   Glaston: kine(180, 110, 7, 0.16),
   "North Glass": kine(155, 95, 5.5, 0.2),
   Pannkoke: kine(140, 85, 5, 0.22),
